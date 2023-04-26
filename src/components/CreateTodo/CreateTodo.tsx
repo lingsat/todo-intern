@@ -10,11 +10,16 @@ const CreateTodo: FC = () => {
   const dispatch = useDispatch();
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    const specSymRegex = /[!@#$%^&*(){}|<>]/g;
+
+    if (!specSymRegex.test(event.target.value)) {
+      setTitle(event.target.value);
+    }
   };
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
+
     if (title) {
       const createdDate = new Date();
       const expiredDate = new Date(createdDate.getTime() + 24 * 60 * 60 * 1000);
