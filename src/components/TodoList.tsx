@@ -1,9 +1,7 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { useSelector } from "react-redux";
 
-interface TodoListProps {}
-
-const TodoList: FC<TodoListProps> = () => {
+const TodoList: FC = () => {
   const state = useSelector((state) => state);
   console.log(state);
 

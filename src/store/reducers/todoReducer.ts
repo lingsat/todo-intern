@@ -1,19 +1,11 @@
-import { COURSES_ACTIONS } from "../actionTypes/actionTypes";
+import { COURSES_ACTIONS, IAction } from "../actionTypes/actionTypes";
 import { ITask } from "../../types/task.interface";
 
-const initialState: ITask[] = [
-  // {
-  //   id: "qwert1234",
-  //   title: "New Task",
-  //   createDate: new Date(),
-  //   expiredData: new Date(),
-  //   completed: false,
-  // },
-];
+const initialState: ITask[] = [];
 
 export const todoReducer = (
   state: ITask[] = initialState,
-  action: { type: COURSES_ACTIONS; payload?: any }
+  action: IAction
 ): ITask[] => {
   const { type, payload } = action;
 
