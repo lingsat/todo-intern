@@ -1,0 +1,4 @@
+export enum COURSES_ACTIONS {
+  ADD_TASK = "ADD_TASK",
+  DELETE_TASK = "DELETE_TASK",
+}
