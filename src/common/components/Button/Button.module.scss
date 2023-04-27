@@ -1,0 +1,27 @@
+.button {
+  padding: 5px 10px;
+  font-family: "Roboto";
+  font-size: 1rem;
+  border: 1px solid #aaaba8;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.1s linear;
+}
+
+.green {
+  color: #fff;
+  background-color: #058240;
+
+  &:hover {
+    background-color: #13b860;
+  }
+}
+
+.red {
+  color: #fff;
+  background-color: #bc0000;
+
+  &:hover {
+    background-color: #ed413e;
+  }
+}

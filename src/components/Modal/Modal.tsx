@@ -1,4 +1,6 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from "react";
+import Button from "../../common/components/Button/Button";
+import Input from "../../common/components/Input/Input";
 import { getCurrentDateStr, getNextDateStr } from "../../utils/date.utils";
 import styles from "./Modal.module.scss";
 
@@ -17,16 +19,12 @@ const Modal: FC<ModalProps> = ({ title, setTitle, addTask, setShowModal }) => {
   const [createdDate, setCreatedDate] = useState<string>(getCurrentDateStr());
   const [expiredDate, setExpiredDate] = useState(getNextDateStr());
 
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const specSymRegex = /[#$%^&*{}`|<>]/g;
 
-  const handleCreatedDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setCreatedDate(event.target.value);
-  };
-
-  const handleExpiredDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setExpiredDate(event.target.value);
+    if (!specSymRegex.test(event.target.value)) {
+      setTitle(event.target.value);
+    }
   };
 
   const handleFormSubmit = (event: FormEvent) => {
@@ -39,43 +37,40 @@ const Modal: FC<ModalProps> = ({ title, setTitle, addTask, setShowModal }) => {
     setShowModal(false);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+    setTitle("");
+  };
+
   return (
     <div className={styles.bg}>
       <div className={styles.centered}>
         <h2>Add Task</h2>
         <form className={styles.form} onSubmit={handleFormSubmit}>
-          <input
-            type="text"
-            placeholder="Enter Task Title"
-            value={title}
-            onChange={handleTitleChange}
+          <Input
+            inputPlaceholder="Enter Task Title"
+            inputValue={title}
+            onInputChange={handleInputChange}
           />
           <label>
             Created Date
-            <input
-              type="date"
-              value={createdDate}
-              onChange={handleCreatedDateChange}
+            <Input
+              inputType="date"
+              inputValue={createdDate}
+              onInputChange={(e) => setCreatedDate(e.target.value)}
             />
           </label>
           <label>
             Expired Date
-            <input
-              type="date"
-              value={expiredDate}
-              onChange={handleExpiredDateChange}
+            <Input
+              inputType="date"
+              inputValue={expiredDate}
+              onInputChange={(e) => setExpiredDate(e.target.value)}
             />
           </label>
           <div className={styles.buttons}>
-            <button
-              className={styles.red}
-              type="button"
-              onClick={() => setShowModal(false)}>
-              Cancel
-            </button>
-            <button className={styles.green} type="submit">
-              Save
-            </button>
+            <Button text="Cancel" buttonClick={closeModal} buttonStyle="red" />
+            <Button text="Save" type="submit" />
           </div>
         </form>
       </div>

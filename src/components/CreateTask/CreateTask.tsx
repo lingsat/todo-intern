@@ -5,6 +5,7 @@ import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import plusIcon from "../../assets/plus.svg";
 import styles from "./CreateTask.module.scss";
 import Modal from "../Modal/Modal";
+import Input from "../../common/components/Input/Input";
 
 const CreateTask: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -13,7 +14,7 @@ const CreateTask: FC = () => {
   const dispatch = useDispatch();
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const specSymRegex = /[#$%^&*{}|<>]/g;
+    const specSymRegex = /[#$%^&*{}`|<>]/g;
 
     if (!specSymRegex.test(event.target.value)) {
       setTitle(event.target.value);
@@ -54,12 +55,10 @@ const CreateTask: FC = () => {
     <>
       <div className={styles.create}>
         <form onSubmit={handleFormSubmit}>
-          <input
-            className={styles.input}
-            type="text"
-            placeholder='Title - "Enter" to create'
-            value={title}
-            onChange={handleInputChange}
+          <Input
+            inputPlaceholder='Title - "Enter" to create'
+            inputValue={title}
+            onInputChange={handleInputChange}
           />
         </form>
         <button
