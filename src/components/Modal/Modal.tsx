@@ -1,56 +1,42 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from "react";
-import { useDispatch } from "react-redux";
 import { getCurrentDateStr, getNextDateStr } from "../../utils/date.utils";
-import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { ITask } from "../../types/task.interface";
 import styles from "./Modal.module.scss";
 
 interface ModalProps {
-  onCloseModal: () => void;
+  title: string;
+  setTitle: (arg: string) => void;
+  addTask: (
+    title: string,
+    expired: string | Date,
+    created?: string | Date
+  ) => void;
+  setShowModal: (arg: boolean) => void;
 }
 
-const Modal: FC<ModalProps> = ({ onCloseModal }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    createdDate: getCurrentDateStr(),
-    expiredDate: getNextDateStr(),
-  });
-  const dispatch = useDispatch();
+const Modal: FC<ModalProps> = ({ title, setTitle, addTask, setShowModal }) => {
+  const [createdDate, setCreatedDate] = useState<string>(getCurrentDateStr());
+  const [expiredDate, setExpiredDate] = useState(getNextDateStr());
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const title = event.target.value;
-    setFormData((prevData) => ({ ...prevData, title }));
+    setTitle(event.target.value);
   };
 
   const handleCreatedDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const createdDate = event.target.value;
-    setFormData((prevData) => ({ ...prevData, createdDate }));
+    setCreatedDate(event.target.value);
   };
 
   const handleExpiredDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const expiredDate = event.target.value;
-    setFormData((prevData) => ({ ...prevData, expiredDate }));
+    setExpiredDate(event.target.value);
   };
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (formData.title) {
-      const createdDate = new Date(formData.createdDate);
-      const expiredDate = new Date(formData.expiredDate);
-      expiredDate.setHours(23, 59, 59, 999);
-
-      const task: ITask = {
-        id: crypto.randomUUID(),
-        title: formData.title,
-        createdDate,
-        expiredDate,
-        completed: false,
-      };
-
-      dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
-    }
-    onCloseModal();
+    const created = new Date(createdDate);
+    const expired = new Date(expiredDate);
+    expired.setHours(23, 59, 59, 999);
+    addTask(title, expired, created);
+    setShowModal(false);
   };
 
   return (
@@ -61,14 +47,14 @@ const Modal: FC<ModalProps> = ({ onCloseModal }) => {
           <input
             type="text"
             placeholder="Enter Task Title"
-            value={formData.title}
+            value={title}
             onChange={handleTitleChange}
           />
           <label>
             Created Date
             <input
               type="date"
-              value={formData.createdDate}
+              value={createdDate}
               onChange={handleCreatedDateChange}
             />
           </label>
@@ -76,12 +62,15 @@ const Modal: FC<ModalProps> = ({ onCloseModal }) => {
             Expired Date
             <input
               type="date"
-              value={formData.expiredDate}
+              value={expiredDate}
               onChange={handleExpiredDateChange}
             />
           </label>
           <div className={styles.buttons}>
-            <button className={styles.red} type="button" onClick={onCloseModal}>
+            <button
+              className={styles.red}
+              type="button"
+              onClick={() => setShowModal(false)}>
               Cancel
             </button>
             <button className={styles.green} type="submit">

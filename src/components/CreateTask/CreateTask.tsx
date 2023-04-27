@@ -4,29 +4,30 @@ import { ITask } from "../../types/task.interface";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import plusIcon from "../../assets/plus.svg";
 import styles from "./CreateTask.module.scss";
+import Modal from "../Modal/Modal";
 
-interface CreateTaskProps {
-  onOpenModal: () => void;
-}
+const CreateTask: FC = () => {
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-const CreateTask: FC<CreateTaskProps> = ({ onOpenModal }) => {
   const [title, setTitle] = useState<string>("");
   const dispatch = useDispatch();
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const specSymRegex = /[!@#$%^&*(){}|<>]/g;
+    const specSymRegex = /[#$%^&*{}|<>]/g;
 
     if (!specSymRegex.test(event.target.value)) {
       setTitle(event.target.value);
     }
   };
 
-  const handleFormSubmit = (event: FormEvent) => {
-    event.preventDefault();
-
+  const addTask = (
+    title: string,
+    expired: string | Date,
+    created: string | Date = new Date()
+  ) => {
     if (title) {
-      const createdDate = new Date();
-      const expiredDate = new Date(createdDate.getTime() + 24 * 60 * 60 * 1000);
+      const createdDate = new Date(created);
+      const expiredDate = new Date(expired);
       expiredDate.setHours(23, 59, 59, 999);
 
       const task: ITask = {
@@ -38,25 +39,45 @@ const CreateTask: FC<CreateTaskProps> = ({ onOpenModal }) => {
       };
 
       dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
-      setTitle("");
     }
+    setTitle("");
+  };
+
+  const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    const nextDay = new Date();
+    nextDay.setDate(new Date().getDate() + 1);
+    addTask(title, nextDay);
   };
 
   return (
-    <div className={styles.create}>
-      <form onSubmit={handleFormSubmit}>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder='Title - "Enter" to create'
-          value={title}
-          onChange={handleInputChange}
+    <>
+      <div className={styles.create}>
+        <form onSubmit={handleFormSubmit}>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder='Title - "Enter" to create'
+            value={title}
+            onChange={handleInputChange}
+          />
+        </form>
+        <button
+          type="button"
+          className={styles.button}
+          onClick={() => setShowModal(true)}>
+          <img src={plusIcon} alt="+" />
+        </button>
+      </div>
+      {showModal && (
+        <Modal
+          title={title}
+          setTitle={setTitle}
+          addTask={addTask}
+          setShowModal={setShowModal}
         />
-      </form>
-      <button type="button" className={styles.button} onClick={onOpenModal}>
-        <img src={plusIcon} alt="+" />
-      </button>
-    </div>
+      )}
+    </>
   );
 };
 

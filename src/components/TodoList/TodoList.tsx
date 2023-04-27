@@ -6,6 +6,7 @@ import styles from "./TodoList.module.scss";
 
 const TodoList: FC = () => {
   const todoList = useSelector((state: ITask[]) => state);
+  console.log(todoList);
 
   if (!todoList.length) {
     return <p className={styles.message}>No items found! Create new one.</p>;
