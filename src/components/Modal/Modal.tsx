@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from "react";
+import { getCurrentDateStr, getNextDateStr } from "../../utils/date.utils";
 import Button from "../../common/components/Button/Button";
 import Input from "../../common/components/Input/Input";
-import { getCurrentDateStr, getNextDateStr } from "../../utils/date.utils";
 import styles from "./Modal.module.scss";
 
 interface ModalProps {
@@ -13,19 +13,18 @@ interface ModalProps {
     created?: string | Date
   ) => void;
   setShowModal: (arg: boolean) => void;
+  handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Modal: FC<ModalProps> = ({ title, setTitle, addTask, setShowModal }) => {
+const Modal: FC<ModalProps> = ({
+  title,
+  setTitle,
+  addTask,
+  setShowModal,
+  handleInputChange,
+}) => {
   const [createdDate, setCreatedDate] = useState<string>(getCurrentDateStr());
   const [expiredDate, setExpiredDate] = useState(getNextDateStr());
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const specSymRegex = /[#$%^&*{}`|<>]/g;
-
-    if (!specSymRegex.test(event.target.value)) {
-      setTitle(event.target.value);
-    }
-  };
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -33,6 +32,7 @@ const Modal: FC<ModalProps> = ({ title, setTitle, addTask, setShowModal }) => {
     const created = new Date(createdDate);
     const expired = new Date(expiredDate);
     expired.setHours(23, 59, 59, 999);
+
     addTask(title, expired, created);
     setShowModal(false);
   };
@@ -50,7 +50,7 @@ const Modal: FC<ModalProps> = ({ title, setTitle, addTask, setShowModal }) => {
           <Input
             inputPlaceholder="Enter Task Title"
             inputValue={title}
-            onInputChange={handleInputChange}
+            onInputChange={(e) => handleInputChange(e)}
           />
           <label>
             Created Date
