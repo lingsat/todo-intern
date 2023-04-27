@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import TodoList from "./components/TodoList/TodoList";
 import styles from "./App.module.scss";
-import CreateTodo from "./components/CreateTodo/CreateTodo";
+import CreateTask from "./components/CreateTask/CreateTask";
+import Modal from "./components/Modal/Modal";
 
 const App = () => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const onOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const onCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <Provider store={store}>
       <h1 className={styles.title}>Todo Application</h1>
-      <CreateTodo />
+      <CreateTask onOpenModal={onOpenModal} />
       <TodoList />
+      {showModal && <Modal onCloseModal={onCloseModal} />}
     </Provider>
   );
 };

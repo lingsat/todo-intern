@@ -3,9 +3,13 @@ import { useDispatch } from "react-redux";
 import { ITask } from "../../types/task.interface";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import plusIcon from "../../assets/plus.svg";
-import styles from "./CreateTodo.module.scss";
+import styles from "./CreateTask.module.scss";
 
-const CreateTodo: FC = () => {
+interface CreateTaskProps {
+  onOpenModal: () => void;
+}
+
+const CreateTask: FC<CreateTaskProps> = ({ onOpenModal }) => {
   const [title, setTitle] = useState<string>("");
   const dispatch = useDispatch();
 
@@ -40,20 +44,20 @@ const CreateTodo: FC = () => {
 
   return (
     <div className={styles.create}>
-      <form onSubmit={(e) => handleFormSubmit(e)}>
+      <form onSubmit={handleFormSubmit}>
         <input
           className={styles.input}
           type="text"
           placeholder='Title - "Enter" to create'
           value={title}
-          onChange={(e) => handleInputChange(e)}
+          onChange={handleInputChange}
         />
       </form>
-      <button className={styles.button}>
+      <button type="button" className={styles.button} onClick={onOpenModal}>
         <img src={plusIcon} alt="+" />
       </button>
     </div>
   );
 };
 
-export default CreateTodo;
+export default CreateTask;
