@@ -26,10 +26,9 @@ const CreateTask: FC = () => {
     expired: string | Date,
     created: string | Date = new Date()
   ) => {
-    if (title) {
+    if (title.trim()) {
       const createdDate = new Date(created);
       const expiredDate = new Date(expired);
-      expiredDate.setHours(23, 59, 59, 999);
 
       const task: ITask = {
         id: crypto.randomUUID(),
@@ -48,6 +47,7 @@ const CreateTask: FC = () => {
     event.preventDefault();
     const nextDay = new Date();
     nextDay.setDate(new Date().getDate() + 1);
+    nextDay.setHours(23, 59, 59, 999);
     addTask(title, nextDay);
   };
 

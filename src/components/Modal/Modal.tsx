@@ -1,5 +1,11 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from "react";
-import { getCurrentDateStr, getNextDateStr } from "../../utils/date.utils";
+import {
+  getCurrentDateStr,
+  getTenMinAgo,
+  getNextDateStr,
+  getTenMinAfter,
+  getTenYearsAfter,
+} from "../../utils/date.utils";
 import Button from "../../common/components/Button/Button";
 import Input from "../../common/components/Input/Input";
 import styles from "./Modal.module.scss";
@@ -26,13 +32,16 @@ const Modal: FC<ModalProps> = ({
   const [createdDate, setCreatedDate] = useState<string>(getCurrentDateStr());
   const [expiredDate, setExpiredDate] = useState<string>(getNextDateStr());
 
+  const handleCreatedDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value) {
+      setCreatedDate(event.target.value);
+    }
+  };
+
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-
     const created = new Date(createdDate);
     const expired = new Date(expiredDate);
-    expired.setHours(23, 59, 59, 999);
-
     addTask(title, expired, created);
     setShowModal(false);
   };
@@ -55,16 +64,20 @@ const Modal: FC<ModalProps> = ({
           <label>
             Created Date
             <Input
-              inputType="date"
+              inputType="datetime-local"
               inputValue={createdDate}
-              onInputChange={(e) => setCreatedDate(e.target.value)}
+              inputMin={getTenMinAgo()}
+              inputMax={getTenYearsAfter()}
+              onInputChange={handleCreatedDateChange}
             />
           </label>
           <label>
             Expired Date
             <Input
-              inputType="date"
+              inputType="datetime-local"
               inputValue={expiredDate}
+              inputMin={getTenMinAfter(createdDate)}
+              inputMax={getTenYearsAfter()}
               onInputChange={(e) => setExpiredDate(e.target.value)}
             />
           </label>

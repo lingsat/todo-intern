@@ -6,6 +6,8 @@ interface InputProps {
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   inputType?: string;
   inputPlaceholder?: string;
+  inputMin?: string;
+  inputMax?: string;
 }
 
 const Input: FC<InputProps> = ({
@@ -13,6 +15,8 @@ const Input: FC<InputProps> = ({
   onInputChange,
   inputType = "text",
   inputPlaceholder = "",
+  inputMin,
+  inputMax,
 }) => {
   return (
     <input
@@ -20,6 +24,8 @@ const Input: FC<InputProps> = ({
       type={inputType}
       placeholder={inputPlaceholder}
       value={inputValue}
+      min={inputMin}
+      max={inputMax}
       onChange={onInputChange}
     />
   );

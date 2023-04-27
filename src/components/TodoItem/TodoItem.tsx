@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { getValidDateStr } from "../../utils/date.utils";
 import styles from "./TodoItem.module.scss";
 
 interface TodoItemProps {
@@ -12,8 +13,8 @@ const TodoItem: FC<TodoItemProps> = ({ title, createdDate, expiredDate }) => {
     <li className={styles.item}>
       <h3>{title}</h3>
       <div>
-        <p>Created: {createdDate.toISOString().substring(0, 10)}</p>
-        <p>Expired: {expiredDate.toISOString().substring(0, 10)}</p>
+        <p>Created: {getValidDateStr(createdDate)}</p>
+        <p>Expired: {getValidDateStr(expiredDate)}</p>
       </div>
     </li>
   );
