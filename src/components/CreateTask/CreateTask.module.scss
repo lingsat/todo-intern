@@ -4,9 +4,23 @@
   justify-content: center;
   gap: 5px;
 
-  & > form input {
-    width: 250px;
+  & > form {
+    position: relative;
+
+    input {
+      width: 250px;
+    }
   }
+}
+
+.error {
+  margin: 0;
+  position: absolute;
+  bottom: -1rem;
+  left: 10px;
+  z-index: 1;
+  font-size: 0.8rem;
+  color: #bc0000;
 }
 
 .button {

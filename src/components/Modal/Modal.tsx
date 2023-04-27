@@ -20,6 +20,8 @@ interface ModalProps {
   ) => void;
   setShowModal: (arg: boolean) => void;
   handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  errorMessage: string;
+  setErrorMessage: (arg: string) => void;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -28,6 +30,8 @@ const Modal: FC<ModalProps> = ({
   addTask,
   setShowModal,
   handleInputChange,
+  errorMessage,
+  setErrorMessage,
 }) => {
   const [createdDate, setCreatedDate] = useState<string>(getCurrentDateStr());
   const [expiredDate, setExpiredDate] = useState<string>(getNextDateStr());
@@ -43,11 +47,11 @@ const Modal: FC<ModalProps> = ({
     const created = new Date(createdDate);
     const expired = new Date(expiredDate);
     addTask(title, expired, created);
-    setShowModal(false);
   };
 
   const closeModal = () => {
     setShowModal(false);
+    setErrorMessage("");
     setTitle("");
   };
 
@@ -61,6 +65,7 @@ const Modal: FC<ModalProps> = ({
             inputValue={title}
             onInputChange={(e) => handleInputChange(e)}
           />
+          <p className={styles.error}>{errorMessage}</p>
           <label>
             Created Date
             <Input

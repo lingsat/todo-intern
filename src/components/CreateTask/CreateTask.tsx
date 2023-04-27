@@ -11,6 +11,8 @@ const CreateTask: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [title, setTitle] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
   const dispatch = useDispatch();
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +20,9 @@ const CreateTask: FC = () => {
 
     if (!specSymRegex.test(event.target.value)) {
       setTitle(event.target.value);
+      setErrorMessage("");
+    } else {
+      setErrorMessage('"#$%^&*{}`|<>" - symbols not available');
     }
   };
 
@@ -39,6 +44,10 @@ const CreateTask: FC = () => {
       };
 
       dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
+      setShowModal(false);
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Title can`t be empty!");
     }
     setTitle("");
   };
@@ -60,6 +69,7 @@ const CreateTask: FC = () => {
             inputValue={title}
             onInputChange={handleInputChange}
           />
+          <p className={styles.error}>{errorMessage}</p>
         </form>
         <button
           type="button"
@@ -75,6 +85,8 @@ const CreateTask: FC = () => {
           addTask={addTask}
           setShowModal={setShowModal}
           handleInputChange={handleInputChange}
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
         />
       )}
     </>

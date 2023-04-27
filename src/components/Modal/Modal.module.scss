@@ -5,7 +5,7 @@
   height: 100vh;
   top: 0;
   left: 0;
-  z-index: 0;
+  z-index: 2;
   position: absolute;
   display: flex;
   justify-content: center;
@@ -30,9 +30,9 @@
 .form {
   display: flex;
   flex-direction: column;
-  row-gap: 0.8rem;
 
   label {
+    margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,4 +44,10 @@
   display: flex;
   justify-content: flex-end;
   column-gap: 10px;
+}
+
+.error {
+  margin: 0.2rem 0 1rem;
+  font-size: 0.8rem;
+  color: #bc0000;
 }
