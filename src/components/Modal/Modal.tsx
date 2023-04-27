@@ -2,6 +2,7 @@ import React, { ChangeEvent, FC, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import { ITask } from "../../types/task.interface";
+import styles from "./Modal.module.scss";
 
 interface ModalProps {
   onCloseModal: () => void;
@@ -49,18 +50,18 @@ const Modal: FC<ModalProps> = ({ onCloseModal }) => {
       };
 
       dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
-      onCloseModal();
     }
+    onCloseModal();
   };
 
   return (
-    <div>
-      <div>
-        <h2>Add Item</h2>
-        <form onSubmit={handleFormSubmit}>
+    <div className={styles.bg}>
+      <div className={styles.centered}>
+        <h2>Add Task</h2>
+        <form className={styles.form} onSubmit={handleFormSubmit}>
           <input
             type="text"
-            placeholder="Enter Task"
+            placeholder="Enter Task Title"
             value={formData.title}
             onChange={handleTitleChange}
           />
@@ -80,11 +81,13 @@ const Modal: FC<ModalProps> = ({ onCloseModal }) => {
               onChange={handleExpiredDateChange}
             />
           </label>
-          <div>
-            <button type="button" onClick={onCloseModal}>
+          <div className={styles.buttons}>
+            <button className={styles.red} type="button" onClick={onCloseModal}>
               Cancel
             </button>
-            <button type="submit">Save</button>
+            <button className={styles.green} type="submit">
+              Save
+            </button>
           </div>
         </form>
       </div>

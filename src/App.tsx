@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import TodoList from "./components/TodoList/TodoList";
-import styles from "./App.module.scss";
 import CreateTask from "./components/CreateTask/CreateTask";
 import Modal from "./components/Modal/Modal";
+import styles from "./App.module.scss";
 
 const App = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(true);
 
   const onOpenModal = () => {
     setShowModal(true);
