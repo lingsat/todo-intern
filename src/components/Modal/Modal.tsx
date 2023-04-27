@@ -24,7 +24,11 @@ const Modal: FC<ModalProps> = ({
   handleInputChange,
 }) => {
   const [createdDate, setCreatedDate] = useState<string>(getCurrentDateStr());
-  const [expiredDate, setExpiredDate] = useState(getNextDateStr());
+  const [expiredDate, setExpiredDate] = useState<string>(getNextDateStr());
+
+  const handleCreatedDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCreatedDate(event.target.value);
+  };
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -57,7 +61,7 @@ const Modal: FC<ModalProps> = ({
             <Input
               inputType="date"
               inputValue={createdDate}
-              onInputChange={(e) => setCreatedDate(e.target.value)}
+              onInputChange={handleCreatedDateChange}
             />
           </label>
           <label>
@@ -70,7 +74,11 @@ const Modal: FC<ModalProps> = ({
           </label>
           <div className={styles.buttons}>
             <Button text="Cancel" buttonClick={closeModal} buttonStyle="red" />
-            <Button text="Save" type="submit" />
+            <Button
+              text="Save"
+              type="submit"
+              buttonDisabled={!createdDate || !expiredDate}
+            />
           </div>
         </form>
       </div>

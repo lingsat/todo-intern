@@ -6,6 +6,7 @@ interface ButtonProps {
   type?: "button" | "submit";
   buttonClick?: () => void;
   buttonStyle?: "red" | "green";
+  buttonDisabled?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -13,6 +14,7 @@ const Button: FC<ButtonProps> = ({
   type = "button",
   buttonClick,
   buttonStyle = "green",
+  buttonDisabled = false,
 }) => {
   return (
     <button
@@ -20,7 +22,8 @@ const Button: FC<ButtonProps> = ({
         buttonStyle === "green" ? styles.green : styles.red
       }`}
       type={type}
-      onClick={buttonClick}>
+      onClick={buttonClick}
+      disabled={buttonDisabled}>
       {text}
     </button>
   );
