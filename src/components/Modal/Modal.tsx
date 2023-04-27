@@ -26,10 +26,6 @@ const Modal: FC<ModalProps> = ({
   const [createdDate, setCreatedDate] = useState<string>(getCurrentDateStr());
   const [expiredDate, setExpiredDate] = useState<string>(getNextDateStr());
 
-  const handleCreatedDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setCreatedDate(event.target.value);
-  };
-
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
 
@@ -61,7 +57,7 @@ const Modal: FC<ModalProps> = ({
             <Input
               inputType="date"
               inputValue={createdDate}
-              onInputChange={handleCreatedDateChange}
+              onInputChange={(e) => setCreatedDate(e.target.value)}
             />
           </label>
           <label>
