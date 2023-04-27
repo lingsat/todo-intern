@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
+import { getCurrentDateStr, getNextDateStr } from "../../utils/date.utils";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import { ITask } from "../../types/task.interface";
 import styles from "./Modal.module.scss";
@@ -11,10 +12,8 @@ interface ModalProps {
 const Modal: FC<ModalProps> = ({ onCloseModal }) => {
   const [formData, setFormData] = useState({
     title: "",
-    // Create utils to get date -------------------
-    createdDate: new Date().toISOString().substring(0, 10),
-    // Get tomorrow date ------------------
-    expiredDate: new Date().toISOString().substring(0, 10),
+    createdDate: getCurrentDateStr(),
+    expiredDate: getNextDateStr(),
   });
   const dispatch = useDispatch();
 
@@ -38,7 +37,7 @@ const Modal: FC<ModalProps> = ({ onCloseModal }) => {
 
     if (formData.title) {
       const createdDate = new Date(formData.createdDate);
-      const expiredDate = new Date(createdDate.getTime() + 24 * 60 * 60 * 1000);
+      const expiredDate = new Date(formData.expiredDate);
       expiredDate.setHours(23, 59, 59, 999);
 
       const task: ITask = {

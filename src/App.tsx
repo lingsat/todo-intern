@@ -7,7 +7,7 @@ import Modal from "./components/Modal/Modal";
 import styles from "./App.module.scss";
 
 const App = () => {
-  const [showModal, setShowModal] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const onOpenModal = () => {
     setShowModal(true);
