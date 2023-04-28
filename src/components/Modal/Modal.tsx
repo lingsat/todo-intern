@@ -61,37 +61,37 @@ const Modal: FC<ModalProps> = ({
         <h2>Add Task</h2>
         <form className={styles.form} onSubmit={handleFormSubmit}>
           <Input
-            inputPlaceholder="Enter Task Title"
-            inputValue={title}
-            onInputChange={(e) => handleInputChange(e)}
+            placeholder="Enter Task Title"
+            value={title}
+            onChange={(e) => handleInputChange(e)}
           />
           <p className={styles.error}>{errorMessage}</p>
           <label>
             Created Date
             <Input
-              inputType="datetime-local"
-              inputValue={createdDate}
-              inputMin={getTenMinAgo()}
-              inputMax={getTenYearsAfter()}
-              onInputChange={handleCreatedDateChange}
+              type="datetime-local"
+              value={createdDate}
+              min={getTenMinAgo()}
+              max={getTenYearsAfter()}
+              onChange={handleCreatedDateChange}
             />
           </label>
           <label>
             Expired Date
             <Input
-              inputType="datetime-local"
-              inputValue={expiredDate}
-              inputMin={getTenMinAfter(createdDate)}
-              inputMax={getTenYearsAfter()}
-              onInputChange={(e) => setExpiredDate(e.target.value)}
+              type="datetime-local"
+              value={expiredDate}
+              min={getTenMinAfter(createdDate)}
+              max={getTenYearsAfter()}
+              onChange={(e) => setExpiredDate(e.target.value)}
             />
           </label>
           <div className={styles.buttons}>
-            <Button text="Cancel" buttonClick={closeModal} buttonStyle="red" />
+            <Button text="Cancel" style="red" onClick={closeModal} />
             <Button
               text="Save"
               type="submit"
-              buttonDisabled={!createdDate || !expiredDate}
+              disabled={!createdDate || !expiredDate}
             />
           </div>
         </form>

@@ -4,26 +4,26 @@ import styles from "./Button.module.scss";
 interface ButtonProps {
   text: string;
   type?: "button" | "submit";
-  buttonClick?: () => void;
-  buttonStyle?: "red" | "green";
-  buttonDisabled?: boolean;
+  style?: "red" | "green";
+  disabled?: boolean;
+  onClick?: () => void;
 }
 
 const Button: FC<ButtonProps> = ({
   text,
   type = "button",
-  buttonClick,
-  buttonStyle = "green",
-  buttonDisabled = false,
+  style = "green",
+  disabled = false,
+  onClick,
 }) => {
   return (
     <button
       className={`${styles.button} ${
-        buttonStyle === "green" ? styles.green : styles.red
+        style === "green" ? styles.green : styles.red
       }`}
       type={type}
-      onClick={buttonClick}
-      disabled={buttonDisabled}>
+      onClick={onClick}
+      disabled={disabled}>
       {text}
     </button>
   );

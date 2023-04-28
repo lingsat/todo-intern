@@ -65,9 +65,9 @@ const CreateTask: FC = () => {
       <div className={styles.create}>
         <form onSubmit={handleFormSubmit}>
           <Input
-            inputPlaceholder='Title - "Enter" to create'
-            inputValue={title}
-            onInputChange={handleInputChange}
+            placeholder='Title - "Enter" to create'
+            value={title}
+            onChange={handleInputChange}
           />
           <p className={styles.error}>{errorMessage}</p>
         </form>
