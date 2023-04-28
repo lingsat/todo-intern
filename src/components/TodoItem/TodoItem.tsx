@@ -25,6 +25,11 @@ const TodoItem: FC<TodoItemProps> = ({
   const handleCheckboxChange = () => {
     dispatch({ type: TodoActionTypes.TOGGLE_COMPLETE, payload: id });
   };
+
+  const handleDeleteTask = () => {
+    dispatch({ type: TodoActionTypes.DELETE_TASK, payload: id });
+  };
+
   return (
     <li className={styles.item}>
       <div className={styles.completed}>
@@ -50,7 +55,12 @@ const TodoItem: FC<TodoItemProps> = ({
             </p>
           </div>
           <div>
-            <img className={styles.icon} src={deleteIcon} alt="Delete" />
+            <img
+              className={styles.icon}
+              src={deleteIcon}
+              alt="Delete"
+              onClick={handleDeleteTask}
+            />
           </div>
         </div>
       </div>
