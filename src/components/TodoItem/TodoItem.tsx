@@ -11,10 +11,10 @@ interface TodoItemProps {
 const TodoItem: FC<TodoItemProps> = ({ title, createdDate, expiredDate }) => {
   return (
     <li className={styles.item}>
-      <h3>{title}</h3>
+      <h3 className={styles.title}>{title}</h3>
       <div>
-        <p>Created: {getValidDateStr(createdDate)}</p>
-        <p>Expired: {getValidDateStr(expiredDate)}</p>
+        <p className={styles.text}>Created: {getValidDateStr(createdDate)}</p>
+        <p className={styles.text}>Expired: {getValidDateStr(expiredDate)}</p>
       </div>
     </li>
   );

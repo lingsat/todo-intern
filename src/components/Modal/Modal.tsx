@@ -57,8 +57,8 @@ const Modal: FC<ModalProps> = ({
 
   return (
     <div className={styles.bg}>
-      <div className={styles.centered}>
-        <h2>Add Task</h2>
+      <div className={styles.modal}>
+        <h2 className={styles.title}>Add Task</h2>
         <form className={styles.form} onSubmit={handleFormSubmit}>
           <Input
             placeholder="Enter Task Title"
@@ -66,7 +66,7 @@ const Modal: FC<ModalProps> = ({
             onChange={(e) => handleInputChange(e)}
           />
           <p className={styles.error}>{errorMessage}</p>
-          <label>
+          <label className={styles.label}>
             Created Date
             <Input
               type="datetime-local"
@@ -76,7 +76,7 @@ const Modal: FC<ModalProps> = ({
               onChange={handleCreatedDateChange}
             />
           </label>
-          <label>
+          <label className={styles.label}>
             Expired Date
             <Input
               type="datetime-local"

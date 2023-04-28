@@ -14,7 +14,7 @@
   align-items: center;
 }
 
-.centered {
+.modal {
   width: 100%;
   max-width: 350px;
   padding: 1rem;
@@ -22,24 +22,24 @@
   background-color: $bg-white-color;
   border: 2px solid $border-black-color;
   border-radius: 10px;
+}
 
-  h2 {
-    text-align: center;
-    margin-top: 0;
-  }
+.title {
+  text-align: center;
+  margin-top: 0;
 }
 
 .form {
   display: flex;
   flex-direction: column;
+}
 
-  label {
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    column-gap: 5px;
-  }
+.label {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 5px;
 }
 
 .buttons {

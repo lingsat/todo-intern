@@ -63,7 +63,7 @@ const CreateTask: FC = () => {
   return (
     <>
       <div className={styles.create}>
-        <form onSubmit={handleFormSubmit}>
+        <form className={styles.form} onSubmit={handleFormSubmit}>
           <Input
             placeholder='Title - "Enter" to create'
             value={title}
@@ -75,7 +75,7 @@ const CreateTask: FC = () => {
           type="button"
           className={styles.button}
           onClick={() => setShowModal(true)}>
-          <img src={plusIcon} alt="+" />
+          <img className={styles.icon} src={plusIcon} alt="+" />
         </button>
       </div>
       {showModal && (
