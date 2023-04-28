@@ -1,0 +1,39 @@
+@import "../../assets/styles/variables";
+
+.create {
+  margin: 0 auto 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.form {
+  position: relative;
+
+  input {
+    width: 250px;
+  }
+}
+
+.error {
+  margin: 0;
+  position: absolute;
+  bottom: -18px;
+  left: 10px;
+  z-index: 1;
+  font-size: 0.8rem;
+  color: $text-red-color;
+}
+
+.button {
+  padding: 0 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+}
