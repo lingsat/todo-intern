@@ -42,6 +42,12 @@ const Modal: FC<ModalProps> = ({
     }
   };
 
+  const handleExpiredDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value) {
+      setExpiredDate(event.target.value);
+    }
+  };
+
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
     const created = new Date(createdDate);
@@ -83,7 +89,7 @@ const Modal: FC<ModalProps> = ({
               value={expiredDate}
               min={getTenMinAfter(createdDate)}
               max={getTenYearsAfter()}
-              onChange={(e) => setExpiredDate(e.target.value)}
+              onChange={handleExpiredDateChange}
             />
           </label>
           <div className={styles.buttons}>
