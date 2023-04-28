@@ -4,7 +4,7 @@ import Modal from "../Modal/Modal";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import { ITask } from "../../types/task.interface";
-import plusIcon from "../../assets/plus.svg";
+import plusIcon from "../../assets/images/plus.svg";
 import styles from "./CreateTask.module.scss";
 
 const CreateTask: FC = () => {

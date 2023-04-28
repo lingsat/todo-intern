@@ -1,3 +1,5 @@
+@import "../../assets/styles/variables";
+
 .create {
   margin: 0 auto 2rem;
   display: flex;
@@ -16,11 +18,11 @@
 .error {
   margin: 0;
   position: absolute;
-  bottom: -1rem;
+  bottom: -18px;
   left: 10px;
   z-index: 1;
   font-size: 0.8rem;
-  color: #bc0000;
+  color: $text-red-color;
 }
 
 .button {

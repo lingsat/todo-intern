@@ -1,11 +1,13 @@
+@import "../../assets/styles/variables";
+
 .item {
   padding: 10px;
-  border: 2px solid #aaaba8;
+  border: 2px solid $border-gray-color;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #e0f4f5;
+  background-color: $card-bg-color;
 
   h3 {
     margin-top: 0;
