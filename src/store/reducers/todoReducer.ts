@@ -5,7 +5,7 @@ const initialState: ITask[] = [];
 
 export const todoReducer = (
   state: ITask[] = initialState,
-  action: { type: string; payload?: any }
+  action: { type: string; payload: ITask }
 ): ITask[] => {
   const { type, payload } = action;
   switch (type) {
