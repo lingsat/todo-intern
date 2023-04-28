@@ -1,13 +1,72 @@
 @import "../../assets/styles/variables";
 
 .item {
-  padding: 10px;
   border: 2px solid $border-gray-color;
   border-radius: 10px;
+  background-color: $card-bg-color;
+  display: flex;
+  overflow: hidden;
+}
+
+.completed {
+  width: 70px;
+  border-right: 2px solid $border-gray-color;
+  position: relative;
+}
+
+.status {
+  padding: 5px;
+  text-align: center;
+  color: $text-white-color;
+  background-color: $bg-blue-color;
+  animation: show 0.3s ease;
+}
+
+.checkbox {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  margin: 0;
+  border-radius: 5px;
+  border: 2px solid $bg-green-color;
+  background-color: $bg-white-color;
+  outline: none;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+
+  &:hover {
+    box-shadow: 0 0 5px $bg-green-color;
+  }
+
+  &:checked {
+    background-color: $bg-green-color;
+
+    &::before {
+      content: "\2714";
+      font-size: 1.3rem;
+      color: $text-white-color;
+      position: absolute;
+      right: 2px;
+      top: -4px;
+    }
+  }
+}
+
+.content {
+  width: calc(100% - 70px);
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: $card-bg-color;
+}
+
+.crosed {
+  text-decoration: line-through;
 }
 
 .title {
@@ -20,4 +79,13 @@
   font-size: 0.9rem;
   margin-top: 0;
   margin-bottom: 0.2rem;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
