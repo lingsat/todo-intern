@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { getValidDateStr } from "../../utils/date.utils";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import deleteIcon from "../../assets/images/delete.svg";
+import editIcon from "../../assets/images/edit.svg";
 import styles from "./TodoItem.module.scss";
 
 interface TodoItemProps {
@@ -24,6 +25,10 @@ const TodoItem: FC<TodoItemProps> = ({
 
   const handleCheckboxChange = () => {
     dispatch({ type: TodoActionTypes.TOGGLE_COMPLETE, payload: id });
+  };
+
+  const handleEditTask = () => {
+    console.log("edit");
   };
 
   const handleDeleteTask = () => {
@@ -55,6 +60,12 @@ const TodoItem: FC<TodoItemProps> = ({
             </p>
           </div>
           <div>
+            <img
+              className={styles.icon}
+              src={editIcon}
+              alt="Edit"
+              onClick={handleEditTask}
+            />
             <img
               className={styles.icon}
               src={deleteIcon}
