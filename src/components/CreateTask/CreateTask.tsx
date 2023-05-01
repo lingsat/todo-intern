@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { getNextDayEnd } from "../../utils/date.utils";
 import Modal from "../Modal/Modal";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
@@ -31,16 +32,11 @@ const CreateTask: FC = () => {
 
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
-      const createdDate = new Date();
-      const expiredDate = new Date();
-      expiredDate.setDate(new Date().getDate() + 1);
-      expiredDate.setHours(23, 59, 59, 999);
-
       const task: ITask = {
         id: crypto.randomUUID(),
         title: trimmedTitle,
-        createdDate,
-        expiredDate,
+        createdDate: new Date(),
+        expiredDate: getNextDayEnd(),
         completed: false,
       };
 

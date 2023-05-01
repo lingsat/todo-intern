@@ -1,11 +1,11 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
-  getCurrentDateStr,
   getTenMinAgo,
-  getNextDateStr,
   getTenMinAfter,
   getTenYearsAfter,
+  getCurrentDateStr,
+  getNextDateStr,
 } from "../../utils/date.utils";
 import Button from "../../common/components/Button/Button";
 import Input from "../../common/components/Input/Input";
@@ -81,13 +81,13 @@ const Modal: FC<ModalProps> = ({
       const task: ITask = {
         id,
         title: trimmedTitle,
-        createdDate: new Date(createdDate),
-        expiredDate: new Date(expiredDate),
+        createdDate: new Date(modalData.createdDate),
+        expiredDate: new Date(modalData.expiredDate),
         completed,
       };
 
       if (editMode) {
-        console.log("edit task");
+        dispatch({ type: TodoActionTypes.EDIT_TASK, payload: task });
       } else {
         dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
       }

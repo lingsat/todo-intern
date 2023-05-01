@@ -22,6 +22,13 @@ export const todoReducer = (
     case TodoActionTypes.DELETE_TASK:
       return state.filter((task) => task.id !== payload);
 
+    case TodoActionTypes.EDIT_TASK: {
+      const editedTask = payload as ITask;
+      return state.map((task) =>
+        task.id === editedTask.id ? editedTask : task
+      );
+    }
+
     default:
       return state;
   }
