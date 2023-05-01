@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   getCurrentDateStr,
   getTenMinAgo,
@@ -8,75 +9,110 @@ import {
 } from "../../utils/date.utils";
 import Button from "../../common/components/Button/Button";
 import Input from "../../common/components/Input/Input";
+import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
+import { ITask } from "../../types/task.interface";
 import styles from "./Modal.module.scss";
 
 interface ModalProps {
+  editMode?: boolean;
   title: string;
-  setTitle: (arg: string) => void;
-  addTask: (
-    title: string,
-    expired: string | Date,
-    created?: string | Date
-  ) => void;
+  id?: string;
+  createdDate?: string;
+  expiredDate?: string;
+  completed?: boolean;
   setShowModal: (arg: boolean) => void;
-  handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  errorMessage: string;
-  setErrorMessage: (arg: string) => void;
 }
 
 const Modal: FC<ModalProps> = ({
+  editMode = false,
   title,
-  setTitle,
-  addTask,
+  id = crypto.randomUUID(),
+  createdDate = getCurrentDateStr(),
+  expiredDate = getNextDateStr(),
+  completed = false,
   setShowModal,
-  handleInputChange,
-  errorMessage,
-  setErrorMessage,
 }) => {
-  const [createdDate, setCreatedDate] = useState<string>(getCurrentDateStr());
-  const [expiredDate, setExpiredDate] = useState<string>(getNextDateStr());
+  const [modalData, setModalData] = useState({
+    title: title.trim(),
+    createdDate,
+    expiredDate,
+  });
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const dispatch = useDispatch();
+
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const specSymRegex = /[#$%^&*{}`|<>]/g;
+
+    if (!specSymRegex.test(event.target.value)) {
+      setModalData((prevData) => ({
+        ...prevData,
+        title: event.target.value,
+      }));
+      setErrorMessage("");
+    } else {
+      setErrorMessage('"#$%^&*{}`|<>" - symbols not available');
+    }
+  };
 
   const handleCreatedDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value) {
-      setCreatedDate(event.target.value);
+      setModalData((prevData) => ({
+        ...prevData,
+        createdDate: event.target.value,
+      }));
     }
   };
 
   const handleExpiredDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value) {
-      setExpiredDate(event.target.value);
+      setModalData((prevData) => ({
+        ...prevData,
+        expiredDate: event.target.value,
+      }));
     }
   };
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    const created = new Date(createdDate);
-    const expired = new Date(expiredDate);
-    addTask(title, expired, created);
-  };
 
-  const closeModal = () => {
-    setShowModal(false);
-    setErrorMessage("");
-    setTitle("");
+    const trimmedTitle = modalData.title.trim();
+    if (trimmedTitle) {
+      const task: ITask = {
+        id,
+        title: trimmedTitle,
+        createdDate: new Date(createdDate),
+        expiredDate: new Date(expiredDate),
+        completed,
+      };
+
+      if (editMode) {
+        console.log("edit task");
+      } else {
+        dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
+      }
+      setShowModal(false);
+    } else {
+      setErrorMessage("Title can`t be empty!");
+    }
   };
 
   return (
     <div className={styles.bg}>
       <div className={styles.modal}>
-        <h2 className={styles.title}>Add Task</h2>
+        <h2 className={styles.title}>{editMode ? "Edit" : "Add"} Task</h2>
         <form className={styles.form} onSubmit={handleFormSubmit}>
           <Input
             placeholder="Enter Task Title"
-            value={title}
-            onChange={(e) => handleInputChange(e)}
+            value={modalData.title}
+            onChange={handleTitleChange}
           />
           <p className={styles.error}>{errorMessage}</p>
           <label className={styles.label}>
             Created Date
             <Input
               type="datetime-local"
-              value={createdDate}
+              value={modalData.createdDate}
               min={getTenMinAgo()}
               max={getTenYearsAfter()}
               onChange={handleCreatedDateChange}
@@ -86,19 +122,19 @@ const Modal: FC<ModalProps> = ({
             Expired Date
             <Input
               type="datetime-local"
-              value={expiredDate}
-              min={getTenMinAfter(createdDate)}
+              value={modalData.expiredDate}
+              min={getTenMinAfter(modalData.createdDate)}
               max={getTenYearsAfter()}
               onChange={handleExpiredDateChange}
             />
           </label>
           <div className={styles.buttons}>
-            <Button text="Cancel" style="red" onClick={closeModal} />
             <Button
-              text="Save"
-              type="submit"
-              disabled={!createdDate || !expiredDate}
+              text="Cancel"
+              style="red"
+              onClick={() => setShowModal(false)}
             />
+            <Button text="Save" type="submit" />
           </div>
         </form>
       </div>

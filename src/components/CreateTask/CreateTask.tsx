@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from "react";
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Modal from "../Modal/Modal";
 import Input from "../../common/components/Input/Input";
@@ -26,18 +26,19 @@ const CreateTask: FC = () => {
     }
   };
 
-  const addTask = (
-    title: string,
-    expired: string | Date,
-    created: string | Date = new Date()
-  ) => {
-    if (title.trim()) {
-      const createdDate = new Date(created);
-      const expiredDate = new Date(expired);
+  const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    const trimmedTitle = title.trim();
+    if (trimmedTitle) {
+      const createdDate = new Date();
+      const expiredDate = new Date();
+      expiredDate.setDate(new Date().getDate() + 1);
+      expiredDate.setHours(23, 59, 59, 999);
 
       const task: ITask = {
         id: crypto.randomUUID(),
-        title,
+        title: trimmedTitle,
         createdDate,
         expiredDate,
         completed: false,
@@ -52,13 +53,9 @@ const CreateTask: FC = () => {
     setTitle("");
   };
 
-  const handleFormSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    const nextDay = new Date();
-    nextDay.setDate(new Date().getDate() + 1);
-    nextDay.setHours(23, 59, 59, 999);
-    addTask(title, nextDay);
-  };
+  useEffect(() => {
+    setTitle("");
+  }, [showModal]);
 
   return (
     <>
@@ -78,17 +75,7 @@ const CreateTask: FC = () => {
           <img className={styles.icon} src={plusIcon} alt="+" />
         </button>
       </div>
-      {showModal && (
-        <Modal
-          title={title}
-          setTitle={setTitle}
-          addTask={addTask}
-          setShowModal={setShowModal}
-          handleInputChange={handleInputChange}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      )}
+      {showModal && <Modal title={title} setShowModal={setShowModal} />}
     </>
   );
 };

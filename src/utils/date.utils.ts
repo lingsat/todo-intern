@@ -6,6 +6,14 @@ export const getCurrentDateStr = () => {
   return curentTime;
 };
 
+export const getNextDateStr = () => {
+  const today = new Date();
+  const tzoffset = new Date().getTimezoneOffset() * 60000;
+  const tomorrow = new Date(Date.now() - tzoffset);
+  tomorrow.setDate(today.getDate() + 1);
+  return tomorrow.toISOString().substring(0, 16);
+};
+
 export const getTenMinAgo = () => {
   const tzoffset = new Date().getTimezoneOffset() * 60000;
   const curentTimeAgo = new Date(Date.now() - tzoffset - 10 * 60 * 1000);
@@ -23,14 +31,6 @@ export const getTenYearsAfter = () => {
   const tenYearsInMs = 315569259747;
   const curentTimeAgo = new Date(Date.now() + tenYearsInMs);
   return curentTimeAgo.toISOString().substring(0, 16);
-};
-
-export const getNextDateStr = () => {
-  const today = new Date();
-  const tzoffset = new Date().getTimezoneOffset() * 60000;
-  const tomorrow = new Date(Date.now() - tzoffset);
-  tomorrow.setDate(today.getDate() + 1);
-  return tomorrow.toISOString().substring(0, 16);
 };
 
 export const getValidDateStr = (date: Date) => {
