@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/todo-intern/static/css/main.be3280f3.css",
-    "main.js": "/todo-intern/static/js/main.ab585479.js",
+    "main.css": "/todo-intern/static/css/main.418c8794.css",
+    "main.js": "/todo-intern/static/js/main.f2368815.js",
+    "static/media/edit.svg": "/todo-intern/static/media/edit.21f36f3566deb4d8b3c6d8cc2fd5aadb.svg",
     "index.html": "/todo-intern/index.html",
     "static/media/plus.svg": "/todo-intern/static/media/plus.c4ad914c4a4c568589ae272f9f4b07bf.svg",
     "static/media/delete.svg": "/todo-intern/static/media/delete.780d7bd7f7e9100d13c8862b796444b9.svg",
-    "main.be3280f3.css.map": "/todo-intern/static/css/main.be3280f3.css.map",
-    "main.ab585479.js.map": "/todo-intern/static/js/main.ab585479.js.map"
+    "main.418c8794.css.map": "/todo-intern/static/css/main.418c8794.css.map",
+    "main.f2368815.js.map": "/todo-intern/static/js/main.f2368815.js.map"
   },
   "entrypoints": [
-    "static/css/main.be3280f3.css",
-    "static/js/main.ab585479.js"
+    "static/css/main.418c8794.css",
+    "static/js/main.f2368815.js"
   ]
 }
