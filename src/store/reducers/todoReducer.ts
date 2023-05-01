@@ -19,6 +19,9 @@ export const todoReducer = (
           : { ...task, completed: !task.completed };
       });
 
+    case TodoActionTypes.DELETE_TASK:
+      return state.filter((task) => task.id !== payload);
+
     default:
       return state;
   }
