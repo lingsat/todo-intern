@@ -14,12 +14,13 @@
   align-items: center;
 }
 
-.button {
+.filterButton {
   padding: 5px 10px;
   font-family: $main-text-font;
   font-size: 1rem;
   border: 2px solid $border-gray-color;
   border-right: none;
+  background-color: $btn-regular-color;
   cursor: pointer;
   transition: all 0.1s linear;
 
@@ -33,15 +34,31 @@
   }
 
   &:hover {
-    background-color: $bg-grey-color;
-    color: $text-white-color;
+    background-color: $btn-regular-hover-color;
   }
 }
 
 .active {
-  text-decoration: underline;
+  font-weight: 700;
 }
 
 .filterDelete {
   grid-column: 3 / 4;
+}
+
+.deleteButton {
+  display: block;
+  margin-left: auto;
+  padding: 5px 0;
+  border: none;
+  background-color: $btn-regular-color;
+  font-family: $main-text-font;
+  font-size: 1rem;
+  color: $text-red-color;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

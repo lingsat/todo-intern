@@ -1,7 +1,7 @@
 @import "../../assets/styles/variables";
 
 .create {
-  margin: 0 auto 2rem;
+  margin: 0 auto 1.5rem;
   display: flex;
   justify-content: center;
   gap: 5px;
@@ -30,7 +30,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 2px solid $border-gray-color;
+  border-radius: 5px;
+  background-color: $btn-regular-color;
   cursor: pointer;
+
+  &:hover {
+    background-color: $btn-regular-hover-color;
+  }
 }
 
 .icon {

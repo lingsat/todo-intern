@@ -32,21 +32,21 @@ const Filter: FC<FilterProps> = ({
     <div className={styles.filter}>
       <div className={styles.filterControls}>
         <button
-          className={`${styles.button} ${
+          className={`${styles.filterButton} ${
             filterValue === "all" && styles.active
           }`}
           onClick={() => changeFilterValue("all")}>
           All
         </button>
         <button
-          className={`${styles.button} ${
+          className={`${styles.filterButton} ${
             filterValue === "active" && styles.active
           }`}
           onClick={() => changeFilterValue("active")}>
           Active
         </button>
         <button
-          className={`${styles.button} ${
+          className={`${styles.filterButton} ${
             filterValue === "completed" && styles.active
           }`}
           onClick={() => changeFilterValue("completed")}>
@@ -55,11 +55,11 @@ const Filter: FC<FilterProps> = ({
       </div>
       {isCompletedExist && (
         <div className={styles.filterDelete}>
-          <Button
-            text="Clear Completed"
-            style="red"
-            onClick={handleDeleteCompleted}
-          />
+          <button
+            className={styles.deleteButton}
+            onClick={handleDeleteCompleted}>
+            Clear Completed
+          </button>
         </div>
       )}
     </div>
