@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 import { getFilteredList, getIsCompletedExist } from "../../utils/task.utils";
 import TodoItem from "../TodoItem/TodoItem";
 import Filter from "../Filter/Filter";
-import { ITask } from "../../types/task.interface";
+import { ITodos } from "../../store/types/todos.interface";
 import { FilterValue } from "../../types/filter.type";
 import styles from "./TodoList.module.scss";
 
 const TodoList: FC = () => {
-  const todoList = useSelector((state: ITask[]) => state);
+  const todoList = useSelector((state: ITodos) => state.todos);
   const [filterValue, setFilterValue] = useState<FilterValue>("all");
 
   const filteredList = getFilteredList(todoList, filterValue);
