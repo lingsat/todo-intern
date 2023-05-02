@@ -4,10 +4,15 @@ import { createNewTask } from "../../utils/task.utils";
 import Modal from "../Modal/Modal";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
+import { FilterValue } from "../../types/filter";
 import plusIcon from "../../assets/images/plus.svg";
 import styles from "./CreateTask.module.scss";
 
-const CreateTask: FC = () => {
+interface CreateTaskProps {
+  setFilterValue: (arg: FilterValue) => void;
+}
+
+const CreateTask: FC<CreateTaskProps> = ({ setFilterValue }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [title, setTitle] = useState<string>("");
@@ -41,8 +46,8 @@ const CreateTask: FC = () => {
     if (trimmedTitle) {
       const task = createNewTask(trimmedTitle);
       dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
-      closeModal();
       setErrorMessage("");
+      setFilterValue(FilterValue.ALL);
     } else {
       setErrorMessage("Title can`t be empty!");
     }
@@ -68,7 +73,13 @@ const CreateTask: FC = () => {
           <img className={styles.icon} src={plusIcon} alt="+" />
         </button>
       </div>
-      {showModal && <Modal title={title} onCloseModal={closeModal} />}
+      {showModal && (
+        <Modal
+          title={title}
+          onCloseModal={closeModal}
+          setFilterValue={setFilterValue}
+        />
+      )}
     </>
   );
 };
