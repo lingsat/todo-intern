@@ -1,5 +1,7 @@
 import React, { FC } from "react";
+import { useDispatch } from "react-redux";
 import Button from "../../common/components/Button/Button";
+import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import { FilterValue } from "../../types/filter.type";
 import styles from "./Filter.module.scss";
 
@@ -9,8 +11,16 @@ interface FilterProps {
 }
 
 const Filter: FC<FilterProps> = ({ filterValue, setFilterValue }) => {
+  const dispatch = useDispatch();
+
   const changeFilterValue = (newValue: FilterValue) => {
     setFilterValue(newValue);
+  };
+
+  const handleDeleteCompleted = () => {
+    if (confirm("Do you want to delete completed tasks?")) {
+      dispatch({ type: TodoActionTypes.CLEAR_COMPLETED });
+    }
   };
 
   return (
@@ -39,7 +49,11 @@ const Filter: FC<FilterProps> = ({ filterValue, setFilterValue }) => {
         </button>
       </div>
       <div className={styles.filterDelete}>
-        <Button text="Clear Completed" style="red" />
+        <Button
+          text="Clear Completed"
+          style="red"
+          onClick={handleDeleteCompleted}
+        />
       </div>
     </div>
   );

@@ -29,6 +29,10 @@ export const todoReducer = (
       );
     }
 
+    case TodoActionTypes.CLEAR_COMPLETED: {
+      return state.filter((task) => !task.completed);
+    }
+
     default:
       return state;
   }

@@ -15,17 +15,15 @@ export const createNewTask = (
 export const getFilteredList = (
   todoList: ITask[],
   filterValue: FilterValue
-) => {
+): ITask[] => {
   let filteredList = todoList;
   switch (filterValue) {
     case "active":
       filteredList = todoList.filter((item) => !item.completed);
       break;
-
     case "completed":
       filteredList = todoList.filter((item) => item.completed);
       break;
-
     default:
       break;
   }
