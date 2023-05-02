@@ -1,6 +1,6 @@
 import { getCurrentDateStr, getNextDateStr } from "./date.utils";
 import { ITask } from "../types/task.interface";
-import { FilterValue } from "../types/filter.type";
+import { FilterValue } from "../types/filter";
 
 export const createNewTask = (
   title: string,

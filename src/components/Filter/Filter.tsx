@@ -1,8 +1,7 @@
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
-import Button from "../../common/components/Button/Button";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { FilterValue } from "../../types/filter.type";
+import { FilterValue } from "../../types/filter";
 import styles from "./Filter.module.scss";
 
 interface FilterProps {
@@ -18,13 +17,14 @@ const Filter: FC<FilterProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const changeFilterValue = (newValue: FilterValue) => {
+  const changeFilterValue = (newValue: FilterValue) => () => {
     setFilterValue(newValue);
   };
 
   const handleDeleteCompleted = () => {
     if (confirm("Do you want to delete completed tasks?")) {
       dispatch({ type: TodoActionTypes.CLEAR_COMPLETED });
+      setFilterValue(FilterValue.ALL);
     }
   };
 
@@ -33,23 +33,23 @@ const Filter: FC<FilterProps> = ({
       <div className={styles.filterControls}>
         <button
           className={`${styles.filterButton} ${
-            filterValue === "all" && styles.active
+            filterValue === FilterValue.ALL && styles.active
           }`}
-          onClick={() => changeFilterValue("all")}>
+          onClick={changeFilterValue(FilterValue.ALL)}>
           All
         </button>
         <button
           className={`${styles.filterButton} ${
-            filterValue === "active" && styles.active
+            filterValue === FilterValue.ACTIVE && styles.active
           }`}
-          onClick={() => changeFilterValue("active")}>
+          onClick={changeFilterValue(FilterValue.ACTIVE)}>
           Active
         </button>
         <button
           className={`${styles.filterButton} ${
-            filterValue === "completed" && styles.active
+            filterValue === FilterValue.COMPLETED && styles.active
           }`}
-          onClick={() => changeFilterValue("completed")}>
+          onClick={changeFilterValue(FilterValue.COMPLETED)}>
           Completed
         </button>
       </div>

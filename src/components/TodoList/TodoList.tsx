@@ -4,12 +4,12 @@ import { getFilteredList, getIsCompletedExist } from "../../utils/task.utils";
 import TodoItem from "../TodoItem/TodoItem";
 import Filter from "../Filter/Filter";
 import { ITodos } from "../../store/types/todos.interface";
-import { FilterValue } from "../../types/filter.type";
+import { FilterValue } from "../../types/filter";
 import styles from "./TodoList.module.scss";
 
 const TodoList: FC = () => {
   const todoList = useSelector((state: ITodos) => state.todos);
-  const [filterValue, setFilterValue] = useState<FilterValue>("all");
+  const [filterValue, setFilterValue] = useState<FilterValue>(FilterValue.ALL);
 
   const filteredList = getFilteredList(todoList, filterValue);
   const isCompletedExist = getIsCompletedExist(todoList);
