@@ -1,0 +1,47 @@
+@import "../../assets/styles/variables";
+
+.filter {
+  margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+.filterControls {
+  grid-column: 2 / 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  padding: 5px 10px;
+  font-family: $main-text-font;
+  font-size: 1rem;
+  border: 2px solid $border-gray-color;
+  border-right: none;
+  cursor: pointer;
+  transition: all 0.1s linear;
+
+  &:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+
+  &:last-child {
+    border-right: 2px solid $border-gray-color;
+    border-radius: 0 5px 5px 0;
+  }
+
+  &:hover {
+    background-color: $bg-grey-color;
+    color: $text-white-color;
+  }
+}
+
+.active {
+  text-decoration: underline;
+}
+
+.filterDelete {
+  grid-column: 3 / 4;
+}

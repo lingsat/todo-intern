@@ -8,9 +8,11 @@ import styles from "./App.module.scss";
 const App = () => {
   return (
     <Provider store={store}>
-      <h1 className={styles.title}>Todo Application</h1>
-      <CreateTask />
-      <TodoList />
+      <div className={styles.container}>
+        <h1 className={styles.title}>Todo Application</h1>
+        <CreateTask />
+        <TodoList />
+      </div>
     </Provider>
   );
 };
