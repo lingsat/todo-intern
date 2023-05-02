@@ -8,9 +8,14 @@ import styles from "./Filter.module.scss";
 interface FilterProps {
   filterValue: FilterValue;
   setFilterValue: (arg: FilterValue) => void;
+  isCompletedExist: boolean;
 }
 
-const Filter: FC<FilterProps> = ({ filterValue, setFilterValue }) => {
+const Filter: FC<FilterProps> = ({
+  filterValue,
+  setFilterValue,
+  isCompletedExist,
+}) => {
   const dispatch = useDispatch();
 
   const changeFilterValue = (newValue: FilterValue) => {
@@ -48,13 +53,15 @@ const Filter: FC<FilterProps> = ({ filterValue, setFilterValue }) => {
           Completed
         </button>
       </div>
-      <div className={styles.filterDelete}>
-        <Button
-          text="Clear Completed"
-          style="red"
-          onClick={handleDeleteCompleted}
-        />
-      </div>
+      {isCompletedExist && (
+        <div className={styles.filterDelete}>
+          <Button
+            text="Clear Completed"
+            style="red"
+            onClick={handleDeleteCompleted}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -29,3 +29,8 @@ export const getFilteredList = (
   }
   return filteredList;
 };
+
+export const getIsCompletedExist = (todoList: ITask[]): boolean => {
+  const completedList = todoList.filter((item) => item.completed);
+  return !!completedList.length;
+};
