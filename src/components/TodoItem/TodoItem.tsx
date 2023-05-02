@@ -17,12 +17,16 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
 
   const dispatch = useDispatch();
 
-  const handleCheckboxChange = () => {
-    dispatch({ type: TodoActionTypes.TOGGLE_COMPLETE, payload: task.id });
+  const openModal = () => {
+    setShowModal(true);
   };
 
-  const handleEditTask = () => {
-    setShowModal(true);
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleCheckboxChange = () => {
+    dispatch({ type: TodoActionTypes.TOGGLE_COMPLETE, payload: task.id });
   };
 
   const handleDeleteTask = () => {
@@ -60,7 +64,7 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
                   className={styles.icon}
                   src={editIcon}
                   alt="Edit"
-                  onClick={handleEditTask}
+                  onClick={openModal}
                 />
               )}
               <img
@@ -74,7 +78,7 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
         </div>
       </li>
       {showModal && (
-        <Modal editMode={true} {...task} setShowModal={setShowModal} />
+        <Modal editMode={true} {...task} onCloseModal={closeModal} />
       )}
     </>
   );

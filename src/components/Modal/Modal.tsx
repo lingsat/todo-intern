@@ -20,7 +20,7 @@ interface ModalProps {
   createdDate?: string;
   expiredDate?: string;
   completed?: boolean;
-  setShowModal: (arg: boolean) => void;
+  onCloseModal: () => void;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -30,7 +30,7 @@ const Modal: FC<ModalProps> = ({
   createdDate = getCurrentDateStr(),
   expiredDate = getNextDateStr(),
   completed = false,
-  setShowModal,
+  onCloseModal,
 }) => {
   const [modalData, setModalData] = useState({
     title: title.trim(),
@@ -92,7 +92,7 @@ const Modal: FC<ModalProps> = ({
       } else {
         dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
       }
-      setShowModal(false);
+      onCloseModal();
     } else {
       setErrorMessage("Title can`t be empty!");
     }
@@ -130,11 +130,7 @@ const Modal: FC<ModalProps> = ({
             />
           </label>
           <div className={styles.buttons}>
-            <Button
-              text="Cancel"
-              style="red"
-              onClick={() => setShowModal(false)}
-            />
+            <Button text="Cancel" style="red" onClick={onCloseModal} />
             <Button text="Save" type="submit" />
           </div>
         </form>

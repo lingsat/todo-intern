@@ -15,6 +15,14 @@ const CreateTask: FC = () => {
 
   const dispatch = useDispatch();
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const specSymRegex = /[#$%^&*{}`|<>]/g;
 
@@ -33,7 +41,7 @@ const CreateTask: FC = () => {
     if (trimmedTitle) {
       const task = createNewTask(trimmedTitle);
       dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
-      setShowModal(false);
+      closeModal();
       setErrorMessage("");
     } else {
       setErrorMessage("Title can`t be empty!");
@@ -56,14 +64,11 @@ const CreateTask: FC = () => {
           />
           <p className={styles.error}>{errorMessage}</p>
         </form>
-        <button
-          type="button"
-          className={styles.button}
-          onClick={() => setShowModal(true)}>
+        <button type="button" className={styles.button} onClick={openModal}>
           <img className={styles.icon} src={plusIcon} alt="+" />
         </button>
       </div>
-      {showModal && <Modal title={title} setShowModal={setShowModal} />}
+      {showModal && <Modal title={title} onCloseModal={closeModal} />}
     </>
   );
 };
