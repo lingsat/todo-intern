@@ -1,10 +1,3 @@
-export const getNextDayEnd = () => {
-  const nextDayEndDate = new Date();
-  nextDayEndDate.setDate(new Date().getDate() + 1);
-  nextDayEndDate.setHours(23, 59, 59, 999);
-  return nextDayEndDate;
-};
-
 export const getCurrentDateStr = () => {
   const tzoffset = new Date().getTimezoneOffset() * 60000;
   const curentTime = new Date(Date.now() - tzoffset)
@@ -40,14 +33,9 @@ export const getTenYearsAfter = () => {
   return curentTimeAgo.toISOString().substring(0, 16);
 };
 
-export const transformDateToStr = (date: Date) => {
-  const tzoffset = date.getTimezoneOffset() * 60000;
-  const correctDate = new Date(date.getTime() - tzoffset);
-  return correctDate.toISOString().substring(0, 16);
-};
-
-export const getValidDateStr = (date: Date) => {
-  const formattedDate = date
+export const getValidDateStr = (dateStr: string) => {
+  const date = new Date(dateStr);
+  return date
     .toLocaleString("en-GB", {
       hour12: false,
       day: "2-digit",
@@ -58,5 +46,4 @@ export const getValidDateStr = (date: Date) => {
     })
     .replace(",", " ")
     .replaceAll("/", ".");
-  return formattedDate;
 };

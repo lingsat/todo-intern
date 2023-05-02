@@ -1,10 +1,9 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getNextDayEnd } from "../../utils/date.utils";
+import { createNewTask } from "../../utils/task.utils";
 import Modal from "../Modal/Modal";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { ITask } from "../../types/task.interface";
 import plusIcon from "../../assets/images/plus.svg";
 import styles from "./CreateTask.module.scss";
 
@@ -32,14 +31,7 @@ const CreateTask: FC = () => {
 
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
-      const task: ITask = {
-        id: crypto.randomUUID(),
-        title: trimmedTitle,
-        createdDate: new Date(),
-        expiredDate: getNextDayEnd(),
-        completed: false,
-      };
-
+      const task = createNewTask(trimmedTitle);
       dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
       setShowModal(false);
       setErrorMessage("");

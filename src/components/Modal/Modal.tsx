@@ -7,10 +7,10 @@ import {
   getCurrentDateStr,
   getNextDateStr,
 } from "../../utils/date.utils";
+import { createNewTask } from "../../utils/task.utils";
 import Button from "../../common/components/Button/Button";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { ITask } from "../../types/task.interface";
 import styles from "./Modal.module.scss";
 
 interface ModalProps {
@@ -77,14 +77,15 @@ const Modal: FC<ModalProps> = ({
     event.preventDefault();
 
     const trimmedTitle = modalData.title.trim();
+    const { createdDate, expiredDate } = modalData;
     if (trimmedTitle) {
-      const task: ITask = {
+      const task = createNewTask(
+        trimmedTitle,
         id,
-        title: trimmedTitle,
-        createdDate: new Date(modalData.createdDate),
-        expiredDate: new Date(modalData.expiredDate),
-        completed,
-      };
+        createdDate,
+        expiredDate,
+        completed
+      );
 
       if (editMode) {
         dispatch({ type: TodoActionTypes.EDIT_TASK, payload: task });
