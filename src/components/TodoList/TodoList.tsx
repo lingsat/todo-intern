@@ -25,6 +25,9 @@ const TodoList: FC = () => {
         setFilterValue={setFilterValue}
         isCompletedExist={isCompletedExist}
       />
+      {!filteredList.length && (
+        <p className={styles.message}>No {filterValue} items found.</p>
+      )}
       <ul className={styles.list}>
         {filteredList.map((task) => (
           <TodoItem key={task.id} task={task} />
