@@ -1,7 +1,7 @@
 export interface ITask {
   id: string;
   title: string;
-  createdDate: Date;
-  expiredDate: Date;
+  createdDate: string;
+  expiredDate: string;
   completed: boolean;
 }

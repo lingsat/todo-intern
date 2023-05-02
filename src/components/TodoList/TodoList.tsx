@@ -14,7 +14,7 @@ const TodoList: FC = () => {
   return (
     <ul className={styles.list}>
       {todoList.map((task) => (
-        <TodoItem key={task.id} {...task} />
+        <TodoItem key={task.id} task={task} />
       ))}
     </ul>
   );

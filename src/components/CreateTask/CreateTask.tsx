@@ -1,9 +1,9 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from "react";
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { createNewTask } from "../../utils/task.utils";
 import Modal from "../Modal/Modal";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { ITask } from "../../types/task.interface";
 import plusIcon from "../../assets/images/plus.svg";
 import styles from "./CreateTask.module.scss";
 
@@ -14,6 +14,14 @@ const CreateTask: FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const dispatch = useDispatch();
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const specSymRegex = /[#$%^&*{}`|<>]/g;
@@ -26,25 +34,14 @@ const CreateTask: FC = () => {
     }
   };
 
-  const addTask = (
-    title: string,
-    expired: string | Date,
-    created: string | Date = new Date()
-  ) => {
-    if (title.trim()) {
-      const createdDate = new Date(created);
-      const expiredDate = new Date(expired);
+  const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
 
-      const task: ITask = {
-        id: crypto.randomUUID(),
-        title,
-        createdDate,
-        expiredDate,
-        completed: false,
-      };
-
+    const trimmedTitle = title.trim();
+    if (trimmedTitle) {
+      const task = createNewTask(trimmedTitle);
       dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
-      setShowModal(false);
+      closeModal();
       setErrorMessage("");
     } else {
       setErrorMessage("Title can`t be empty!");
@@ -52,13 +49,9 @@ const CreateTask: FC = () => {
     setTitle("");
   };
 
-  const handleFormSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    const nextDay = new Date();
-    nextDay.setDate(new Date().getDate() + 1);
-    nextDay.setHours(23, 59, 59, 999);
-    addTask(title, nextDay);
-  };
+  useEffect(() => {
+    setTitle("");
+  }, [showModal]);
 
   return (
     <>
@@ -71,24 +64,11 @@ const CreateTask: FC = () => {
           />
           <p className={styles.error}>{errorMessage}</p>
         </form>
-        <button
-          type="button"
-          className={styles.button}
-          onClick={() => setShowModal(true)}>
+        <button type="button" className={styles.button} onClick={openModal}>
           <img className={styles.icon} src={plusIcon} alt="+" />
         </button>
       </div>
-      {showModal && (
-        <Modal
-          title={title}
-          setTitle={setTitle}
-          addTask={addTask}
-          setShowModal={setShowModal}
-          handleInputChange={handleInputChange}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      )}
+      {showModal && <Modal title={title} onCloseModal={closeModal} />}
     </>
   );
 };
