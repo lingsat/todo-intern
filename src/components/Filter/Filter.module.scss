@@ -62,3 +62,21 @@
     text-decoration: underline;
   }
 }
+
+@media (max-width: 767.98px) {
+  .filter {
+    grid-template-columns: 1fr;
+  }
+
+  .filterControls {
+    grid-column: 1 / 2;
+  }
+
+  .filterDelete {
+    grid-column: 1 / 2;
+  }
+
+  .deleteButton {
+    margin: 10px auto 0;
+  }
+}
