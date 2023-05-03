@@ -9,14 +9,23 @@ import styles from "./App.module.scss";
 
 const App = () => {
   const [filterValue, setFilterValue] = useState<FilterValue>(FilterValue.ALL);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <div className={styles.container}>
           <h1 className={styles.title}>Todo Application</h1>
-          <CreateTask setFilterValue={setFilterValue} />
-          <TodoList filterValue={filterValue} setFilterValue={setFilterValue} />
+          <CreateTask
+            setFilterValue={setFilterValue}
+            setSearchValue={setSearchValue}
+          />
+          <TodoList
+            filterValue={filterValue}
+            setFilterValue={setFilterValue}
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
         </div>
       </PersistGate>
     </Provider>

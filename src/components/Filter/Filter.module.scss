@@ -8,10 +8,13 @@
 }
 
 .search {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 5px;
+  width: 200px;
+  margin: 0 auto;
+  position: relative;
+
+  input {
+    width: 100%;
+  }
 }
 
 .icon {
@@ -21,6 +24,12 @@
   height: 27px;
   cursor: pointer;
   transition: all 0.1s linear;
+
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  z-index: 1;
+  transform: translateY(-50%);
 
   &:hover {
     opacity: 1;

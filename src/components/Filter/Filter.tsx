@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC } from "react";
+import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
@@ -10,35 +10,66 @@ interface FilterProps {
   filterValue: FilterValue;
   setFilterValue: (arg: FilterValue) => void;
   isCompletedExist: boolean;
+  searchValue: string;
+  setSearchValue: (art: string) => void;
 }
 
 const Filter: FC<FilterProps> = ({
   filterValue,
   setFilterValue,
   isCompletedExist,
+  searchValue,
+  setSearchValue,
 }) => {
+  const [localSearchValue, setLocalSearchValue] = useState<string>("");
+
   const dispatch = useDispatch();
 
   const changeFilterValue = (newValue: FilterValue) => () => {
     setFilterValue(newValue);
   };
 
+  const changeLocalSearchValue = (event: ChangeEvent<HTMLInputElement>) => {
+    setLocalSearchValue(event.target.value);
+  };
+
+  const startSearching = () => {
+    setSearchValue(localSearchValue);
+  };
+
   const handleDeleteCompleted = () => {
     if (confirm("Do you want to delete completed tasks?")) {
       dispatch({ type: TodoActionTypes.CLEAR_COMPLETED });
       setFilterValue(FilterValue.ALL);
+      setSearchValue("");
     }
   };
 
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+  const clearSearchValue = () => {
+    setSearchValue("");
   };
+
+  useEffect(() => {
+    const debounceTimer = setTimeout(startSearching, 250);
+    return () => clearTimeout(debounceTimer);
+  }, [localSearchValue]);
 
   return (
     <div className={styles.filter}>
       <div className={styles.search}>
-        <Input value="" onChange={handleSearchChange} placeholder="Search..." />
-        <img className={styles.icon} src={closeIcon} alt="Close" />
+        <Input
+          value={localSearchValue}
+          onChange={changeLocalSearchValue}
+          placeholder="Search..."
+        />
+        {searchValue && (
+          <img
+            className={styles.icon}
+            src={closeIcon}
+            alt="Close"
+            onClick={clearSearchValue}
+          />
+        )}
       </div>
       <div className={styles.filterControls}>
         <button

@@ -10,12 +10,19 @@ import styles from "./TodoList.module.scss";
 interface TodoListProps {
   filterValue: FilterValue;
   setFilterValue: (arg: FilterValue) => void;
+  searchValue: string;
+  setSearchValue: (art: string) => void;
 }
 
-const TodoList: FC<TodoListProps> = ({ filterValue, setFilterValue }) => {
+const TodoList: FC<TodoListProps> = ({
+  filterValue,
+  setFilterValue,
+  searchValue,
+  setSearchValue,
+}) => {
   const todoList = useSelector((state: ITodos) => state.todos);
 
-  const filteredList = getFilteredList(todoList, filterValue);
+  const filteredList = getFilteredList(todoList, filterValue, searchValue);
   const isCompletedExist = getIsCompletedExist(todoList);
 
   if (!todoList.length) {
@@ -28,9 +35,13 @@ const TodoList: FC<TodoListProps> = ({ filterValue, setFilterValue }) => {
         filterValue={filterValue}
         setFilterValue={setFilterValue}
         isCompletedExist={isCompletedExist}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
       />
       {!filteredList.length && (
-        <p className={styles.message}>No {filterValue} items found.</p>
+        <p className={styles.message}>
+          No tasks found - among &quot;{filterValue}&quot;
+        </p>
       )}
       <ul className={styles.list}>
         {filteredList.map((task) => (

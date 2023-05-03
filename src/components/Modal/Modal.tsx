@@ -23,6 +23,7 @@ interface ModalProps {
   completed?: boolean;
   onCloseModal: () => void;
   setFilterValue?: (arg: FilterValue) => void;
+  setSearchValue?: (arg: string) => void;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -34,6 +35,7 @@ const Modal: FC<ModalProps> = ({
   completed = false,
   onCloseModal,
   setFilterValue,
+  setSearchValue,
 }) => {
   const [modalData, setModalData] = useState({
     title: title.trim(),
@@ -95,6 +97,7 @@ const Modal: FC<ModalProps> = ({
       } else {
         dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
         if (setFilterValue) setFilterValue(FilterValue.ALL);
+        if (setSearchValue) setSearchValue("");
       }
       onCloseModal();
     } else {

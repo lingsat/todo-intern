@@ -10,9 +10,13 @@ import styles from "./CreateTask.module.scss";
 
 interface CreateTaskProps {
   setFilterValue: (arg: FilterValue) => void;
+  setSearchValue: (arg: string) => void;
 }
 
-const CreateTask: FC<CreateTaskProps> = ({ setFilterValue }) => {
+const CreateTask: FC<CreateTaskProps> = ({
+  setFilterValue,
+  setSearchValue,
+}) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [title, setTitle] = useState<string>("");
@@ -48,6 +52,7 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilterValue }) => {
       dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
       setErrorMessage("");
       setFilterValue(FilterValue.ALL);
+      setSearchValue("");
     } else {
       setErrorMessage("Title can`t be empty!");
     }
@@ -78,6 +83,7 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilterValue }) => {
           title={title}
           onCloseModal={closeModal}
           setFilterValue={setFilterValue}
+          setSearchValue={setSearchValue}
         />
       )}
     </>
