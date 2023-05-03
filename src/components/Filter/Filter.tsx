@@ -1,7 +1,9 @@
-import React, { FC } from "react";
+import React, { ChangeEvent, FC } from "react";
 import { useDispatch } from "react-redux";
+import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import { FilterValue } from "../../types/filter";
+import closeIcon from "../../assets/images/close.svg";
 import styles from "./Filter.module.scss";
 
 interface FilterProps {
@@ -28,8 +30,16 @@ const Filter: FC<FilterProps> = ({
     }
   };
 
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
+  };
+
   return (
     <div className={styles.filter}>
+      <div className={styles.search}>
+        <Input value="" onChange={handleSearchChange} placeholder="Search..." />
+        <img className={styles.icon} src={closeIcon} alt="Close" />
+      </div>
       <div className={styles.filterControls}>
         <button
           className={`${styles.filterButton} ${
