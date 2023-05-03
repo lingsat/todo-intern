@@ -4,19 +4,15 @@ import { createNewTask } from "../../utils/task.utils";
 import Modal from "../Modal/Modal";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { FilterValue } from "../../types/filter";
+import { FilterValue, IFilter } from "../../types/filter";
 import plusIcon from "../../assets/images/plus.svg";
 import styles from "./CreateTask.module.scss";
 
 interface CreateTaskProps {
-  setFilterValue: (arg: FilterValue) => void;
-  setSearchValue: (arg: string) => void;
+  setFilter: React.Dispatch<React.SetStateAction<IFilter>>;
 }
 
-const CreateTask: FC<CreateTaskProps> = ({
-  setFilterValue,
-  setSearchValue,
-}) => {
+const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [title, setTitle] = useState<string>("");
@@ -51,8 +47,7 @@ const CreateTask: FC<CreateTaskProps> = ({
       const task = createNewTask(trimmedTitle);
       dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
       setErrorMessage("");
-      setFilterValue(FilterValue.ALL);
-      setSearchValue("");
+      setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
     } else {
       setErrorMessage("Title can`t be empty!");
     }
@@ -79,12 +74,7 @@ const CreateTask: FC<CreateTaskProps> = ({
         </button>
       </div>
       {showModal && (
-        <Modal
-          title={title}
-          onCloseModal={closeModal}
-          setFilterValue={setFilterValue}
-          setSearchValue={setSearchValue}
-        />
+        <Modal title={title} onCloseModal={closeModal} setFilter={setFilter} />
       )}
     </>
   );

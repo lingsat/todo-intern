@@ -3,3 +3,8 @@ export enum FilterValue {
   ACTIVE = "Active",
   COMPLETED = "Completed",
 }
+
+export interface IFilter {
+  filterValue: FilterValue;
+  searchValue: string;
+}
