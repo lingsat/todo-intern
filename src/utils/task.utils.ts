@@ -18,10 +18,10 @@ export const getFilteredList = (
 ): ITask[] => {
   let filteredList = todoList;
   switch (filterValue) {
-    case "active":
+    case FilterValue.ACTIVE:
       filteredList = todoList.filter((item) => !item.completed);
       break;
-    case "completed":
+    case FilterValue.COMPLETED:
       filteredList = todoList.filter((item) => item.completed);
       break;
     default:
