@@ -5,6 +5,7 @@ export enum TodoActionTypes {
   TOGGLE_COMPLETE = "task/complete",
   DELETE_TASK = "task/delete",
   EDIT_TASK = "task/edit",
+  CLEAR_COMPLETED = "task/clear_completed",
 }
 
 export interface IAction {

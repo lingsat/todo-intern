@@ -1,0 +1,82 @@
+@import "../../assets/styles/variables";
+
+.filter {
+  margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+.filterControls {
+  grid-column: 2 / 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filterButton {
+  padding: 5px 10px;
+  font-family: $main-text-font;
+  font-size: 1rem;
+  border: 2px solid $border-gray-color;
+  border-right: none;
+  background-color: $btn-regular-color;
+  cursor: pointer;
+  transition: all 0.1s linear;
+
+  &:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+
+  &:last-child {
+    border-right: 2px solid $border-gray-color;
+    border-radius: 0 5px 5px 0;
+  }
+
+  &:hover {
+    background-color: $btn-regular-hover-color;
+  }
+}
+
+.active {
+  font-weight: 700;
+}
+
+.filterDelete {
+  grid-column: 3 / 4;
+}
+
+.deleteButton {
+  display: block;
+  margin-left: auto;
+  padding: 5px 0;
+  border: none;
+  background-color: $btn-regular-color;
+  font-family: $main-text-font;
+  font-size: 1rem;
+  color: $text-red-color;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .filter {
+    grid-template-columns: 1fr;
+  }
+
+  .filterControls {
+    grid-column: 1 / 2;
+  }
+
+  .filterDelete {
+    grid-column: 1 / 2;
+  }
+
+  .deleteButton {
+    margin: 10px auto 0;
+  }
+}

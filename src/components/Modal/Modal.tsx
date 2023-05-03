@@ -11,6 +11,7 @@ import { createNewTask } from "../../utils/task.utils";
 import Button from "../../common/components/Button/Button";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
+import { FilterValue } from "../../types/filter";
 import styles from "./Modal.module.scss";
 
 interface ModalProps {
@@ -21,6 +22,7 @@ interface ModalProps {
   expiredDate?: string;
   completed?: boolean;
   onCloseModal: () => void;
+  setFilterValue?: (arg: FilterValue) => void;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -31,6 +33,7 @@ const Modal: FC<ModalProps> = ({
   expiredDate = getNextDateStr(),
   completed = false,
   onCloseModal,
+  setFilterValue,
 }) => {
   const [modalData, setModalData] = useState({
     title: title.trim(),
@@ -91,6 +94,7 @@ const Modal: FC<ModalProps> = ({
         dispatch({ type: TodoActionTypes.EDIT_TASK, payload: task });
       } else {
         dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
+        if (setFilterValue) setFilterValue(FilterValue.ALL);
       }
       onCloseModal();
     } else {
