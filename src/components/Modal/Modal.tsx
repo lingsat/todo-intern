@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from "react";
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   getTenMinAgo,
@@ -103,6 +103,13 @@ const Modal: FC<ModalProps> = ({
       setErrorMessage("Title can`t be empty!");
     }
   };
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
   return (
     <div className={styles.bg}>
