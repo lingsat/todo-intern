@@ -17,12 +17,8 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
 
   const dispatch = useDispatch();
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
+  const toggleModal = () => {
+    setShowModal((prev) => !prev);
   };
 
   const handleCheckboxChange = () => {
@@ -64,7 +60,7 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
                   className={styles.icon}
                   src={editIcon}
                   alt="Edit"
-                  onClick={openModal}
+                  onClick={toggleModal}
                 />
               )}
               <img
@@ -78,7 +74,7 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
         </div>
       </li>
       {showModal && (
-        <Modal editMode={true} {...task} onCloseModal={closeModal} />
+        <Modal editMode={true} {...task} onToggleModal={toggleModal} />
       )}
     </>
   );

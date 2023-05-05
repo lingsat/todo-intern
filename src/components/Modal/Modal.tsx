@@ -15,7 +15,7 @@ interface ModalProps {
   createdDate?: string;
   expiredDate?: string;
   completed?: boolean;
-  onCloseModal: () => void;
+  onToggleModal: () => void;
   setFilter?: React.Dispatch<React.SetStateAction<IFilter>>;
 }
 
@@ -26,7 +26,7 @@ const Modal: FC<ModalProps> = ({
   createdDate = getCorrectDateStr(),
   expiredDate = getCorrectDateStr(24 * 60),
   completed = false,
-  onCloseModal,
+  onToggleModal,
   setFilter,
 }) => {
   const [modalData, setModalData] = useState({
@@ -90,7 +90,7 @@ const Modal: FC<ModalProps> = ({
           setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
         }
       }
-      onCloseModal();
+      onToggleModal();
     } else {
       setErrorMessage("Title can`t be empty!");
     }
@@ -135,7 +135,7 @@ const Modal: FC<ModalProps> = ({
             />
           </label>
           <div className={styles.buttons}>
-            <Button text="Cancel" style="red" onClick={onCloseModal} />
+            <Button text="Cancel" style="red" onClick={onToggleModal} />
             <Button text="Save" type="submit" />
           </div>
         </form>

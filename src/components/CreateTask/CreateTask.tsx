@@ -20,12 +20,8 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
 
   const dispatch = useDispatch();
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
+  const toggleModal = () => {
+    setShowModal((prev) => !prev);
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -67,12 +63,16 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
           />
           <p className={styles.error}>{errorMessage}</p>
         </form>
-        <button type="button" className={styles.button} onClick={openModal}>
+        <button type="button" className={styles.button} onClick={toggleModal}>
           <img className={styles.icon} src={plusIcon} alt="+" />
         </button>
       </div>
       {showModal && (
-        <Modal title={title} onCloseModal={closeModal} setFilter={setFilter} />
+        <Modal
+          title={title}
+          onToggleModal={toggleModal}
+          setFilter={setFilter}
+        />
       )}
     </>
   );
