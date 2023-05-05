@@ -6,6 +6,8 @@ import { FilterValue, IFilter } from "../../types/filter";
 import closeIcon from "../../assets/images/close.svg";
 import styles from "./Filter.module.scss";
 
+const filterBtnArr = Object.values(FilterValue);
+
 interface FilterProps {
   filter: IFilter;
   setFilter: React.Dispatch<React.SetStateAction<IFilter>>;
@@ -59,7 +61,7 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
           onChange={changeLocalSearchValue}
           placeholder="Search..."
         />
-        {filter.searchValue && (
+        {localSearchValue && (
           <img
             className={styles.icon}
             src={closeIcon}
@@ -69,36 +71,21 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
         )}
       </div>
       <div className={styles.filterControls}>
-        <button
-          className={`${styles.filterButton} ${
-            filter.filterValue === FilterValue.ALL && styles.active
-          }`}
-          onClick={changeFilterValue(FilterValue.ALL)}>
-          All
-        </button>
-        <button
-          className={`${styles.filterButton} ${
-            filter.filterValue === FilterValue.ACTIVE && styles.active
-          }`}
-          onClick={changeFilterValue(FilterValue.ACTIVE)}>
-          Active
-        </button>
-        <button
-          className={`${styles.filterButton} ${
-            filter.filterValue === FilterValue.COMPLETED && styles.active
-          }`}
-          onClick={changeFilterValue(FilterValue.COMPLETED)}>
-          Completed
-        </button>
+        {filterBtnArr.map((btnText) => (
+          <button
+            key={`btn-${btnText}`}
+            className={`${styles.filterButton} ${
+              filter.filterValue === btnText && styles.active
+            }`}
+            onClick={changeFilterValue(btnText)}>
+            {btnText}
+          </button>
+        ))}
       </div>
       {isCompletedExist && (
-        <div className={styles.filterDelete}>
-          <button
-            className={styles.deleteButton}
-            onClick={handleDeleteCompleted}>
-            Clear Completed
-          </button>
-        </div>
+        <button className={styles.deleteButton} onClick={handleDeleteCompleted}>
+          Clear Completed
+        </button>
       )}
     </div>
   );
