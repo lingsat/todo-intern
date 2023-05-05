@@ -70,13 +70,9 @@
   font-weight: 700;
 }
 
-.filterDelete {
-  display: flex;
-  justify-content: center;
-}
-
 .deleteButton {
-  display: block;
+  width: fit-content;
+  margin: 0 auto;
   padding: 5px 0;
   border: none;
   background-color: $btn-regular-color;
@@ -98,11 +94,17 @@
     position: relative;
   }
 
-  .filterDelete {
+  .deleteButton {
     position: absolute;
     bottom: -30px;
     left: 50%;
     z-index: 1;
     transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .search {
+    width: 100%;
   }
 }

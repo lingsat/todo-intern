@@ -1,16 +1,11 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  getTenMinAgo,
-  getTenMinAfter,
-  getTenYearsAfter,
-  getCurrentDateStr,
-  getNextDateStr,
-} from "../../utils/date.utils";
-import { createNewTask } from "../../utils/task.utils";
+import { getCorrectDateStr } from "../../utils/date.utils";
+import { createNewTask, getInvalidSymError } from "../../utils/task.utils";
 import Button from "../../common/components/Button/Button";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
+import { DatesDelay } from "../../types/datesDelay";
 import { FilterValue, IFilter } from "../../types/filter";
 import styles from "./Modal.module.scss";
 
@@ -21,7 +16,7 @@ interface ModalProps {
   createdDate?: string;
   expiredDate?: string;
   completed?: boolean;
-  onCloseModal: () => void;
+  onToggleModal: () => void;
   setFilter?: React.Dispatch<React.SetStateAction<IFilter>>;
 }
 
@@ -29,10 +24,10 @@ const Modal: FC<ModalProps> = ({
   editMode = false,
   title,
   id = crypto.randomUUID(),
-  createdDate = getCurrentDateStr(),
-  expiredDate = getNextDateStr(),
+  createdDate = getCorrectDateStr(),
+  expiredDate = getCorrectDateStr(DatesDelay.ONE_DAY_AFTER),
   completed = false,
-  onCloseModal,
+  onToggleModal,
   setFilter,
 }) => {
   const [modalData, setModalData] = useState({
@@ -45,17 +40,15 @@ const Modal: FC<ModalProps> = ({
   const dispatch = useDispatch();
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const specSymRegex = /[#$%^&*{}`|<>]/g;
+    const errorMessage = getInvalidSymError(event.target.value);
 
-    if (!specSymRegex.test(event.target.value)) {
+    if (!errorMessage) {
       setModalData((prevData) => ({
         ...prevData,
         title: event.target.value,
       }));
-      setErrorMessage("");
-    } else {
-      setErrorMessage('"#$%^&*{}`|<>" - symbols not available');
     }
+    setErrorMessage(errorMessage);
   };
 
   const handleCreatedDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +91,7 @@ const Modal: FC<ModalProps> = ({
           setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
         }
       }
-      onCloseModal();
+      onToggleModal();
     } else {
       setErrorMessage("Title can`t be empty!");
     }
@@ -127,8 +120,8 @@ const Modal: FC<ModalProps> = ({
             <Input
               type="datetime-local"
               value={modalData.createdDate}
-              min={getTenMinAgo()}
-              max={getTenYearsAfter()}
+              min={getCorrectDateStr(DatesDelay.TEN_MIN_AGO)}
+              max={getCorrectDateStr(DatesDelay.TEN_YEARS_AFTER)}
               onChange={handleCreatedDateChange}
             />
           </label>
@@ -137,13 +130,16 @@ const Modal: FC<ModalProps> = ({
             <Input
               type="datetime-local"
               value={modalData.expiredDate}
-              min={getTenMinAfter(modalData.createdDate)}
-              max={getTenYearsAfter()}
+              min={getCorrectDateStr(
+                DatesDelay.TEN_MIN_AFTER,
+                new Date(modalData.createdDate)
+              )}
+              max={getCorrectDateStr(DatesDelay.TEN_YEARS_AFTER)}
               onChange={handleExpiredDateChange}
             />
           </label>
           <div className={styles.buttons}>
-            <Button text="Cancel" style="red" onClick={onCloseModal} />
+            <Button text="Cancel" style="red" onClick={onToggleModal} />
             <Button text="Save" type="submit" />
           </div>
         </form>

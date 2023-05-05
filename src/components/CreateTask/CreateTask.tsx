@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createNewTask } from "../../utils/task.utils";
+import { createNewTask, getInvalidSymError } from "../../utils/task.utils";
 import Modal from "../Modal/Modal";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
@@ -14,29 +14,21 @@ interface CreateTaskProps {
 
 const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
-
   const [title, setTitle] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const dispatch = useDispatch();
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
+  const toggleModal = () => {
+    setShowModal((prev) => !prev);
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const specSymRegex = /[#$%^&*{}`|<>]/g;
-
-    if (!specSymRegex.test(event.target.value)) {
+    const errorMessage = getInvalidSymError(event.target.value);
+    if (!errorMessage) {
       setTitle(event.target.value);
-      setErrorMessage("");
-    } else {
-      setErrorMessage('"#$%^&*{}`|<>" - symbols not available');
     }
+    setErrorMessage(errorMessage);
   };
 
   const handleFormSubmit = (event: FormEvent) => {
@@ -60,21 +52,23 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
 
   return (
     <>
-      <div className={styles.create}>
-        <form className={styles.form} onSubmit={handleFormSubmit}>
-          <Input
-            placeholder='Title - "Enter" to create'
-            value={title}
-            onChange={handleInputChange}
-          />
-          <p className={styles.error}>{errorMessage}</p>
-        </form>
-        <button type="button" className={styles.button} onClick={openModal}>
+      <form className={styles.form} onSubmit={handleFormSubmit}>
+        <Input
+          placeholder='Title - "Enter" to create'
+          value={title}
+          onChange={handleInputChange}
+        />
+        <p className={styles.error}>{errorMessage}</p>
+        <button type="button" className={styles.button} onClick={toggleModal}>
           <img className={styles.icon} src={plusIcon} alt="+" />
         </button>
-      </div>
+      </form>
       {showModal && (
-        <Modal title={title} onCloseModal={closeModal} setFilter={setFilter} />
+        <Modal
+          title={title}
+          onToggleModal={toggleModal}
+          setFilter={setFilter}
+        />
       )}
     </>
   );
