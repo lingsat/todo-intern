@@ -5,6 +5,7 @@ import { createNewTask, getInvalidSymError } from "../../utils/task.utils";
 import Button from "../../common/components/Button/Button";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
+import { DatesDelay } from "../../types/datesDelay";
 import { FilterValue, IFilter } from "../../types/filter";
 import styles from "./Modal.module.scss";
 
@@ -24,7 +25,7 @@ const Modal: FC<ModalProps> = ({
   title,
   id = crypto.randomUUID(),
   createdDate = getCorrectDateStr(),
-  expiredDate = getCorrectDateStr(24 * 60),
+  expiredDate = getCorrectDateStr(DatesDelay.ONE_DAY_AFTER),
   completed = false,
   onToggleModal,
   setFilter,
@@ -119,8 +120,8 @@ const Modal: FC<ModalProps> = ({
             <Input
               type="datetime-local"
               value={modalData.createdDate}
-              min={getCorrectDateStr(-10)}
-              max={getCorrectDateStr(10 * 365 * 24 * 60)}
+              min={getCorrectDateStr(DatesDelay.TEN_MIN_AGO)}
+              max={getCorrectDateStr(DatesDelay.TEN_YEARS_AFTER)}
               onChange={handleCreatedDateChange}
             />
           </label>
@@ -129,8 +130,11 @@ const Modal: FC<ModalProps> = ({
             <Input
               type="datetime-local"
               value={modalData.expiredDate}
-              min={getCorrectDateStr(10, new Date(modalData.createdDate))}
-              max={getCorrectDateStr(10 * 365 * 24 * 60)}
+              min={getCorrectDateStr(
+                DatesDelay.TEN_MIN_AFTER,
+                new Date(modalData.createdDate)
+              )}
+              max={getCorrectDateStr(DatesDelay.TEN_YEARS_AFTER)}
               onChange={handleExpiredDateChange}
             />
           </label>

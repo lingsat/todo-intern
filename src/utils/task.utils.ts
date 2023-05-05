@@ -1,12 +1,13 @@
 import { getCorrectDateStr } from "./date.utils";
 import { ITask } from "../types/task.interface";
 import { FilterValue, IFilter } from "../types/filter";
+import { DatesDelay } from "../types/datesDelay";
 
 export const createNewTask = (
   title: string,
   id = crypto.randomUUID(),
   createdDate = getCorrectDateStr(),
-  expiredDate = getCorrectDateStr(24 * 60),
+  expiredDate = getCorrectDateStr(DatesDelay.ONE_DAY_AFTER),
   completed = false
 ): ITask => {
   return { id, title, createdDate, expiredDate, completed };

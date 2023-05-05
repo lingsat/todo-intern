@@ -1,8 +1,6 @@
-export const getCorrectDateStr = (minutesDeley = 0, date = new Date()) => {
+export const getCorrectDateStr = (msecDelay = 0, date = new Date()) => {
   const tzoffset = new Date().getTimezoneOffset() * 60000;
-  const correctDate = new Date(
-    date.getTime() - tzoffset + minutesDeley * 60 * 1000
-  );
+  const correctDate = new Date(date.getTime() - tzoffset + msecDelay);
   return correctDate.toISOString().substring(0, 16);
 };
 
