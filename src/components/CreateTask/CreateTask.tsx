@@ -1,6 +1,14 @@
-import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useDispatch } from "react-redux";
 import { createNewTask, getInvalidSymError } from "../../utils/task.utils";
+import { ThemeContext } from "../../App";
 import Modal from "../Modal/Modal";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
@@ -13,6 +21,8 @@ interface CreateTaskProps {
 }
 
 const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
+  const { lightMode } = useContext(ThemeContext);
+
   const [showModal, setShowModal] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -58,7 +68,9 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
           value={title}
           onChange={handleInputChange}
         />
-        <p className={styles.error}>{errorMessage}</p>
+        <p className={`${styles.error} ${!lightMode && styles.dark}`}>
+          {errorMessage}
+        </p>
         <button type="button" className={styles.button} onClick={toggleModal}>
           <img className={styles.icon} src={plusIcon} alt="+" />
         </button>

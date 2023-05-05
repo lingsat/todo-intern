@@ -75,7 +75,7 @@
   margin: 0 auto;
   padding: 5px 0;
   border: none;
-  background-color: $btn-regular-color;
+  background-color: inherit;
   font-family: $main-text-font;
   font-size: 1rem;
   color: $text-red-color;
@@ -84,6 +84,10 @@
 
   &:hover {
     text-decoration: underline;
+  }
+
+  &.dark {
+    color: $text-lightRed-color;
   }
 }
 

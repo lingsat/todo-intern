@@ -11,24 +11,20 @@ const ThemeSwitcher: FC = () => {
     setLightMode((prev) => !prev);
   };
 
-  const setDarkTheme = () => {
-    setLightMode(false);
-  };
-
-  const setLightTheme = () => {
-    setLightMode(true);
+  const setLightTheme = (newTheme: boolean) => () => {
+    setLightMode(newTheme);
   };
 
   return (
     <div className={styles.theme}>
-      <img src={sun} alt="Sun" onClick={setLightTheme} />
+      <img src={sun} alt="Sun" onClick={setLightTheme(true)} />
       <input
         type="checkbox"
         checked={!lightMode}
         className={styles.checkbox}
         onChange={handleCheckboxChange}
       />
-      <img src={moon} alt="Moon" onClick={setDarkTheme} />
+      <img src={moon} alt="Moon" onClick={setLightTheme(false)} />
     </div>
   );
 };

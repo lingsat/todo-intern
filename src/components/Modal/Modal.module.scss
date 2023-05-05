@@ -20,8 +20,14 @@
   padding: 1rem;
   margin: 0 20px;
   background-color: $bg-white-color;
+  color: $text-black-color;
   border: 2px solid $border-black-color;
   border-radius: 10px;
+
+  &.dark {
+    background-color: $bg-black-color;
+    color: $text-white-color;
+  }
 }
 
 .title {
@@ -32,10 +38,11 @@
 .form {
   display: flex;
   flex-direction: column;
+  gap: 25px;
+  position: relative;
 }
 
 .label {
-  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,11 +59,18 @@
   margin: 0.2rem 0 1rem;
   font-size: 0.8rem;
   color: $text-red-color;
+  position: absolute;
+  top: 34px;
+  left: 0;
+  z-index: 1;
+
+  &.dark {
+    color: $text-lightRed-color;
+  }
 }
 
 @media (max-width: 575.98px) {
   .label {
-    margin-bottom: 10px;
     font-size: 0.9rem;
     display: flex;
     flex-direction: column;
