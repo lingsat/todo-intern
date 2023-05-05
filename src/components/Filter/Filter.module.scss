@@ -14,20 +14,20 @@
 
   input {
     width: 100%;
+    padding-right: 30px;
   }
 }
 
 .icon {
   padding: 3px;
   opacity: 0.7;
-  width: 27px;
-  height: 27px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   transition: all 0.1s linear;
-
   position: absolute;
   top: 50%;
-  right: -30px;
+  right: 3px;
   z-index: 1;
   transform: translateY(-50%);
 
