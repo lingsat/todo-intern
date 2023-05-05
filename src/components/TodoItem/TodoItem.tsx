@@ -14,6 +14,7 @@ interface TodoItemProps {
 }
 
 const TodoItem: FC<TodoItemProps> = ({ task }) => {
+  console.log(`Item - ${task.title}`);
   const { lightMode } = useContext(ThemeContext);
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -81,4 +82,4 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
   );
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);
