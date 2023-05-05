@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createNewTask } from "../../utils/task.utils";
+import { createNewTask, getInvalidSymError } from "../../utils/task.utils";
 import Modal from "../Modal/Modal";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
@@ -29,14 +29,12 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const specSymRegex = /[#$%^&*{}`|<>]/g;
+    const errorMessage = getInvalidSymError(event.target.value);
 
-    if (!specSymRegex.test(event.target.value)) {
+    if (!errorMessage) {
       setTitle(event.target.value);
-      setErrorMessage("");
-    } else {
-      setErrorMessage('"#$%^&*{}`|<>" - symbols not available');
     }
+    setErrorMessage(errorMessage);
   };
 
   const handleFormSubmit = (event: FormEvent) => {

@@ -1,15 +1,29 @@
-import { getCurrentDateStr, getNextDateStr } from "./date.utils";
+import { getCorrectDateStr } from "./date.utils";
 import { ITask } from "../types/task.interface";
 import { FilterValue, IFilter } from "../types/filter";
 
 export const createNewTask = (
   title: string,
   id = crypto.randomUUID(),
-  createdDate = getCurrentDateStr(),
-  expiredDate = getNextDateStr(),
+  createdDate = getCorrectDateStr(),
+  expiredDate = getCorrectDateStr(24 * 60),
   completed = false
 ): ITask => {
   return { id, title, createdDate, expiredDate, completed };
+};
+
+export const getInvalidSymError = (sym: string) => {
+  const specSymRegex = /[#$%^&*{}`|<>]/g;
+
+  if (specSymRegex.test(sym)) {
+    return '"#$%^&*{}`|<>" - symbols not available';
+  }
+  return "";
+};
+
+const checkSearchInTitle = (task: ITask, searchValue: string): boolean => {
+  const formatedSearchValue = searchValue.toLowerCase().trim();
+  return task.title.toLowerCase().includes(formatedSearchValue);
 };
 
 export const getFilteredList = (
@@ -17,28 +31,23 @@ export const getFilteredList = (
   filter: IFilter
 ): ITask[] => {
   let filteredList = [];
-  const formatedSearchValue = filter.searchValue.toLowerCase().trim();
 
   switch (filter.filterValue) {
     case FilterValue.ACTIVE:
-      filteredList = todoList.filter((item) => {
-        const checkSearchValue = item.title
-          .toLowerCase()
-          .includes(formatedSearchValue);
-        if (!item.completed && checkSearchValue) return item;
+      filteredList = todoList.filter((task) => {
+        const isSearchInTitle = checkSearchInTitle(task, filter.searchValue);
+        if (!task.completed && isSearchInTitle) return task;
       });
       break;
     case FilterValue.COMPLETED:
-      filteredList = todoList.filter((item) => {
-        const checkSearchValue = item.title
-          .toLowerCase()
-          .includes(formatedSearchValue);
-        if (item.completed && checkSearchValue) return item;
+      filteredList = todoList.filter((task) => {
+        const isSearchInTitle = checkSearchInTitle(task, filter.searchValue);
+        if (task.completed && isSearchInTitle) return task;
       });
       break;
     default:
-      filteredList = todoList.filter((item) =>
-        item.title.toLowerCase().includes(formatedSearchValue)
+      filteredList = todoList.filter((task) =>
+        checkSearchInTitle(task, filter.searchValue)
       );
       break;
   }
