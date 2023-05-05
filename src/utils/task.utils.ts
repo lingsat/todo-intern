@@ -1,6 +1,6 @@
 import { getCurrentDateStr, getNextDateStr } from "./date.utils";
 import { ITask } from "../types/task.interface";
-import { FilterValue } from "../types/filter";
+import { FilterValue, IFilter } from "../types/filter";
 
 export const createNewTask = (
   title: string,
@@ -14,17 +14,32 @@ export const createNewTask = (
 
 export const getFilteredList = (
   todoList: ITask[],
-  filterValue: FilterValue
+  filter: IFilter
 ): ITask[] => {
-  let filteredList = todoList;
-  switch (filterValue) {
+  let filteredList = [];
+  const formatedSearchValue = filter.searchValue.toLowerCase().trim();
+
+  switch (filter.filterValue) {
     case FilterValue.ACTIVE:
-      filteredList = todoList.filter((item) => !item.completed);
+      filteredList = todoList.filter((item) => {
+        const checkSearchValue = item.title
+          .toLowerCase()
+          .includes(formatedSearchValue);
+        if (!item.completed && checkSearchValue) return item;
+      });
       break;
     case FilterValue.COMPLETED:
-      filteredList = todoList.filter((item) => item.completed);
+      filteredList = todoList.filter((item) => {
+        const checkSearchValue = item.title
+          .toLowerCase()
+          .includes(formatedSearchValue);
+        if (item.completed && checkSearchValue) return item;
+      });
       break;
     default:
+      filteredList = todoList.filter((item) =>
+        item.title.toLowerCase().includes(formatedSearchValue)
+      );
       break;
   }
   return filteredList;

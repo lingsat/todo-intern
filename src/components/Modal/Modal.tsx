@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from "react";
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   getTenMinAgo,
@@ -11,7 +11,7 @@ import { createNewTask } from "../../utils/task.utils";
 import Button from "../../common/components/Button/Button";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { FilterValue } from "../../types/filter";
+import { FilterValue, IFilter } from "../../types/filter";
 import styles from "./Modal.module.scss";
 
 interface ModalProps {
@@ -22,7 +22,7 @@ interface ModalProps {
   expiredDate?: string;
   completed?: boolean;
   onCloseModal: () => void;
-  setFilterValue?: (arg: FilterValue) => void;
+  setFilter?: React.Dispatch<React.SetStateAction<IFilter>>;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -33,7 +33,7 @@ const Modal: FC<ModalProps> = ({
   expiredDate = getNextDateStr(),
   completed = false,
   onCloseModal,
-  setFilterValue,
+  setFilter,
 }) => {
   const [modalData, setModalData] = useState({
     title: title.trim(),
@@ -94,13 +94,22 @@ const Modal: FC<ModalProps> = ({
         dispatch({ type: TodoActionTypes.EDIT_TASK, payload: task });
       } else {
         dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
-        if (setFilterValue) setFilterValue(FilterValue.ALL);
+        if (setFilter) {
+          setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
+        }
       }
       onCloseModal();
     } else {
       setErrorMessage("Title can`t be empty!");
     }
   };
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
   return (
     <div className={styles.bg}>

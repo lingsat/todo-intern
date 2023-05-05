@@ -1,5 +1,10 @@
 export enum FilterValue {
-  ALL = "all",
-  ACTIVE = "active",
-  COMPLETED = "completed",
+  ALL = "All",
+  ACTIVE = "Active",
+  COMPLETED = "Completed",
+}
+
+export interface IFilter {
+  filterValue: FilterValue;
+  searchValue: string;
 }
