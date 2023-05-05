@@ -14,7 +14,6 @@ interface TodoItemProps {
 }
 
 const TodoItem: FC<TodoItemProps> = ({ task }) => {
-  console.log(`Item - ${task.title}`);
   const { lightMode } = useContext(ThemeContext);
 
   const [showModal, setShowModal] = useState<boolean>(false);
