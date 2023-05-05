@@ -39,8 +39,6 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
             type="checkbox"
             checked={task.completed}
             onChange={handleCheckboxChange}
-            name="completed"
-            id="completed"
           />
         </div>
         <div className={`${styles.content} ${task.completed && styles.crosed}`}>

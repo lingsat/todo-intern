@@ -1,13 +1,10 @@
 @import "../../assets/styles/variables";
 
-.create {
+.form {
   margin: 0 auto 1.5rem;
   display: flex;
   justify-content: center;
   gap: 5px;
-}
-
-.form {
   position: relative;
 
   input {
@@ -16,23 +13,30 @@
 }
 
 .error {
+  width: 100%;
+  text-align: center;
   margin: 0;
-  position: absolute;
-  bottom: -18px;
-  left: 10px;
-  z-index: 1;
   font-size: 0.8rem;
   color: $text-red-color;
+  position: absolute;
+  bottom: -18px;
+  left: 0;
+  z-index: 1;
 }
 
 .button {
-  padding: 0 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 2px;
   border: 2px solid $border-gray-color;
   border-radius: 5px;
   background-color: $btn-regular-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 130px);
+  z-index: 1;
+  transform: translateY(-50%);
   cursor: pointer;
 
   &:hover {
@@ -43,4 +47,11 @@
 .icon {
   width: 25px;
   height: 25px;
+}
+
+@media (max-width: 575.98px) {
+  .button {
+    position: static;
+    transform: none;
+  }
 }

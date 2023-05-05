@@ -102,3 +102,9 @@
     transform: translateX(-50%);
   }
 }
+
+@media (max-width: 575.98px) {
+  .search {
+    width: 100%;
+  }
+}
