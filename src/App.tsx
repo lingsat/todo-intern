@@ -1,4 +1,9 @@
-import React, { createContext, useLayoutEffect, useState } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./store/store";
@@ -18,12 +23,25 @@ const App = () => {
     searchValue: "",
   });
 
-  useLayoutEffect(() => {
+  const getBrowserTheme = () => {
     if (
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
     ) {
       setLightMode(false);
+    }
+  };
+
+  useEffect(() => {
+    localStorage.setItem("theme", JSON.stringify(lightMode));
+  }, [lightMode]);
+
+  useLayoutEffect(() => {
+    const theme = localStorage.getItem("theme");
+    if (theme) {
+      setLightMode(JSON.parse(theme));
+    } else {
+      getBrowserTheme();
     }
   }, []);
 
