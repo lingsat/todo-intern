@@ -6,6 +6,10 @@
   background-color: $card-bg-color;
   display: flex;
   overflow: hidden;
+
+  &.dark {
+    background-color: $bg-darkBlue-color;
+  }
 }
 
 .completed {

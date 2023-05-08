@@ -1,0 +1,57 @@
+@import "../../assets/styles/variables";
+
+.theme {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  img {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    transition: 0.1s;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.checkbox {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 50px;
+  height: 26px;
+  margin: 0;
+  border-radius: 50px;
+  background-color: $bg-darkGrey-color;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s;
+
+  &::before {
+    content: "";
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: $bg-white-color;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    z-index: 1;
+    transition: 0.3s;
+  }
+
+  &:checked {
+    background-color: $bg-white-color;
+
+    &::before {
+      left: 48px;
+      transform: translateX(-100%);
+      background-color: $bg-darkGrey-color;
+    }
+  }
+}

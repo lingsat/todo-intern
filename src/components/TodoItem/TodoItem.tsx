@@ -1,6 +1,7 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getValidDateStr } from "../../utils/date.utils";
+import { ThemeContext } from "../../App";
 import Modal from "../Modal/Modal";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import { ITask } from "../../types/task.interface";
@@ -13,6 +14,8 @@ interface TodoItemProps {
 }
 
 const TodoItem: FC<TodoItemProps> = ({ task }) => {
+  const { lightMode } = useContext(ThemeContext);
+
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const dispatch = useDispatch();
@@ -31,7 +34,7 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
 
   return (
     <>
-      <li className={styles.item}>
+      <li className={`${styles.item} ${!lightMode && styles.dark}`}>
         <div className={styles.completed}>
           {task.completed && <div className={styles.status}>Done</div>}
           <input
@@ -78,4 +81,4 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
   );
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);

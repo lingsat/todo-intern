@@ -1,7 +1,15 @@
-import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useDispatch } from "react-redux";
 import { getCorrectDateStr } from "../../utils/date.utils";
 import { createNewTask, getInvalidSymError } from "../../utils/task.utils";
+import { ThemeContext } from "../../App";
 import Button from "../../common/components/Button/Button";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
@@ -30,6 +38,8 @@ const Modal: FC<ModalProps> = ({
   onToggleModal,
   setFilter,
 }) => {
+  const { lightMode } = useContext(ThemeContext);
+
   const [modalData, setModalData] = useState({
     title: title.trim(),
     createdDate,
@@ -106,7 +116,7 @@ const Modal: FC<ModalProps> = ({
 
   return (
     <div className={styles.bg}>
-      <div className={styles.modal}>
+      <div className={`${styles.modal} ${!lightMode && styles.dark}`}>
         <h2 className={styles.title}>{editMode ? "Edit" : "Add"} Task</h2>
         <form className={styles.form} onSubmit={handleFormSubmit}>
           <Input
@@ -114,7 +124,9 @@ const Modal: FC<ModalProps> = ({
             value={modalData.title}
             onChange={handleTitleChange}
           />
-          <p className={styles.error}>{errorMessage}</p>
+          <p className={`${styles.error} ${!lightMode && styles.dark}`}>
+            {errorMessage}
+          </p>
           <label className={styles.label}>
             Created Date
             <Input

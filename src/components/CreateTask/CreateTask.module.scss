@@ -8,20 +8,26 @@
   position: relative;
 
   input {
-    width: 250px;
+    width: 100%;
+    max-width: 400px;
   }
 }
 
 .error {
   width: 100%;
-  text-align: center;
   margin: 0;
   font-size: 0.8rem;
+  text-align: center;
   color: $text-red-color;
   position: absolute;
   bottom: -18px;
-  left: 0;
+  left: 50%;
   z-index: 1;
+  transform: translateX(-50%);
+
+  &.dark {
+    color: $text-lightRed-color;
+  }
 }
 
 .button {
@@ -32,11 +38,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: 50%;
-  left: calc(50% + 130px);
-  z-index: 1;
-  transform: translateY(-50%);
   cursor: pointer;
 
   &:hover {
@@ -47,11 +48,4 @@
 .icon {
   width: 25px;
   height: 25px;
-}
-
-@media (max-width: 575.98px) {
-  .button {
-    position: static;
-    transform: none;
-  }
 }

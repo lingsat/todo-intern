@@ -1,5 +1,6 @@
-import React, { ChangeEvent, FC, useEffect, useState } from "react";
+import React, { ChangeEvent, FC, useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { ThemeContext } from "../../App";
 import Input from "../../common/components/Input/Input";
 import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
 import { FilterValue, IFilter } from "../../types/filter";
@@ -15,6 +16,8 @@ interface FilterProps {
 }
 
 const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
+  const { lightMode } = useContext(ThemeContext);
+
   const [localSearchValue, setLocalSearchValue] = useState<string>(
     filter.searchValue
   );
@@ -83,7 +86,9 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
         ))}
       </div>
       {isCompletedExist && (
-        <button className={styles.deleteButton} onClick={handleDeleteCompleted}>
+        <button
+          className={`${styles.deleteButton} ${!lightMode && styles.dark}`}
+          onClick={handleDeleteCompleted}>
           Clear Completed
         </button>
       )}
