@@ -6,6 +6,7 @@
       "@Store/*": ["./store/*"],
       "@Types/*": ["./types/*"],
       "@Utils/*": ["./utils/*"],
+      "@Pages/*": ["./pages/*"],
       "@Components/*": ["./components/*"],
       "@CommonComponents/*": ["./common/components/*"],
       "@Images/*": ["./assets/images/*"],
