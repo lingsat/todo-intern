@@ -9,6 +9,7 @@ import {
 import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
+import { EBtnStyle } from "@/common/types/button";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
 import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
@@ -153,7 +154,11 @@ const Modal: FC<ModalProps> = ({
             />
           </label>
           <div className={styles.buttons}>
-            <Button text="Cancel" style="red" onClick={onToggleModal} />
+            <Button
+              text="Cancel"
+              style={EBtnStyle.RED}
+              onClick={onToggleModal}
+            />
             <Button text="Save" type="submit" />
           </div>
         </form>
