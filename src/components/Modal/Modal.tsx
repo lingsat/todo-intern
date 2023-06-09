@@ -1,4 +1,4 @@
-import React, {
+import {
   ChangeEvent,
   FC,
   FormEvent,
@@ -7,14 +7,16 @@ import React, {
   useState,
 } from "react";
 import { useDispatch } from "react-redux";
-import { getCorrectDateStr } from "../../utils/date.utils";
-import { createNewTask, getInvalidSymError } from "../../utils/task.utils";
-import { ThemeContext } from "../../App";
-import Button from "../../common/components/Button/Button";
-import Input from "../../common/components/Input/Input";
-import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { DatesDelay } from "../../types/datesDelay";
-import { FilterValue, IFilter } from "../../types/filter";
+
+import { ThemeContext } from "@/App";
+import Button from "@CommonComponents/Button/Button";
+import Input from "@CommonComponents/Input/Input";
+import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { DatesDelay } from "@Types/dates";
+import { FilterValue, IFilter } from "@Types/filter";
+import { getCorrectDateStr } from "@Utils/date";
+import { createNewTask, getInvalidSymError } from "@Utils/task";
+
 import styles from "./Modal.module.scss";
 
 interface ModalProps {

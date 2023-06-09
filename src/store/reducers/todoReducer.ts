@@ -1,6 +1,5 @@
-import { ITask } from "../../types/task.interface";
-import { IAction, TodoActionTypes } from "../actionTypes/actionTypes";
-import { ITodos } from "../types/todos.interface";
+import { IAction, TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { ITask, ITodos } from "@Types/task";
 
 const initialState: ITodos = {
   todos: [],

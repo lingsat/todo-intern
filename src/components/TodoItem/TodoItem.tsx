@@ -1,12 +1,15 @@
 import React, { FC, useContext, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getValidDateStr } from "../../utils/date.utils";
-import { ThemeContext } from "../../App";
-import Modal from "../Modal/Modal";
-import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { ITask } from "../../types/task.interface";
-import deleteIcon from "../../assets/images/delete.svg";
-import editIcon from "../../assets/images/edit.svg";
+
+import { ThemeContext } from "@/App";
+import Modal from "@Components/Modal/Modal";
+import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { ITask } from "@Types/task";
+import { getValidDateStr } from "@Utils/date";
+
+import deleteIcon from "@Images/delete.svg";
+import editIcon from "@Images/edit.svg";
+
 import styles from "./TodoItem.module.scss";
 
 interface TodoItemProps {

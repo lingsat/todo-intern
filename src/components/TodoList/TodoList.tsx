@@ -1,10 +1,12 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { useSelector } from "react-redux";
-import { getFilteredList, getIsCompletedExist } from "../../utils/task.utils";
-import TodoItem from "../TodoItem/TodoItem";
-import Filter from "../Filter/Filter";
-import { ITodos } from "../../store/types/todos.interface";
-import { IFilter } from "../../types/filter";
+
+import Filter from "@Components/Filter/Filter";
+import TodoItem from "@Components/TodoItem/TodoItem";
+import { IFilter } from "@Types/filter";
+import { ITodos } from "@Types/task";
+import { getFilteredList, getIsCompletedExist } from "@Utils/task";
+
 import styles from "./TodoList.module.scss";
 
 interface TodoListProps {

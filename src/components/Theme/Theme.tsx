@@ -1,10 +1,13 @@
-import React, { FC, useContext } from "react";
-import { ThemeContext } from "../../App";
-import sun from "../../assets/images/sun.svg";
-import moon from "../../assets/images/moon.svg";
-import styles from "./ThemeSwitcher.module.scss";
+import { FC, useContext } from "react";
 
-const ThemeSwitcher: FC = () => {
+import { ThemeContext } from "@/App";
+
+import moon from "@Images/moon.svg";
+import sun from "@Images/sun.svg";
+
+import styles from "./Theme.module.scss";
+
+const Theme: FC = () => {
   const { lightMode, setLightMode } = useContext(ThemeContext);
 
   const handleCheckboxChange = () => {
@@ -29,4 +32,4 @@ const ThemeSwitcher: FC = () => {
   );
 };
 
-export default ThemeSwitcher;
+export default Theme;

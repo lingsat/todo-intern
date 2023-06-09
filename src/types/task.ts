@@ -5,3 +5,7 @@ export interface ITask {
   expiredDate: string;
   completed: boolean;
 }
+
+export interface ITodos {
+  todos: ITask[];
+}

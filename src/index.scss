@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
-@import "./assets/styles/variables";
+@import "@Styles/variables";
 
 *,
 *::before,
@@ -9,9 +9,9 @@
 
 body {
   margin: 0;
-  font-family: $main-text-font;
-  color: $text-black-color;
-  background-color: $bg-white-color;
+  font-family: $font-main;
+  color: $color-black;
+  background-color: $color-white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
