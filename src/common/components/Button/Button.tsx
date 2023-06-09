@@ -1,10 +1,13 @@
-import React, { FC } from "react";
+import { FC } from "react";
+
+import { EBtnStyle } from "@/common/types/button";
+
 import styles from "./Button.module.scss";
 
 interface ButtonProps {
   text: string;
   type?: "button" | "submit";
-  style?: "red" | "green";
+  style?: EBtnStyle;
   disabled?: boolean;
   onClick?: () => void;
 }
@@ -12,14 +15,14 @@ interface ButtonProps {
 const Button: FC<ButtonProps> = ({
   text,
   type = "button",
-  style = "green",
+  style = EBtnStyle.GREEN,
   disabled = false,
   onClick,
 }) => {
   return (
     <button
       className={`${styles.button} ${
-        style === "green" ? styles.green : styles.red
+        style === EBtnStyle.GREEN ? styles.green : styles.red
       }`}
       type={type}
       onClick={onClick}

@@ -1,7 +1,7 @@
-import { getCorrectDateStr } from "./date.utils";
-import { ITask } from "../types/task.interface";
-import { FilterValue, IFilter } from "../types/filter";
-import { DatesDelay } from "../types/datesDelay";
+import { DatesDelay } from "@Types/dates";
+import { FilterValue, IFilter } from "@Types/filter";
+import { ITask } from "@Types/task";
+import { getCorrectDateStr } from "@Utils/date";
 
 export const createNewTask = (
   title: string,

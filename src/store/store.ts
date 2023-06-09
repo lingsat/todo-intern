@@ -1,7 +1,8 @@
 import { createStore } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { todoReducer } from "./reducers/todoReducer";
+
+import { todoReducer } from "@Store/reducers/todoReducer";
 
 const persistConfig = {
   key: "todos",

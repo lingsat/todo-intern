@@ -1,17 +1,15 @@
-import React, {
-  createContext,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { createContext, useEffect, useLayoutEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "./store/store";
-import TodoList from "./components/TodoList/TodoList";
-import CreateTask from "./components/CreateTask/CreateTask";
-import ThemeSwitcher from "./components/ThemeSwitcher/ThemeSwitcher";
-import { FilterValue, IFilter } from "./types/filter";
-import { IContext } from "./types/theme.interface";
+
+import { LOCAL_STORAGE_THEME } from "@/constants";
+import CreateTask from "@Components/CreateTask/CreateTask";
+import Theme from "@Components/Theme/Theme";
+import TodoList from "@Components/TodoList/TodoList";
+import { store, persistor } from "@Store/store";
+import { FilterValue, IFilter } from "@Types/filter";
+import { IContext } from "@Types/theme";
+
 import styles from "./App.module.scss";
 
 export const ThemeContext = createContext<IContext>(undefined!);
@@ -33,11 +31,11 @@ const App = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("theme", JSON.stringify(lightMode));
+    localStorage.setItem(LOCAL_STORAGE_THEME, JSON.stringify(lightMode));
   }, [lightMode]);
 
   useLayoutEffect(() => {
-    const theme = localStorage.getItem("theme");
+    const theme = localStorage.getItem(LOCAL_STORAGE_THEME);
     if (theme) {
       setLightMode(JSON.parse(theme));
     } else {
@@ -53,7 +51,7 @@ const App = () => {
             <div className={styles.container}>
               <header className={styles.header}>
                 <h1 className={styles.title}>Todo Application</h1>
-                <ThemeSwitcher />
+                <Theme />
               </header>
               <CreateTask setFilter={setFilter} />
               <TodoList filter={filter} setFilter={setFilter} />

@@ -1,10 +1,10 @@
-@import "../../../assets/styles/variables";
+@import "@Styles/variables";
 
 .button {
   padding: 5px 10px;
   font-family: "Roboto";
   font-size: 1rem;
-  border: 2px solid $border-gray-color;
+  border: 2px solid $color-grey-light;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.1s linear;
@@ -16,23 +16,23 @@
 }
 
 .green {
-  color: $text-white-color;
-  background-color: $btn-success-color;
+  color: $color-white;
+  background-color: $color-green;
 
   &:hover {
-    background-color: $btn-success-hover-color;
+    background-color: $color-green-light;
   }
 
   &:disabled {
-    background-color: $btn-success-color;
+    background-color: $color-green;
   }
 }
 
 .red {
-  color: $text-white-color;
-  background-color: $btn-cancel-color;
+  color: $color-white;
+  background-color: $color-red;
 
   &:hover {
-    background-color: $btn-cancel-hover-color;
+    background-color: $color-pink;
   }
 }

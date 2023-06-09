@@ -1,36 +1,18 @@
-// *** Colors ***
-
-// Button
-$btn-regular-color: #fff;
-$btn-regular-hover-color: #cfcbc8;
-$btn-success-color: #058240;
-$btn-success-hover-color: #13b860;
-$btn-cancel-color: #bc0000;
-$btn-cancel-hover-color: #ed413e;
-
-// Text
-$text-white-color: #fff;
-$text-black-color: #000;
-$text-red-color: #bc0000;
-$text-lightRed-color: #ed413e;
-
-// Background
-$bg-white-color: #fff;
-$bg-black-color: #333;
-$bg-grey-color: #aaaba8;
-$bg-darkGrey-color: #686461;
-$bg-green-color: #058240;
-$bg-red-color: #bc0000;
-$bg-blue-color: #0ba5be;
-$bg-darkBlue-color: #02315e;
-$bg-modal-color: rgba(0, 0, 0, 0.5);
-
-// Border
-$border-black-color: #000;
-$border-gray-color: #aaaba8;
-
-// Card Item
-$card-bg-color: #e0f4f5;
-
 // *** Fonts ***
-$main-text-font: "Roboto", sans-serif;
+$font-main: "Roboto", sans-serif;
+
+// *** Colors ***
+$color-black: #000;
+$color-black-half: rgba(0, 0, 0, 0.5);
+$color-white: #fff;
+$color-white-dark: #e0f4f5;
+$color-green: #058240;
+$color-green-light: #13b860;
+$color-red: #bc0000;
+$color-pink: #ed413e;
+$color-grey: #686461;
+$color-grey-dark: #333;
+$color-grey-light: #aaaba8;
+$color-grey-lightest: #cfcbc8;
+$color-blue: #02315e;
+$color-blue-light: #0ba5be;

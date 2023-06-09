@@ -1,4 +1,4 @@
-import { ITask } from "../../types/task.interface";
+import { ITask } from "@Types/task";
 
 export enum TodoActionTypes {
   ADD_TASK = "task/add",

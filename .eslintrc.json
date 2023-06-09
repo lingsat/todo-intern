@@ -15,8 +15,59 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint", "import"],
   "rules": {
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "react/react-in-jsx-scope": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "sibling",
+          "parent",
+          "index"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Store/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Types/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Utils/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Components/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "@CommonComponents/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Images/**",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
   }
 }

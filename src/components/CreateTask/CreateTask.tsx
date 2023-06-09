@@ -1,4 +1,4 @@
-import React, {
+import {
   ChangeEvent,
   FC,
   FormEvent,
@@ -7,13 +7,16 @@ import React, {
   useState,
 } from "react";
 import { useDispatch } from "react-redux";
-import { createNewTask, getInvalidSymError } from "../../utils/task.utils";
-import { ThemeContext } from "../../App";
-import Modal from "../Modal/Modal";
-import Input from "../../common/components/Input/Input";
-import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { FilterValue, IFilter } from "../../types/filter";
-import plusIcon from "../../assets/images/plus.svg";
+
+import { ThemeContext } from "@/App";
+import Input from "@CommonComponents/Input/Input";
+import Modal from "@Components/Modal/Modal";
+import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { FilterValue, IFilter } from "@Types/filter";
+import { createNewTask, getInvalidSymError } from "@Utils/task";
+
+import plusIcon from "@Images/plus.svg";
+
 import styles from "./CreateTask.module.scss";
 
 interface CreateTaskProps {

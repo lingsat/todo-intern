@@ -1,10 +1,13 @@
-import React, { ChangeEvent, FC, useContext, useEffect, useState } from "react";
+import { ChangeEvent, FC, useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ThemeContext } from "../../App";
-import Input from "../../common/components/Input/Input";
-import { TodoActionTypes } from "../../store/actionTypes/actionTypes";
-import { FilterValue, IFilter } from "../../types/filter";
-import closeIcon from "../../assets/images/close.svg";
+
+import { ThemeContext } from "@/App";
+import Input from "@CommonComponents/Input/Input";
+import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { FilterValue, IFilter } from "@Types/filter";
+
+import closeIcon from "@Images/close.svg";
+
 import styles from "./Filter.module.scss";
 
 const filterBtnArr = Object.values(FilterValue);
