@@ -12,7 +12,7 @@ import { ThemeContext } from "@/App";
 import { EBtnStyle } from "@/common/types/button";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
-import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { TodoActionTypes } from "@Store/actionTypes/todo";
 import { DatesDelay } from "@Types/dates";
 import { FilterValue, IFilter } from "@Types/filter";
 import { getCorrectDateStr } from "@Utils/date";

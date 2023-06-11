@@ -7,6 +7,7 @@ interface InputProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: SyntheticEvent<HTMLInputElement>) => void;
   type?: string;
+  name?: string;
   placeholder?: string;
   min?: string;
   max?: string;
@@ -17,6 +18,7 @@ const Input: FC<InputProps> = ({
   onChange,
   onBlur,
   type = "text",
+  name,
   placeholder = "",
   min,
   max,
@@ -25,7 +27,7 @@ const Input: FC<InputProps> = ({
     <input
       className={styles.input}
       type={type}
-      name={type}
+      name={name}
       placeholder={placeholder}
       value={value}
       min={min}

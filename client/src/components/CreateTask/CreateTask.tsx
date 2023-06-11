@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { ThemeContext } from "@/App";
 import Input from "@CommonComponents/Input/Input";
 import Modal from "@Components/Modal/Modal";
-import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { TodoActionTypes } from "@Store/actionTypes/todo";
 import { FilterValue, IFilter } from "@Types/filter";
 import { createNewTask, getInvalidSymError } from "@Utils/task";
 

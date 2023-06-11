@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
 import Input from "@CommonComponents/Input/Input";
-import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { TodoActionTypes } from "@Store/actionTypes/todo";
 import { FilterValue, IFilter } from "@Types/filter";
 
 import closeIcon from "@Images/close.svg";

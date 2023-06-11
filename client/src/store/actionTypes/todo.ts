@@ -8,7 +8,7 @@ export enum TodoActionTypes {
   CLEAR_COMPLETED = "task/clear_completed",
 }
 
-export interface IAction {
+export interface ITodoAction {
   type: string;
   payload: ITask | string;
 }

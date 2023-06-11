@@ -43,7 +43,7 @@
 .error {
   font-size: 0.8rem;
   color: $color-red;
-  @include position-absolute(20px, 0, 1);
+  @include position-absolute(23px, 0, 1);
 
   &.dark {
     color: $color-pink;

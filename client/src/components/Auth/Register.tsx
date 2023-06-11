@@ -2,9 +2,11 @@ import { useFormik } from "formik";
 import { FC, useContext } from "react";
 
 import { ThemeContext } from "@/App";
+import { registerSchema } from "@/schemas/auth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
-import styles from "@Pages/Auth/Auth.module.scss";
+
+import styles from "./Auth.module.scss";
 
 interface RegisterProps {
   toggleLoginMode: () => void;
@@ -19,7 +21,7 @@ const Register: FC<RegisterProps> = ({ toggleLoginMode }) => {
       password: "",
       confirmPassword: "",
     },
-    // validationSchema: registerUserSchema,
+    validationSchema: registerSchema,
     onSubmit: ({ email, password }, actions) => {
       console.log(email, password);
       actions.resetForm();
@@ -34,6 +36,7 @@ const Register: FC<RegisterProps> = ({ toggleLoginMode }) => {
       <label className={styles.label}>
         <Input
           type="email"
+          name="email"
           placeholder="Enter Email"
           value={formik.values.email}
           onChange={formik.handleChange}
@@ -48,6 +51,7 @@ const Register: FC<RegisterProps> = ({ toggleLoginMode }) => {
       <label className={styles.label}>
         <Input
           type="password"
+          name="password"
           placeholder="Enter Password"
           value={formik.values.password}
           onChange={formik.handleChange}
@@ -62,18 +66,23 @@ const Register: FC<RegisterProps> = ({ toggleLoginMode }) => {
       <label className={styles.label}>
         <Input
           type="password"
+          name="confirmPassword"
           placeholder="Confirm Password"
           value={formik.values.confirmPassword}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
         <p className={`${styles.error} ${!lightMode && styles.dark}`}>
-          {formik.touched.password && formik.errors.password
-            ? formik.errors.password
+          {formik.touched.confirmPassword && formik.errors.confirmPassword
+            ? formik.errors.confirmPassword
             : ""}
         </p>
       </label>
-      <Button text="Sign up" type="submit" />
+      <Button
+        text="Sign up"
+        type="submit"
+        disabled={!(formik.dirty && formik.isValid)}
+      />
       <p className={styles.message}>
         Have already an account?{" "}
         <button

@@ -1,14 +1,18 @@
-import { IAction, TodoActionTypes } from "@Store/actionTypes/actionTypes";
-import { ITask, ITodos } from "@Types/task";
+import { ITodoAction, TodoActionTypes } from "@Store/actionTypes/todo";
+import { ITask } from "@Types/task";
 
-const initialState: ITodos = {
+export interface ITodosState {
+  todos: ITask[];
+}
+
+const initialState: ITodosState = {
   todos: [],
 };
 
 export const todoReducer = (
-  state: ITodos = initialState,
-  action: IAction
-): ITodos => {
+  state: ITodosState = initialState,
+  action: ITodoAction
+): ITodosState => {
   const { type, payload } = action;
   switch (type) {
     case TodoActionTypes.ADD_TASK:

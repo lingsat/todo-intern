@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 
-import Login from "@Components/Login/Login";
-import Register from "@Components/Register/Register";
+import Login from "@Components/Auth/Login";
+import Register from "@Components/Auth/Register";
 
 const Auth: FC = () => {
   const [loginMode, setLoginMode] = useState<boolean>(true);
@@ -12,7 +12,7 @@ const Auth: FC = () => {
 
   return (
     <>
-      {!loginMode ? (
+      {loginMode ? (
         <Login toggleLoginMode={toggleLoginMode} />
       ) : (
         <Register toggleLoginMode={toggleLoginMode} />

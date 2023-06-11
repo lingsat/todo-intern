@@ -2,9 +2,11 @@ import { useFormik } from "formik";
 import { FC, useContext } from "react";
 
 import { ThemeContext } from "@/App";
+import { loginSchema } from "@/schemas/auth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
-import styles from "@Pages/Auth/Auth.module.scss";
+
+import styles from "./Auth.module.scss";
 
 interface LoginProps {
   toggleLoginMode: () => void;
@@ -18,7 +20,7 @@ const Login: FC<LoginProps> = ({ toggleLoginMode }) => {
       email: "",
       password: "",
     },
-    // validationSchema: loginUserSchema,
+    validationSchema: loginSchema,
     onSubmit: ({ email, password }, actions) => {
       console.log(email, password);
       actions.resetForm();
@@ -33,6 +35,7 @@ const Login: FC<LoginProps> = ({ toggleLoginMode }) => {
       <label className={styles.label}>
         <Input
           type="email"
+          name="email"
           placeholder="Enter Email"
           value={formik.values.email}
           onChange={formik.handleChange}
@@ -47,6 +50,7 @@ const Login: FC<LoginProps> = ({ toggleLoginMode }) => {
       <label className={styles.label}>
         <Input
           type="password"
+          name="password"
           placeholder="Enter Password"
           value={formik.values.password}
           onChange={formik.handleChange}
@@ -58,7 +62,11 @@ const Login: FC<LoginProps> = ({ toggleLoginMode }) => {
             : ""}
         </p>
       </label>
-      <Button text="Sign In" type="submit" />
+      <Button
+        text="Sign In"
+        type="submit"
+        disabled={!(formik.dirty && formik.isValid)}
+      />
       <p className={styles.message}>
         Don&apos;t have an account?{" "}
         <button

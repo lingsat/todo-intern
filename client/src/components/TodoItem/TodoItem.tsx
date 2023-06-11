@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
 import Modal from "@Components/Modal/Modal";
-import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { TodoActionTypes } from "@Store/actionTypes/todo";
 import { ITask } from "@Types/task";
 import { getValidDateStr } from "@Utils/date";
 
