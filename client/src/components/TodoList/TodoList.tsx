@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { useSelector } from "react-redux";
 
-import { selectTodos } from "@/store/reducers/todoReducer";
 import Filter from "@Components/Filter/Filter";
 import TodoItem from "@Components/TodoItem/TodoItem";
+import { selectTodos } from "@Store/reducers/todoReducer";
 import { IFilter } from "@Types/filter";
 import { getFilteredList, getIsCompletedExist } from "@Utils/task";
 

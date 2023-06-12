@@ -4,18 +4,20 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "@/App";
+import { LOGIN_REJECTED } from "@/constants";
 import { loginSchema } from "@/schemas/auth";
-import { AppDispatch } from "@/store/store";
-import { loginUser } from "@/store/thunk/user";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
+import { AppDispatch } from "@Store/store";
+import { loginUser } from "@Store/thunk/user";
+import { ERoutes } from "@Types/routes";
 
 import styles from "./Login.module.scss";
 
 const Login: FC = () => {
-  const { lightMode } = useContext(ThemeContext);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const { lightMode } = useContext(ThemeContext);
 
   const formik = useFormik({
     initialValues: {
@@ -24,7 +26,11 @@ const Login: FC = () => {
     },
     validationSchema: loginSchema,
     onSubmit: ({ email, password }, actions) => {
-      dispatch(loginUser({ email, password })).then(() => navigate("/"));
+      dispatch(loginUser({ email, password })).then((action) => {
+        if (action.type !== LOGIN_REJECTED) {
+          navigate(ERoutes.HOME);
+        }
+      });
       actions.resetForm();
     },
   });

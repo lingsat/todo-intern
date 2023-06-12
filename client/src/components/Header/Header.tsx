@@ -9,8 +9,8 @@ import { AppDispatch } from "@Store/store";
 import styles from "./Header.module.scss";
 
 const Header: FC = () => {
-  const { isAuth } = useAuth();
   const dispatch = useDispatch<AppDispatch>();
+  const { isAuth } = useAuth();
 
   const handleLogOut = () => {
     dispatch(logOut());

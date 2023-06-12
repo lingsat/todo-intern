@@ -2,9 +2,9 @@ import { ChangeEvent, FC, useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
-import { clearCompleted } from "@/store/reducers/todoReducer";
-import { AppDispatch } from "@/store/store";
 import Input from "@CommonComponents/Input/Input";
+import { clearCompleted } from "@Store/reducers/todoReducer";
+import { AppDispatch } from "@Store/store";
 import { FilterValue, IFilter } from "@Types/filter";
 
 import closeIcon from "@Images/close.svg";

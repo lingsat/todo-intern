@@ -9,6 +9,7 @@ import Header from "@Components/Header/Header";
 import Login from "@Pages/Login/Login";
 import Main from "@Pages/Main/Main";
 import { store, persistor } from "@Store/store";
+import { ERoutes } from "@Types/routes";
 import { IContext } from "@Types/theme";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -50,8 +51,8 @@ const App = () => {
               <div className={styles.container}>
                 <Header />
                 <Routes>
-                  <Route path="/" element={<Main />} />
-                  <Route path="/auth" element={<Login />} />
+                  <Route path={ERoutes.HOME} element={<Main />} />
+                  <Route path={ERoutes.AUTH} element={<Login />} />
                 </Routes>
               </div>
               <ToastContainer

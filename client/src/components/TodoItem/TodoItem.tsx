@@ -2,9 +2,9 @@ import React, { FC, useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
-import { deleteTask, toggleComplete } from "@/store/reducers/todoReducer";
-import { AppDispatch } from "@/store/store";
 import Modal from "@Components/Modal/Modal";
+import { deleteTask, toggleComplete } from "@Store/reducers/todoReducer";
+import { AppDispatch } from "@Store/store";
 import { ITask } from "@Types/task";
 import { getValidDateStr } from "@Utils/date";
 

@@ -26,14 +26,13 @@ interface CreateTaskProps {
 }
 
 const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
   const { userId } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);

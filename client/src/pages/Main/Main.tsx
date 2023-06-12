@@ -3,17 +3,18 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/hooks/useAuth";
-import { AppDispatch } from "@/store/store";
 import Loading from "@CommonComponents/Loading/Loading";
 import CreateTask from "@Components/CreateTask/CreateTask";
 import TodoList from "@Components/TodoList/TodoList";
+import { AppDispatch } from "@Store/store";
 import { fetchTodos } from "@Store/thunk/todos";
 import { IFilter, FilterValue } from "@Types/filter";
+import { ERoutes } from "@Types/routes";
 
 const Main: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { isAuth, user, isLoading } = useAuth();
   const navigate = useNavigate();
+  const { isAuth, user, isLoading } = useAuth();
 
   const [filter, setFilter] = useState<IFilter>({
     filterValue: FilterValue.ALL,
@@ -22,12 +23,14 @@ const Main: FC = () => {
 
   useEffect(() => {
     if (!isAuth) {
-      navigate("/auth");
+      navigate(ERoutes.AUTH);
     }
   });
 
   useEffect(() => {
-    dispatch(fetchTodos(user.token));
+    if (isAuth) {
+      dispatch(fetchTodos(user.token));
+    }
   }, []);
 
   if (isLoading) {
