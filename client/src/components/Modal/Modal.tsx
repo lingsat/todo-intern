@@ -25,7 +25,7 @@ import styles from "./Modal.module.scss";
 interface ModalProps {
   editMode?: boolean;
   title: string;
-  id?: string;
+  _id?: string;
   createdDate?: string;
   expiredDate?: string;
   completed?: boolean;
@@ -36,13 +36,14 @@ interface ModalProps {
 const Modal: FC<ModalProps> = ({
   editMode = false,
   title,
-  id = crypto.randomUUID(),
+  _id = crypto.randomUUID(),
   createdDate = getCorrectDateStr(),
   expiredDate = getCorrectDateStr(DatesDelay.ONE_DAY_AFTER),
   completed = false,
   onToggleModal,
   setFilter,
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
   const { userId } = useAuth();
 
@@ -53,7 +54,9 @@ const Modal: FC<ModalProps> = ({
   });
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const dispatch = useDispatch<AppDispatch>();
+  const minCreateTime = editMode
+    ? getCorrectDateStr(DatesDelay.TEN_MIN_AGO, new Date(modalData.createdDate))
+    : getCorrectDateStr(DatesDelay.TEN_MIN_AGO);
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const errorMessage = getInvalidSymError(event.target.value);
@@ -94,7 +97,7 @@ const Modal: FC<ModalProps> = ({
       const task = createNewTask(
         trimmedTitle,
         userId,
-        id,
+        _id,
         createdDate,
         expiredDate,
         completed
@@ -139,7 +142,7 @@ const Modal: FC<ModalProps> = ({
             <Input
               type="datetime-local"
               value={modalData.createdDate}
-              min={getCorrectDateStr(DatesDelay.TEN_MIN_AGO)}
+              min={minCreateTime}
               max={getCorrectDateStr(DatesDelay.TEN_YEARS_AFTER)}
               onChange={handleCreatedDateChange}
             />
