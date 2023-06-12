@@ -38,7 +38,7 @@ const TodoList: FC<TodoListProps> = ({ filter, setFilter }) => {
       )}
       <ul className={styles.list}>
         {filteredList.map((task) => (
-          <TodoItem key={task.id} task={task} />
+          <TodoItem key={task._id} task={task} />
         ))}
       </ul>
     </>

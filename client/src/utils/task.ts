@@ -6,12 +6,12 @@ import { getCorrectDateStr } from "@Utils/date";
 export const createNewTask = (
   title: string,
   userId: string | null,
-  id = crypto.randomUUID(),
+  _id = crypto.randomUUID(),
   createdDate = getCorrectDateStr(),
   expiredDate = getCorrectDateStr(DatesDelay.ONE_DAY_AFTER),
   completed = false
 ): ITask => {
-  return { id, userId, title, createdDate, expiredDate, completed };
+  return { _id, userId, title, createdDate, expiredDate, completed };
 };
 
 export const getInvalidSymError = (sym: string) => {

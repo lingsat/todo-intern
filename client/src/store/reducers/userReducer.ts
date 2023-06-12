@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 import { loginUser } from "@Store/thunk/user";
 import { IUser } from "@Types/user";
@@ -27,6 +28,10 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.user = action.payload;
+      toast.success(`User ${action.payload.email} logged in successfully!`);
+    });
+    builder.addCase(loginUser.rejected, (_, action) => {
+      toast.warn(action.payload as string);
     });
   },
 });

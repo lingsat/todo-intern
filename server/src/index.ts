@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 import userRouter from './routes/user.js';
+import taskRouter from './routes/task.js';
 
 // Create Server
 const app = express();
@@ -22,6 +23,7 @@ app.get('/', (_, res) => {
   res.json({ message: 'Server works!' });
 });
 app.use('/api/user', userRouter);
+app.use('/api/task', taskRouter);
 
 // Start Server
 const port = process.env.PORT || 4200;

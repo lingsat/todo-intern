@@ -29,11 +29,11 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
   };
 
   const handleCheckboxChange = () => {
-    dispatch(toggleComplete(task.id));
+    dispatch(toggleComplete(task._id));
   };
 
   const handleDeleteTask = () => {
-    dispatch(deleteTask(task.id));
+    dispatch(deleteTask(task._id));
   };
 
   return (
