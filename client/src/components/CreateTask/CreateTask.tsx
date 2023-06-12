@@ -9,9 +9,11 @@ import {
 import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
+import { useAuth } from "@/hooks/useAuth";
 import Input from "@CommonComponents/Input/Input";
 import Modal from "@Components/Modal/Modal";
-import { TodoActionTypes } from "@Store/actionTypes/todo";
+import { addTask } from "@Store/reducers/todoReducer";
+import { AppDispatch } from "@Store/store";
 import { FilterValue, IFilter } from "@Types/filter";
 import { createNewTask, getInvalidSymError } from "@Utils/task";
 
@@ -25,12 +27,13 @@ interface CreateTaskProps {
 
 const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
   const { lightMode } = useContext(ThemeContext);
+  const { userId } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);
@@ -49,8 +52,8 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
 
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
-      const task = createNewTask(trimmedTitle);
-      dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
+      const task = createNewTask(trimmedTitle, userId);
+      dispatch(addTask(task));
       setErrorMessage("");
       setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
     } else {

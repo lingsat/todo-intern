@@ -1,5 +1,9 @@
-import { IUserAction, UserActionTypes } from "@Store/actionTypes/user";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { loginUser } from "@Store/thunk/user";
 import { IUser } from "@Types/user";
+
+import { RootState } from "../store";
 
 export interface IUserState {
   user: IUser | null;
@@ -9,22 +13,26 @@ const initialState: IUserState = {
   user: null,
 };
 
-export const userReducer = (
-  state: IUserState = initialState,
-  action: IUserAction
-): IUserState => {
-  const { type, payload } = action;
-  switch (type) {
-    case UserActionTypes.REGISTER:
-      return { ...state, user: payload };
+export const userSlice = createSlice({
+  name: "user",
+  initialState,
+  reducers: {
+    logIn(state, action: PayloadAction<IUser>) {
+      state.user = action.payload;
+    },
+    logOut(state) {
+      state.user = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+  },
+});
 
-    case UserActionTypes.LOG_IN:
-      return { ...state, user: payload };
+export const { logIn, logOut } = userSlice.actions;
 
-    case UserActionTypes.LOG_OUT:
-      return { ...state, user: null };
+export const selectUser = (state: RootState) => state.user;
 
-    default:
-      return state;
-  }
-};
+export default userSlice.reducer;

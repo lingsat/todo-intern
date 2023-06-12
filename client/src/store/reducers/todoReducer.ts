@@ -1,5 +1,8 @@
-import { ITodoAction, TodoActionTypes } from "@Store/actionTypes/todo";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { ITask } from "@Types/task";
+
+import { RootState } from "../store";
 
 export interface ITodosState {
   todos: ITask[];
@@ -9,43 +12,38 @@ const initialState: ITodosState = {
   todos: [],
 };
 
-export const todoReducer = (
-  state: ITodosState = initialState,
-  action: ITodoAction
-): ITodosState => {
-  const { type, payload } = action;
-  switch (type) {
-    case TodoActionTypes.ADD_TASK:
-      return { todos: [payload as ITask, ...state.todos] };
-
-    case TodoActionTypes.TOGGLE_COMPLETE: {
-      const toggledList = state.todos.map((task) => {
-        return task.id !== payload
+export const todoSlice = createSlice({
+  name: "todos",
+  initialState,
+  reducers: {
+    addTask(state, action: PayloadAction<ITask>) {
+      state.todos.push(action.payload);
+    },
+    toggleComplete(state, action: PayloadAction<string>) {
+      state.todos = state.todos.map((task) => {
+        return task.id !== action.payload
           ? task
           : { ...task, completed: !task.completed };
       });
-      return { todos: toggledList };
-    }
-
-    case TodoActionTypes.DELETE_TASK: {
-      const filteredList = state.todos.filter((task) => task.id !== payload);
-      return { todos: filteredList };
-    }
-
-    case TodoActionTypes.EDIT_TASK: {
-      const editedTask = payload as ITask;
-      const changedList = state.todos.map((task) =>
+    },
+    deleteTask(state, action: PayloadAction<string>) {
+      state.todos = state.todos.filter((task) => task.id !== action.payload);
+    },
+    editTask(state, action: PayloadAction<ITask>) {
+      const editedTask = action.payload;
+      state.todos = state.todos.map((task) =>
         task.id === editedTask.id ? editedTask : task
       );
-      return { todos: changedList };
-    }
+    },
+    clearCompleted(state) {
+      state.todos = state.todos.filter((task) => !task.completed);
+    },
+  },
+});
 
-    case TodoActionTypes.CLEAR_COMPLETED: {
-      const filteredList = state.todos.filter((task) => !task.completed);
-      return { todos: filteredList };
-    }
+export const { addTask, toggleComplete, deleteTask, editTask, clearCompleted } =
+  todoSlice.actions;
 
-    default:
-      return state;
-  }
-};
+export const selectTodos = (state: RootState) => state.todos;
+
+export default todoSlice.reducer;

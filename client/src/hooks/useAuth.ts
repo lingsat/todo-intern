@@ -1,9 +1,11 @@
 import { useSelector } from "react-redux";
 
-import { userSelector } from "@Store/store";
+import { selectUser } from "@Store/reducers/userReducer";
 
 export const useAuth = () => {
-  const user = useSelector(userSelector);
+  const { user } = useSelector(selectUser);
 
-  return { isAuth: !!user, user };
+  const userId = user ? user.id : null;
+
+  return { isAuth: !!user, user, userId };
 };

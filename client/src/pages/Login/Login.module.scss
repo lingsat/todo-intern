@@ -1,7 +1,7 @@
 @import "@Styles/variables";
 @import "@Styles/mixins";
 
-.auth {
+.login {
   padding: 1.5rem 1rem;
   width: 100%;
   max-width: 350px;
@@ -18,7 +18,6 @@
   left: 50%;
   z-index: 1;
   transform: translate(-50%, -50%);
-  animation: show 0.5s linear;
 
   &.dark {
     background-color: $color-grey-dark;
@@ -50,41 +49,8 @@
   }
 }
 
-.message {
-  margin: 0;
-}
-
-.button {
-  padding: 0;
-  margin: 0;
-  font-family: $font-main;
-  font-size: 1rem;
-  line-height: 1;
-  color: $color-green;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-
-  &.dark {
-    color: $color-green-light;
-  }
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-@keyframes show {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 @media (max-width: 399.98px) {
-  .auth {
+  .login {
     padding: 1rem;
     max-width: 300px;
     gap: 20px;

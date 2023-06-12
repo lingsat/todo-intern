@@ -1,15 +1,17 @@
 import { createContext, useEffect, useLayoutEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { HashRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
 
-import { LOCAL_STORAGE_THEME } from "@/constants";
-import Theme from "@Components/Theme/Theme";
-import Auth from "@Pages/Auth/Auth";
+import { LOCAL_STORAGE_THEME, MESSAGE_TIMER } from "@/constants";
+import Header from "@Components/Header/Header";
+import Login from "@Pages/Login/Login";
 import Main from "@Pages/Main/Main";
 import { store, persistor } from "@Store/store";
 import { IContext } from "@Types/theme";
 
+import "react-toastify/dist/ReactToastify.css";
 import styles from "./App.module.scss";
 
 export const ThemeContext = createContext<IContext>(undefined!);
@@ -46,15 +48,17 @@ const App = () => {
           <ThemeContext.Provider value={{ lightMode, setLightMode }}>
             <div className={`${styles.app} ${!lightMode && styles.dark}`}>
               <div className={styles.container}>
-                <header className={styles.header}>
-                  <h1 className={styles.title}>Todo Application</h1>
-                  <Theme />
-                </header>
+                <Header />
                 <Routes>
                   <Route path="/" element={<Main />} />
-                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/auth" element={<Login />} />
                 </Routes>
               </div>
+              <ToastContainer
+                position="bottom-center"
+                theme={lightMode ? "light" : "dark"}
+                autoClose={MESSAGE_TIMER}
+              />
             </div>
           </ThemeContext.Provider>
         </HashRouter>

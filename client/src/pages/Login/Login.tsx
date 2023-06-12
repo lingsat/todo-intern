@@ -1,22 +1,21 @@
 import { useFormik } from "formik";
 import { FC, useContext } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "@/App";
 import { loginSchema } from "@/schemas/auth";
+import { AppDispatch } from "@/store/store";
+import { loginUser } from "@/store/thunk/user";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
-import { useStoreDispatch } from "@Store/store";
-import { loginAsyncAction } from "@Store/thunk/user";
 
-import styles from "./Auth.module.scss";
+import styles from "./Login.module.scss";
 
-interface LoginProps {
-  toggleLoginMode: () => void;
-}
-
-const Login: FC<LoginProps> = ({ toggleLoginMode }) => {
+const Login: FC = () => {
   const { lightMode } = useContext(ThemeContext);
-  const dispatch = useStoreDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -25,14 +24,14 @@ const Login: FC<LoginProps> = ({ toggleLoginMode }) => {
     },
     validationSchema: loginSchema,
     onSubmit: ({ email, password }, actions) => {
-      dispatch(loginAsyncAction({ email, password }));
+      dispatch(loginUser({ email, password })).then(() => navigate("/"));
       actions.resetForm();
     },
   });
 
   return (
     <form
-      className={`${styles.auth} ${!lightMode && styles.dark}`}
+      className={`${styles.login} ${!lightMode && styles.dark}`}
       onSubmit={formik.handleSubmit}>
       <h2 className={styles.title}>Login</h2>
       <label className={styles.label}>
@@ -70,14 +69,6 @@ const Login: FC<LoginProps> = ({ toggleLoginMode }) => {
         type="submit"
         disabled={!(formik.dirty && formik.isValid)}
       />
-      <p className={styles.message}>
-        Don&apos;t have an account?{" "}
-        <button
-          className={`${styles.button} ${!lightMode && styles.dark}`}
-          onClick={toggleLoginMode}>
-          Sign up
-        </button>
-      </p>
     </form>
   );
 };

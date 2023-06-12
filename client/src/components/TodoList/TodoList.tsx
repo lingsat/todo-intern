@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { useSelector } from "react-redux";
 
+import { selectTodos } from "@/store/reducers/todoReducer";
 import Filter from "@Components/Filter/Filter";
 import TodoItem from "@Components/TodoItem/TodoItem";
-import { todosSelector } from "@Store/store";
 import { IFilter } from "@Types/filter";
 import { getFilteredList, getIsCompletedExist } from "@Utils/task";
 
@@ -15,12 +15,12 @@ interface TodoListProps {
 }
 
 const TodoList: FC<TodoListProps> = ({ filter, setFilter }) => {
-  const todoList = useSelector(todosSelector);
+  const { todos } = useSelector(selectTodos);
 
-  const filteredList = getFilteredList(todoList, filter);
-  const isCompletedExist = getIsCompletedExist(todoList);
+  const filteredList = getFilteredList(todos, filter);
+  const isCompletedExist = getIsCompletedExist(todos);
 
-  if (!todoList.length) {
+  if (!todos.length) {
     return <p className={styles.message}>No items found! Create new one.</p>;
   }
 

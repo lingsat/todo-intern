@@ -10,9 +10,11 @@ import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
 import { EBtnStyle } from "@/common/types/button";
+import { useAuth } from "@/hooks/useAuth";
+import { addTask, editTask } from "@/store/reducers/todoReducer";
+import { AppDispatch } from "@/store/store";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
-import { TodoActionTypes } from "@Store/actionTypes/todo";
 import { DatesDelay } from "@Types/dates";
 import { FilterValue, IFilter } from "@Types/filter";
 import { getCorrectDateStr } from "@Utils/date";
@@ -42,6 +44,7 @@ const Modal: FC<ModalProps> = ({
   setFilter,
 }) => {
   const { lightMode } = useContext(ThemeContext);
+  const { userId } = useAuth();
 
   const [modalData, setModalData] = useState({
     title: title.trim(),
@@ -50,7 +53,7 @@ const Modal: FC<ModalProps> = ({
   });
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const errorMessage = getInvalidSymError(event.target.value);
@@ -90,6 +93,7 @@ const Modal: FC<ModalProps> = ({
     if (trimmedTitle) {
       const task = createNewTask(
         trimmedTitle,
+        userId,
         id,
         createdDate,
         expiredDate,
@@ -97,9 +101,9 @@ const Modal: FC<ModalProps> = ({
       );
 
       if (editMode) {
-        dispatch({ type: TodoActionTypes.EDIT_TASK, payload: task });
+        dispatch(editTask(task));
       } else {
-        dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
+        dispatch(addTask(task));
         if (setFilter) {
           setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
         }

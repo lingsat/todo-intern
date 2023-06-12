@@ -1,7 +1,6 @@
-import axios, { AxiosError } from "axios";
-import { Dispatch } from "redux";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-import { loginAction, registerAction } from "@Store/actionCreators.ts/user";
 import { IUserRequest } from "@Types/request";
 import { IUser } from "@Types/user";
 
@@ -11,32 +10,15 @@ const axiosConfig = {
   },
 };
 
-export const registerAsyncAction = (newUser: IUserRequest) => {
-  return async (dispatch: Dispatch) => {
-    try {
-      const response = await axios.post<IUser>(
-        `${process.env.REACT_APP_API_URL}/user/register`,
-        newUser,
-        axiosConfig
-      );
-      dispatch(registerAction(response.data));
-    } catch (error: any) {
-      console.log(error.response.data.message);
-    }
-  };
-};
+export const loginUser = createAsyncThunk(
+  "user/loginUser",
+  async (userData: IUserRequest) => {
+    const response = await axios.post<IUser>(
+      `${process.env.REACT_APP_API_URL}/user/login`,
+      userData,
+      axiosConfig
+    );
 
-export const loginAsyncAction = (userData: IUserRequest) => {
-  return async (dispatch: Dispatch) => {
-    try {
-      const response = await axios.post<IUser>(
-        `${process.env.REACT_APP_API_URL}/user/login`,
-        userData,
-        axiosConfig
-      );
-      dispatch(loginAction(response.data));
-    } catch (error: any) {
-      console.log(error.response.data.message);
-    }
-  };
-};
+    return response.data;
+  }
+);
