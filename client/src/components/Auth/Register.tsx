@@ -5,6 +5,8 @@ import { ThemeContext } from "@/App";
 import { registerSchema } from "@/schemas/auth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
+import { useStoreDispatch } from "@Store/store";
+import { registerAsyncAction } from "@Store/thunk/user";
 
 import styles from "./Auth.module.scss";
 
@@ -14,6 +16,7 @@ interface RegisterProps {
 
 const Register: FC<RegisterProps> = ({ toggleLoginMode }) => {
   const { lightMode } = useContext(ThemeContext);
+  const dispatch = useStoreDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -23,7 +26,7 @@ const Register: FC<RegisterProps> = ({ toggleLoginMode }) => {
     },
     validationSchema: registerSchema,
     onSubmit: ({ email, password }, actions) => {
-      console.log(email, password);
+      dispatch(registerAsyncAction({ email, password }));
       actions.resetForm();
     },
   });

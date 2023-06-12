@@ -5,6 +5,8 @@ import { ThemeContext } from "@/App";
 import { loginSchema } from "@/schemas/auth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
+import { useStoreDispatch } from "@Store/store";
+import { loginAsyncAction } from "@Store/thunk/user";
 
 import styles from "./Auth.module.scss";
 
@@ -14,6 +16,7 @@ interface LoginProps {
 
 const Login: FC<LoginProps> = ({ toggleLoginMode }) => {
   const { lightMode } = useContext(ThemeContext);
+  const dispatch = useStoreDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -22,7 +25,7 @@ const Login: FC<LoginProps> = ({ toggleLoginMode }) => {
     },
     validationSchema: loginSchema,
     onSubmit: ({ email, password }, actions) => {
-      console.log(email, password);
+      dispatch(loginAsyncAction({ email, password }));
       actions.resetForm();
     },
   });
