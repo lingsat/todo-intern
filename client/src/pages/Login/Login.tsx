@@ -1,10 +1,11 @@
 import { useFormik } from "formik";
 import { FC, useContext } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 import { ThemeContext } from "@/App";
 import { LOGIN_REJECTED } from "@/constants";
+import { useAuth } from "@/hooks/useAuth";
 import { loginSchema } from "@/schemas/auth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
@@ -18,6 +19,7 @@ const Login: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { lightMode } = useContext(ThemeContext);
+  const { isAuth } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -34,6 +36,10 @@ const Login: FC = () => {
       actions.resetForm();
     },
   });
+
+  if (isAuth) {
+    return <Navigate to={ERoutes.HOME} replace />;
+  }
 
   return (
     <form

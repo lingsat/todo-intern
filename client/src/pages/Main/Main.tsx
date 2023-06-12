@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { useAuth } from "@/hooks/useAuth";
 import Loading from "@CommonComponents/Loading/Loading";
@@ -13,7 +13,6 @@ import { ERoutes } from "@Types/routes";
 
 const Main: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const { isAuth, user, isLoading } = useAuth();
 
   const [filter, setFilter] = useState<IFilter>({
@@ -22,16 +21,14 @@ const Main: FC = () => {
   });
 
   useEffect(() => {
-    if (!isAuth) {
-      navigate(ERoutes.AUTH);
-    }
-  });
-
-  useEffect(() => {
     if (isAuth) {
       dispatch(fetchTodos(user.token));
     }
   }, []);
+
+  if (!isAuth) {
+    return <Navigate to={ERoutes.AUTH} replace />;
+  }
 
   if (isLoading) {
     return <Loading />;
