@@ -12,8 +12,8 @@ import { ThemeContext } from "@/App";
 import { useAuth } from "@/hooks/useAuth";
 import Input from "@CommonComponents/Input/Input";
 import Modal from "@Components/Modal/Modal";
-import { addTask } from "@Store/reducers/todoReducer";
 import { AppDispatch } from "@Store/store";
+import { fetchAddTask } from "@Store/thunk/todos";
 import { FilterValue, IFilter } from "@Types/filter";
 import { createNewTask, getInvalidSymError } from "@Utils/task";
 
@@ -28,7 +28,7 @@ interface CreateTaskProps {
 const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
-  const { userId } = useAuth();
+  const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
@@ -51,8 +51,8 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
 
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
-      const task = createNewTask(trimmedTitle, userId);
-      dispatch(addTask(task));
+      const newTask = createNewTask(trimmedTitle);
+      dispatch(fetchAddTask({ token: user.token, newTask }));
       setErrorMessage("");
       setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
     } else {

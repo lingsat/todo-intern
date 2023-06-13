@@ -13,8 +13,9 @@ import { EBtnStyle } from "@/common/types/button";
 import { useAuth } from "@/hooks/useAuth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
-import { addTask, editTask } from "@Store/reducers/todoReducer";
+import { editTask } from "@Store/reducers/todoReducer";
 import { AppDispatch } from "@Store/store";
+import { fetchAddTask } from "@Store/thunk/todos";
 import { DatesDelay } from "@Types/dates";
 import { FilterValue, IFilter } from "@Types/filter";
 import { getCorrectDateStr } from "@Utils/date";
@@ -45,7 +46,7 @@ const Modal: FC<ModalProps> = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
-  const { userId } = useAuth();
+  const { user, userId } = useAuth();
 
   const [modalData, setModalData] = useState({
     title: title.trim(),
@@ -94,19 +95,19 @@ const Modal: FC<ModalProps> = ({
     const trimmedTitle = modalData.title.trim();
     const { createdDate, expiredDate } = modalData;
     if (trimmedTitle) {
-      const task = createNewTask(
-        trimmedTitle,
-        userId,
-        _id,
-        createdDate,
-        expiredDate,
-        completed
-      );
-
       if (editMode) {
+        const task = {
+          _id,
+          userId,
+          title: trimmedTitle,
+          createdDate,
+          expiredDate,
+          completed,
+        };
         dispatch(editTask(task));
       } else {
-        dispatch(addTask(task));
+        const newTask = createNewTask(trimmedTitle, createdDate, expiredDate);
+        dispatch(fetchAddTask({ token: user.token, newTask }));
         if (setFilter) {
           setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
         }

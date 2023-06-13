@@ -6,3 +6,9 @@ export interface ITask {
   expiredDate: string;
   completed: boolean;
 }
+
+export interface INewTaskData {
+  title: string;
+  createdDate: string;
+  expiredDate: string;
+}
