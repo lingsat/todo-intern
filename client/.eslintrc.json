@@ -48,6 +48,10 @@
             "group": "internal"
           },
           {
+            "pattern": "@Pages/**",
+            "group": "internal"
+          },
+          {
             "pattern": "@Components/**",
             "group": "internal"
           },

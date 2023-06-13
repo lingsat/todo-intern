@@ -1,0 +1,58 @@
+@import "@Styles/variables";
+@import "@Styles/mixins";
+
+.login {
+  padding: 1.5rem 1rem;
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  background-color: $color-white;
+  color: $color-black;
+  border: 2px solid $color-black;
+  border-radius: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+
+  &.dark {
+    background-color: $color-grey-dark;
+    color: $color-white;
+  }
+}
+
+.title {
+  margin: 0;
+  text-align: center;
+}
+
+.label {
+  width: 100%;
+  position: relative;
+
+  input {
+    width: 100%;
+  }
+}
+
+.error {
+  font-size: 0.8rem;
+  color: $color-red;
+  @include position-absolute(23px, 0, 1);
+
+  &.dark {
+    color: $color-pink;
+  }
+}
+
+@media (max-width: 399.98px) {
+  .login {
+    padding: 1rem;
+    max-width: 300px;
+    gap: 20px;
+  }
+}

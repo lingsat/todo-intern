@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 
 import Filter from "@Components/Filter/Filter";
 import TodoItem from "@Components/TodoItem/TodoItem";
+import { selectTodos } from "@Store/reducers/todoReducer";
 import { IFilter } from "@Types/filter";
-import { ITodos } from "@Types/task";
 import { getFilteredList, getIsCompletedExist } from "@Utils/task";
 
 import styles from "./TodoList.module.scss";
@@ -15,12 +15,12 @@ interface TodoListProps {
 }
 
 const TodoList: FC<TodoListProps> = ({ filter, setFilter }) => {
-  const todoList = useSelector((state: ITodos) => state.todos);
+  const { todos } = useSelector(selectTodos);
 
-  const filteredList = getFilteredList(todoList, filter);
-  const isCompletedExist = getIsCompletedExist(todoList);
+  const filteredList = getFilteredList(todos, filter);
+  const isCompletedExist = getIsCompletedExist(todos);
 
-  if (!todoList.length) {
+  if (!todos.length) {
     return <p className={styles.message}>No items found! Create new one.</p>;
   }
 
@@ -38,7 +38,7 @@ const TodoList: FC<TodoListProps> = ({ filter, setFilter }) => {
       )}
       <ul className={styles.list}>
         {filteredList.map((task) => (
-          <TodoItem key={task.id} task={task} />
+          <TodoItem key={task._id} task={task} />
         ))}
       </ul>
     </>

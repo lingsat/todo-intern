@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
 import Input from "@CommonComponents/Input/Input";
-import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { clearCompleted } from "@Store/reducers/todoReducer";
+import { AppDispatch } from "@Store/store";
 import { FilterValue, IFilter } from "@Types/filter";
 
 import closeIcon from "@Images/close.svg";
@@ -25,7 +26,7 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
     filter.searchValue
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const changeFilterValue = (newValue: FilterValue) => () => {
     setFilter((prevValue) => ({ ...prevValue, filterValue: newValue }));
@@ -41,7 +42,7 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
 
   const handleDeleteCompleted = () => {
     if (confirm("Do you want to delete completed tasks?")) {
-      dispatch({ type: TodoActionTypes.CLEAR_COMPLETED });
+      dispatch(clearCompleted());
       setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
     }
   };

@@ -1,47 +1,66 @@
-import { IAction, TodoActionTypes } from "@Store/actionTypes/actionTypes";
-import { ITask, ITodos } from "@Types/task";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
-const initialState: ITodos = {
+import { ITask } from "@Types/task";
+
+import { RootState } from "../store";
+import { fetchTodos } from "../thunk/todos";
+
+export interface ITodosState {
+  todos: ITask[];
+  isLoading: boolean;
+}
+
+const initialState: ITodosState = {
   todos: [],
+  isLoading: false,
 };
 
-export const todoReducer = (
-  state: ITodos = initialState,
-  action: IAction
-): ITodos => {
-  const { type, payload } = action;
-  switch (type) {
-    case TodoActionTypes.ADD_TASK:
-      return { todos: [payload as ITask, ...state.todos] };
-
-    case TodoActionTypes.TOGGLE_COMPLETE: {
-      const toggledList = state.todos.map((task) => {
-        return task.id !== payload
+export const todoSlice = createSlice({
+  name: "todos",
+  initialState,
+  reducers: {
+    addTask(state, action: PayloadAction<ITask>) {
+      state.todos.unshift(action.payload);
+    },
+    toggleComplete(state, action: PayloadAction<string>) {
+      state.todos = state.todos.map((task) => {
+        return task._id !== action.payload
           ? task
           : { ...task, completed: !task.completed };
       });
-      return { todos: toggledList };
-    }
-
-    case TodoActionTypes.DELETE_TASK: {
-      const filteredList = state.todos.filter((task) => task.id !== payload);
-      return { todos: filteredList };
-    }
-
-    case TodoActionTypes.EDIT_TASK: {
-      const editedTask = payload as ITask;
-      const changedList = state.todos.map((task) =>
-        task.id === editedTask.id ? editedTask : task
+    },
+    deleteTask(state, action: PayloadAction<string>) {
+      state.todos = state.todos.filter((task) => task._id !== action.payload);
+    },
+    editTask(state, action: PayloadAction<ITask>) {
+      const editedTask = action.payload;
+      state.todos = state.todos.map((task) =>
+        task._id === editedTask._id ? editedTask : task
       );
-      return { todos: changedList };
-    }
+    },
+    clearCompleted(state) {
+      state.todos = state.todos.filter((task) => !task.completed);
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchTodos.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchTodos.fulfilled, (state, action) => {
+      state.todos = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchTodos.rejected, (state, action) => {
+      state.isLoading = false;
+      toast.warn(action.payload as string);
+    });
+  },
+});
 
-    case TodoActionTypes.CLEAR_COMPLETED: {
-      const filteredList = state.todos.filter((task) => !task.completed);
-      return { todos: filteredList };
-    }
+export const { addTask, toggleComplete, deleteTask, editTask, clearCompleted } =
+  todoSlice.actions;
 
-    default:
-      return state;
-  }
-};
+export const selectTodos = (state: RootState) => state.todos;
+
+export default todoSlice.reducer;

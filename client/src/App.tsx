@@ -1,25 +1,24 @@
 import { createContext, useEffect, useLayoutEffect, useState } from "react";
 import { Provider } from "react-redux";
+import { HashRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
 
-import { LOCAL_STORAGE_THEME } from "@/constants";
-import CreateTask from "@Components/CreateTask/CreateTask";
-import Theme from "@Components/Theme/Theme";
-import TodoList from "@Components/TodoList/TodoList";
+import { LOCAL_STORAGE_THEME, MESSAGE_TIMER } from "@/constants";
+import Header from "@Components/Header/Header";
+import Login from "@Pages/Login/Login";
+import Main from "@Pages/Main/Main";
 import { store, persistor } from "@Store/store";
-import { FilterValue, IFilter } from "@Types/filter";
-import { IContext } from "@Types/theme";
+import { ERoutes } from "@Types/routes";
+import { ETheme, IContext } from "@Types/theme";
 
+import "react-toastify/dist/ReactToastify.css";
 import styles from "./App.module.scss";
 
 export const ThemeContext = createContext<IContext>(undefined!);
 
 const App = () => {
   const [lightMode, setLightMode] = useState<boolean>(true);
-  const [filter, setFilter] = useState<IFilter>({
-    filterValue: FilterValue.ALL,
-    searchValue: "",
-  });
 
   const getBrowserTheme = () => {
     if (
@@ -46,18 +45,24 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <ThemeContext.Provider value={{ lightMode, setLightMode }}>
-          <div className={`${styles.app} ${!lightMode && styles.dark}`}>
-            <div className={styles.container}>
-              <header className={styles.header}>
-                <h1 className={styles.title}>Todo Application</h1>
-                <Theme />
-              </header>
-              <CreateTask setFilter={setFilter} />
-              <TodoList filter={filter} setFilter={setFilter} />
+        <HashRouter>
+          <ThemeContext.Provider value={{ lightMode, setLightMode }}>
+            <div className={`${styles.app} ${!lightMode && styles.dark}`}>
+              <div className={styles.container}>
+                <Header />
+                <Routes>
+                  <Route path={ERoutes.HOME} element={<Main />} />
+                  <Route path={ERoutes.AUTH} element={<Login />} />
+                </Routes>
+              </div>
+              <ToastContainer
+                position="bottom-center"
+                theme={lightMode ? ETheme.LIGHT : ETheme.DARK}
+                autoClose={MESSAGE_TIMER}
+              />
             </div>
-          </div>
-        </ThemeContext.Provider>
+          </ThemeContext.Provider>
+        </HashRouter>
       </PersistGate>
     </Provider>
   );

@@ -20,31 +20,8 @@
   padding: 0 20px;
 }
 
-.header {
-  display: grid;
-  grid-template-columns: 1fr 280px 1fr;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.title {
-  grid-column: 2 / 3;
-  text-align: center;
-}
-
 @media (max-width: 575.98px) {
   .container {
     padding: 0 10px;
-  }
-
-  .header {
-    grid-template-columns: 190px 1fr;
-  }
-
-  .title {
-    margin: 20px 0;
-    text-align: left;
-    font-size: 1.4rem;
-    grid-column: 1 / 2;
   }
 }

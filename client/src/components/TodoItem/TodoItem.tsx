@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
 import Modal from "@Components/Modal/Modal";
-import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { deleteTask, toggleComplete } from "@Store/reducers/todoReducer";
+import { AppDispatch } from "@Store/store";
 import { ITask } from "@Types/task";
 import { getValidDateStr } from "@Utils/date";
 
@@ -21,18 +22,18 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);
   };
 
   const handleCheckboxChange = () => {
-    dispatch({ type: TodoActionTypes.TOGGLE_COMPLETE, payload: task.id });
+    dispatch(toggleComplete(task._id));
   };
 
   const handleDeleteTask = () => {
-    dispatch({ type: TodoActionTypes.DELETE_TASK, payload: task.id });
+    dispatch(deleteTask(task._id));
   };
 
   return (

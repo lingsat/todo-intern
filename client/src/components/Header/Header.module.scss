@@ -1,0 +1,58 @@
+@import "@Styles/variables";
+@import "@Styles/mixins";
+
+.header {
+  padding: 1.5rem 0;
+  display: grid;
+  grid-template-columns: 1fr 280px 1fr;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  grid-column: 2 / 3;
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+}
+
+.button {
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-family: $font-main;
+  background-color: $color-white;
+  border: 2px solid $color-grey-light;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.1s linear;
+
+  &:hover {
+    background-color: $color-grey-lightest;
+  }
+}
+
+@media (max-width: 999.98px) {
+  .header {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .title {
+    grid-column: 1 / 2;
+    text-align: left;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .header {
+    padding: 1rem 0;
+    height: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+}

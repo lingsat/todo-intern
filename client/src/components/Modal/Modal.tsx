@@ -10,9 +10,11 @@ import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
 import { EBtnStyle } from "@/common/types/button";
+import { useAuth } from "@/hooks/useAuth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
-import { TodoActionTypes } from "@Store/actionTypes/actionTypes";
+import { addTask, editTask } from "@Store/reducers/todoReducer";
+import { AppDispatch } from "@Store/store";
 import { DatesDelay } from "@Types/dates";
 import { FilterValue, IFilter } from "@Types/filter";
 import { getCorrectDateStr } from "@Utils/date";
@@ -23,7 +25,7 @@ import styles from "./Modal.module.scss";
 interface ModalProps {
   editMode?: boolean;
   title: string;
-  id?: string;
+  _id?: string;
   createdDate?: string;
   expiredDate?: string;
   completed?: boolean;
@@ -34,14 +36,16 @@ interface ModalProps {
 const Modal: FC<ModalProps> = ({
   editMode = false,
   title,
-  id = crypto.randomUUID(),
+  _id = crypto.randomUUID(),
   createdDate = getCorrectDateStr(),
   expiredDate = getCorrectDateStr(DatesDelay.ONE_DAY_AFTER),
   completed = false,
   onToggleModal,
   setFilter,
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
+  const { userId } = useAuth();
 
   const [modalData, setModalData] = useState({
     title: title.trim(),
@@ -50,7 +54,9 @@ const Modal: FC<ModalProps> = ({
   });
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const dispatch = useDispatch();
+  const minCreateTime = editMode
+    ? getCorrectDateStr(DatesDelay.TEN_MIN_AGO, new Date(modalData.createdDate))
+    : getCorrectDateStr(DatesDelay.TEN_MIN_AGO);
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const errorMessage = getInvalidSymError(event.target.value);
@@ -90,16 +96,17 @@ const Modal: FC<ModalProps> = ({
     if (trimmedTitle) {
       const task = createNewTask(
         trimmedTitle,
-        id,
+        userId,
+        _id,
         createdDate,
         expiredDate,
         completed
       );
 
       if (editMode) {
-        dispatch({ type: TodoActionTypes.EDIT_TASK, payload: task });
+        dispatch(editTask(task));
       } else {
-        dispatch({ type: TodoActionTypes.ADD_TASK, payload: task });
+        dispatch(addTask(task));
         if (setFilter) {
           setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
         }
@@ -135,7 +142,7 @@ const Modal: FC<ModalProps> = ({
             <Input
               type="datetime-local"
               value={modalData.createdDate}
-              min={getCorrectDateStr(DatesDelay.TEN_MIN_AGO)}
+              min={minCreateTime}
               max={getCorrectDateStr(DatesDelay.TEN_YEARS_AFTER)}
               onChange={handleCreatedDateChange}
             />
