@@ -42,3 +42,22 @@ export const editTask = async (req: ReqEditTaskBody, res: Response) => {
     res.status(500).json({ message: 'Task update fails!' });
   }
 };
+
+export const deleteTask = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    await Task.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Deleted Successfully!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Task deletion fails!' });
+  }
+};
+
+export const deleteCompleted = async (_: Request, res: Response) => {
+  try {
+    await Task.deleteMany({ completed: true });
+    res.status(200).json({ message: 'Deleted Successfully!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Deletion fails!' });
+  }
+};
