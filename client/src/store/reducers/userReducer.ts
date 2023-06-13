@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
+import { RootState } from "@Store/store";
 import { loginUser } from "@Store/thunk/user";
 import { IUser } from "@Types/user";
-
-import { RootState } from "../store";
 
 export interface IUserState {
   user: IUser | null;

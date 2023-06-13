@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
+import { RootState } from "@Store/store";
+import { fetchAddTask, fetchTodos } from "@Store/thunk/todos";
 import { ITask } from "@Types/task";
-
-import { RootState } from "../store";
-import { fetchAddTask, fetchTodos } from "../thunk/todos";
 
 export interface ITodosState {
   todos: ITask[];

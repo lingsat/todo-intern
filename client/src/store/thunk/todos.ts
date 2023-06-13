@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 
 import { createApiInstance } from "@/services/api";
-import { INewTaskRequest } from "@/types/request";
+import { INewTaskRequest } from "@Types/request";
 import { ITask } from "@Types/task";
 
 export const fetchTodos = createAsyncThunk(
@@ -24,11 +24,8 @@ export const fetchAddTask = createAsyncThunk(
   async (addTaskData: INewTaskRequest, { rejectWithValue }) => {
     const { token, newTask } = addTaskData;
     try {
-      const response = await axios.post<ITask>(
-        `${process.env.REACT_APP_API_URL}/task`,
-        newTask,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const todosApi = createApiInstance(token);
+      const response = await todosApi.post<ITask>("/task", newTask);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
