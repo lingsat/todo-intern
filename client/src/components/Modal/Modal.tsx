@@ -13,9 +13,8 @@ import { EBtnStyle } from "@/common/types/button";
 import { useAuth } from "@/hooks/useAuth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
-import { editTask } from "@Store/reducers/todoReducer";
 import { AppDispatch } from "@Store/store";
-import { fetchAddTask } from "@Store/thunk/todos";
+import { fetchAddTask, fetchEditTask } from "@Store/thunk/todos";
 import { DatesDelay } from "@Types/dates";
 import { FilterValue, IFilter } from "@Types/filter";
 import { getCorrectDateStr } from "@Utils/date";
@@ -96,14 +95,14 @@ const Modal: FC<ModalProps> = ({
     const { createdDate, expiredDate } = modalData;
     if (trimmedTitle) {
       if (editMode) {
-        const task = {
+        const changedTask = {
           _id,
           title: trimmedTitle,
           createdDate,
           expiredDate,
           completed,
         };
-        dispatch(editTask(task));
+        dispatch(fetchEditTask({ token: user.token, changedTask }));
       } else {
         const newTask = createNewTask(trimmedTitle, createdDate, expiredDate);
         dispatch(fetchAddTask({ token: user.token, newTask }));

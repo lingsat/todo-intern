@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 import { RootState } from "@Store/store";
-import { fetchAddTask, fetchTodos } from "@Store/thunk/todos";
+import { fetchAddTask, fetchEditTask, fetchTodos } from "@Store/thunk/todos";
 import { ITask } from "@Types/task";
 
 export interface ITodosState {
@@ -19,21 +19,8 @@ export const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    toggleComplete(state, action: PayloadAction<string>) {
-      state.todos = state.todos.map((task) => {
-        return task._id !== action.payload
-          ? task
-          : { ...task, completed: !task.completed };
-      });
-    },
     deleteTask(state, action: PayloadAction<string>) {
       state.todos = state.todos.filter((task) => task._id !== action.payload);
-    },
-    editTask(state, action: PayloadAction<ITask>) {
-      const editedTask = action.payload;
-      state.todos = state.todos.map((task) =>
-        task._id === editedTask._id ? editedTask : task
-      );
     },
     clearCompleted(state) {
       state.todos = state.todos.filter((task) => !task.completed);
@@ -54,11 +41,16 @@ export const todoSlice = createSlice({
     builder.addCase(fetchAddTask.fulfilled, (state, action) => {
       state.todos.unshift(action.payload);
     });
+    builder.addCase(fetchEditTask.fulfilled, (state, action) => {
+      const changedTask = action.payload;
+      state.todos = state.todos.map((task) =>
+        task._id === changedTask._id ? changedTask : task
+      );
+    });
   },
 });
 
-export const { toggleComplete, deleteTask, editTask, clearCompleted } =
-  todoSlice.actions;
+export const { deleteTask, clearCompleted } = todoSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos;
 
