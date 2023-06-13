@@ -10,7 +10,7 @@ import Login from "@Pages/Login/Login";
 import Main from "@Pages/Main/Main";
 import { store, persistor } from "@Store/store";
 import { ERoutes } from "@Types/routes";
-import { IContext } from "@Types/theme";
+import { ETheme, IContext } from "@Types/theme";
 
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./App.module.scss";
@@ -57,7 +57,7 @@ const App = () => {
               </div>
               <ToastContainer
                 position="bottom-center"
-                theme={lightMode ? "light" : "dark"}
+                theme={lightMode ? ETheme.LIGHT : ETheme.DARK}
                 autoClose={MESSAGE_TIMER}
               />
             </div>
