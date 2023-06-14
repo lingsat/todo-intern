@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, Navigate } from "react-router-dom";
 
 import { ThemeContext } from "@/App";
+import Loading from "@/common/components/Loading/Loading";
 import { LOGIN_REJECTED } from "@/constants";
 import { useAuth } from "@/hooks/useAuth";
 import { loginSchema } from "@/schemas/auth";
@@ -19,7 +20,7 @@ const Login: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { lightMode } = useContext(ThemeContext);
-  const { isAuth } = useAuth();
+  const { isAuth, isLoading } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -31,9 +32,9 @@ const Login: FC = () => {
       dispatch(loginUser({ email, password })).then((action) => {
         if (action.type !== LOGIN_REJECTED) {
           navigate(ERoutes.HOME);
+          actions.resetForm();
         }
       });
-      actions.resetForm();
     },
   });
 
@@ -81,6 +82,11 @@ const Login: FC = () => {
         type="submit"
         disabled={!(formik.dirty && formik.isValid)}
       />
+      {isLoading && (
+        <div className={styles.loading}>
+          <Loading />
+        </div>
+      )}
     </form>
   );
 };
