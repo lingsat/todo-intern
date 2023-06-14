@@ -21,7 +21,6 @@ export interface ReqAddTaskBody extends Request {
 export interface ReqEditTaskBody extends Request {
   body: {
     _id: string;
-    userId: string;
     title: string;
     createdDate: string;
     expiredDate: string;
