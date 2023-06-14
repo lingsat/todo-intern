@@ -18,7 +18,8 @@ export const addTask = async (req: ReqAddTaskBody, res: Response) => {
   const { id } = req.body.user;
   try {
     const task = await Task.create({ userId: id, title, createdDate, expiredDate });
-    res.status(201).json(task);
+    const { userId, ...taskWithoutUserId } = task.toObject();
+    res.status(201).json(taskWithoutUserId);
   } catch (error) {
     res.status(500).json({ message: 'Task creation fails!' });
   }

@@ -46,7 +46,7 @@ const Modal: FC<ModalProps> = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
-  const { user, userId } = useAuth();
+  const { user } = useAuth();
 
   const [modalData, setModalData] = useState({
     title: title.trim(),
@@ -98,7 +98,6 @@ const Modal: FC<ModalProps> = ({
       if (editMode) {
         const task = {
           _id,
-          userId,
           title: trimmedTitle,
           createdDate,
           expiredDate,
