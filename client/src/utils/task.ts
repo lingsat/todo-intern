@@ -1,17 +1,14 @@
 import { DatesDelay } from "@Types/dates";
 import { FilterValue, IFilter } from "@Types/filter";
-import { ITask } from "@Types/task";
+import { INewTaskData, ITask } from "@Types/task";
 import { getCorrectDateStr } from "@Utils/date";
 
 export const createNewTask = (
   title: string,
-  userId: string | null,
-  _id = crypto.randomUUID(),
   createdDate = getCorrectDateStr(),
-  expiredDate = getCorrectDateStr(DatesDelay.ONE_DAY_AFTER),
-  completed = false
-): ITask => {
-  return { _id, userId, title, createdDate, expiredDate, completed };
+  expiredDate = getCorrectDateStr(DatesDelay.ONE_DAY_AFTER)
+): INewTaskData => {
+  return { title, createdDate, expiredDate };
 };
 
 export const getInvalidSymError = (sym: string) => {

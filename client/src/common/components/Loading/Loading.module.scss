@@ -12,8 +12,8 @@
     height: 64px;
     margin: 8px;
     border-radius: 50%;
-    border: 6px solid $color-white;
-    border-color: $color-white $color-grey-dark $color-white $color-grey-dark;
+    border: 6px solid $color-green;
+    border-color: $color-green transparent $color-green transparent;
     animation: loading 1.2s linear infinite;
   }
 }

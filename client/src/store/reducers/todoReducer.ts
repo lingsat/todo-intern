@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
+import { RootState } from "@Store/store";
+import { fetchAddTask, fetchTodos } from "@Store/thunk/todos";
 import { ITask } from "@Types/task";
-
-import { RootState } from "../store";
-import { fetchTodos } from "../thunk/todos";
 
 export interface ITodosState {
   todos: ITask[];
@@ -20,9 +19,6 @@ export const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    addTask(state, action: PayloadAction<ITask>) {
-      state.todos.unshift(action.payload);
-    },
     toggleComplete(state, action: PayloadAction<string>) {
       state.todos = state.todos.map((task) => {
         return task._id !== action.payload
@@ -48,17 +44,20 @@ export const todoSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
-      state.todos = action.payload;
+      state.todos = action.payload.reverse();
       state.isLoading = false;
     });
     builder.addCase(fetchTodos.rejected, (state, action) => {
       state.isLoading = false;
       toast.warn(action.payload as string);
     });
+    builder.addCase(fetchAddTask.fulfilled, (state, action) => {
+      state.todos.unshift(action.payload);
+    });
   },
 });
 
-export const { addTask, toggleComplete, deleteTask, editTask, clearCompleted } =
+export const { toggleComplete, deleteTask, editTask, clearCompleted } =
   todoSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos;
