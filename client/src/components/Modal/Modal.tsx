@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 import { ThemeContext } from "@/App";
 import { EBtnStyle } from "@/common/types/button";
@@ -102,7 +103,9 @@ const Modal: FC<ModalProps> = ({
           expiredDate,
           completed,
         };
-        dispatch(fetchEditTask({ token: user.token, changedTask }));
+        dispatch(fetchEditTask({ token: user.token, changedTask })).then(() => {
+          toast.success("Task changed successfully!");
+        });
       } else {
         const newTask = createNewTask(trimmedTitle, createdDate, expiredDate);
         dispatch(fetchAddTask({ token: user.token, newTask }));

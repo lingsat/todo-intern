@@ -45,7 +45,6 @@ export const todoSlice = createSlice({
       state.todos = state.todos.map((task) =>
         task._id === changedTask._id ? changedTask : task
       );
-      toast.success("Task changed successfully!");
     });
     builder.addCase(fetchDeleteTask.fulfilled, (state, action) => {
       const { taskId, message } = action.payload;
