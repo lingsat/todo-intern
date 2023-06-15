@@ -2,9 +2,11 @@ import React, { FC, useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
+import { useAuth } from "@/hooks/useAuth";
 import Modal from "@Components/Modal/Modal";
-import { deleteTask, toggleComplete } from "@Store/reducers/todoReducer";
+import { deleteTask } from "@Store/reducers/todoReducer";
 import { AppDispatch } from "@Store/store";
+import { fetchEditTask } from "@Store/thunk/todos";
 import { ITask } from "@Types/task";
 import { getValidDateStr } from "@Utils/date";
 
@@ -18,18 +20,19 @@ interface TodoItemProps {
 }
 
 const TodoItem: FC<TodoItemProps> = ({ task }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
+  const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);
   };
 
   const handleCheckboxChange = () => {
-    dispatch(toggleComplete(task._id));
+    const changedTask: ITask = { ...task, completed: !task.completed };
+    dispatch(fetchEditTask({ token: user.token, changedTask }));
   };
 
   const handleDeleteTask = () => {

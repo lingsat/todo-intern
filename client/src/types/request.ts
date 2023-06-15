@@ -1,4 +1,4 @@
-import { INewTaskData } from "./task";
+import { INewTaskData, ITask } from "./task";
 
 export interface IUserRequest {
   email: string;
@@ -8,4 +8,9 @@ export interface IUserRequest {
 export interface INewTaskRequest {
   token: string;
   newTask: INewTaskData;
+}
+
+export interface IEditTaskRequest {
+  token: string;
+  changedTask: ITask;
 }
