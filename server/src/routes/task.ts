@@ -7,8 +7,8 @@ const taskRouter = express.Router();
 
 taskRouter.get('/', auth, getTaskList);
 taskRouter.post('/', auth, addTask);
+taskRouter.delete('/completed', auth, deleteCompleted);
 taskRouter.patch('/:id', auth, editTask);
 taskRouter.delete('/:id', auth, deleteTask);
-taskRouter.delete('/completed', auth, deleteCompleted);
 
 export default taskRouter;
