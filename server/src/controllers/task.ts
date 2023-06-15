@@ -25,10 +25,11 @@ export const addTask = async (req: ReqAddTaskBody, res: Response) => {
 };
 
 export const editTask = async (req: ReqEditTaskBody, res: Response) => {
-  const { _id, title, createdDate, expiredDate, completed, user } = req.body;
+  const { id } = req.params;
+  const { title, createdDate, expiredDate, completed, user } = req.body;
   try {
     const updatedTask = await Task.findOneAndUpdate(
-      { _id: _id, userId: user.id },
+      { _id: id, userId: user.id },
       { title, createdDate, expiredDate, completed },
       { new: true },
     );

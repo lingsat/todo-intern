@@ -10,7 +10,7 @@ export const fetchTodos = createAsyncThunk(
   async (token: string, { rejectWithValue }) => {
     try {
       const todosApi = createApiInstance(token);
-      const response = await todosApi.get<ITask[]>("/task");
+      const response = await todosApi.get<ITask[]>("task");
       return response.data;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
@@ -25,7 +25,7 @@ export const fetchAddTask = createAsyncThunk(
     const { token, newTask } = addTaskData;
     try {
       const todosApi = createApiInstance(token);
-      const response = await todosApi.post<ITask>("/task", newTask);
+      const response = await todosApi.post<ITask>("task", newTask);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
@@ -40,7 +40,10 @@ export const fetchEditTask = createAsyncThunk(
     const { token, changedTask } = editTaskData;
     try {
       const todosApi = createApiInstance(token);
-      const response = await todosApi.patch<ITask>("/task/edit", changedTask);
+      const response = await todosApi.patch<ITask>(
+        `task/${changedTask._id}`,
+        changedTask
+      );
       return response.data;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;

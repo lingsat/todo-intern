@@ -7,6 +7,6 @@ const taskRouter = express.Router();
 
 taskRouter.get('/', auth, getTaskList);
 taskRouter.post('/', auth, addTask);
-taskRouter.patch('/edit', auth, editTask);
+taskRouter.patch('/:id', auth, editTask);
 
 export default taskRouter;
