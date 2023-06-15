@@ -9,7 +9,6 @@ import {
 import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
-import { useAuth } from "@/hooks/useAuth";
 import Input from "@CommonComponents/Input/Input";
 import Modal from "@Components/Modal/Modal";
 import { AppDispatch } from "@Store/store";
@@ -28,7 +27,6 @@ interface CreateTaskProps {
 const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
-  const { user } = useAuth();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
@@ -52,7 +50,7 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
       const newTask = createNewTask(trimmedTitle);
-      dispatch(fetchAddTask({ token: user.token, newTask }));
+      dispatch(fetchAddTask(newTask));
       setErrorMessage("");
       setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
     } else {

@@ -2,18 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 import { createApiInstance } from "@/services/api";
-import {
-  IDeleteTaskRequest,
-  IEditTaskRequest,
-  INewTaskRequest,
-} from "@Types/request";
-import { ITask } from "@Types/task";
+import { INewTaskData, ITask } from "@Types/task";
 
 export const fetchTodos = createAsyncThunk(
   "todos/fetchTodos",
-  async (token: string, { rejectWithValue, dispatch }) => {
+  async (_, { rejectWithValue, dispatch }) => {
     try {
-      const todosApi = createApiInstance(token, dispatch);
+      const todosApi = createApiInstance(dispatch);
       const response = await todosApi.get<ITask[]>("task");
       return response.data;
     } catch (err) {
@@ -25,10 +20,9 @@ export const fetchTodos = createAsyncThunk(
 
 export const fetchAddTask = createAsyncThunk(
   "todos/fetchAddTask",
-  async (addTaskData: INewTaskRequest, { rejectWithValue, dispatch }) => {
-    const { token, newTask } = addTaskData;
+  async (newTask: INewTaskData, { rejectWithValue, dispatch }) => {
     try {
-      const todosApi = createApiInstance(token, dispatch);
+      const todosApi = createApiInstance(dispatch);
       const response = await todosApi.post<ITask>("task", newTask);
       return response.data;
     } catch (err) {
@@ -40,10 +34,9 @@ export const fetchAddTask = createAsyncThunk(
 
 export const fetchEditTask = createAsyncThunk(
   "todos/fetchEditTask",
-  async (editTaskData: IEditTaskRequest, { rejectWithValue, dispatch }) => {
-    const { token, changedTask } = editTaskData;
+  async (changedTask: ITask, { rejectWithValue, dispatch }) => {
     try {
-      const todosApi = createApiInstance(token, dispatch);
+      const todosApi = createApiInstance(dispatch);
       const response = await todosApi.patch<ITask>(
         `task/${changedTask._id}`,
         changedTask
@@ -58,10 +51,9 @@ export const fetchEditTask = createAsyncThunk(
 
 export const fetchDeleteTask = createAsyncThunk(
   "todos/fetchDeleteTask",
-  async (editTaskData: IDeleteTaskRequest, { rejectWithValue, dispatch }) => {
-    const { token, taskId } = editTaskData;
+  async (taskId: string, { rejectWithValue, dispatch }) => {
     try {
-      const todosApi = createApiInstance(token, dispatch);
+      const todosApi = createApiInstance(dispatch);
       const resp = await todosApi.delete(`task/${taskId}`);
       return { taskId, message: resp.data.message };
     } catch (err) {
@@ -73,9 +65,9 @@ export const fetchDeleteTask = createAsyncThunk(
 
 export const fetchDeleteCompleted = createAsyncThunk(
   "todos/fetchDeleteCompleted",
-  async (token: string, { rejectWithValue }) => {
+  async (_, { rejectWithValue, dispatch }) => {
     try {
-      const todosApi = createApiInstance(token);
+      const todosApi = createApiInstance(dispatch);
       const resp = await todosApi.delete("task/completed");
       return resp.data.message;
     } catch (err) {

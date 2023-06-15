@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 
 import { ThemeContext } from "@/App";
 import { EBtnStyle } from "@/common/types/button";
-import { useAuth } from "@/hooks/useAuth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
 import { AppDispatch } from "@Store/store";
@@ -46,7 +45,6 @@ const Modal: FC<ModalProps> = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
-  const { user } = useAuth();
 
   const [modalData, setModalData] = useState({
     title: title.trim(),
@@ -103,12 +101,12 @@ const Modal: FC<ModalProps> = ({
           expiredDate,
           completed,
         };
-        dispatch(fetchEditTask({ token: user.token, changedTask })).then(() => {
+        dispatch(fetchEditTask(changedTask)).then(() => {
           toast.success("Task changed successfully!");
         });
       } else {
         const newTask = createNewTask(trimmedTitle, createdDate, expiredDate);
-        dispatch(fetchAddTask({ token: user.token, newTask }));
+        dispatch(fetchAddTask(newTask));
         if (setFilter) {
           setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
         }

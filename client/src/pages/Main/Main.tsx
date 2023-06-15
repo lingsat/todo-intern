@@ -15,7 +15,7 @@ import { ERoutes } from "@Types/routes";
 const Main: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading } = useSelector(selectTodos);
-  const { isAuth, user } = useAuth();
+  const { isAuth } = useAuth();
 
   const [filter, setFilter] = useState<IFilter>({
     filterValue: FilterValue.ALL,
@@ -24,7 +24,7 @@ const Main: FC = () => {
 
   useEffect(() => {
     if (isAuth) {
-      dispatch(fetchTodos(user.token));
+      dispatch(fetchTodos());
     }
   }, []);
 
