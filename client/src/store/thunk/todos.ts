@@ -2,7 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 import { createApiInstance } from "@/services/api";
-import { IEditTaskRequest, INewTaskRequest } from "@Types/request";
+import {
+  IDeleteTaskRequest,
+  IEditTaskRequest,
+  INewTaskRequest,
+} from "@Types/request";
 import { ITask } from "@Types/task";
 
 export const fetchTodos = createAsyncThunk(
@@ -45,6 +49,35 @@ export const fetchEditTask = createAsyncThunk(
         changedTask
       );
       return response.data;
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const fetchDeleteTask = createAsyncThunk(
+  "todos/fetchDeleteTask",
+  async (editTaskData: IDeleteTaskRequest, { rejectWithValue }) => {
+    const { token, taskId } = editTaskData;
+    try {
+      const todosApi = createApiInstance(token);
+      const resp = await todosApi.delete(`task/${taskId}`);
+      return { taskId, message: resp.data.message };
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const fetchDeleteCompleted = createAsyncThunk(
+  "todos/fetchDeleteCompleted",
+  async (token: string, { rejectWithValue }) => {
+    try {
+      const todosApi = createApiInstance(token);
+      const resp = await todosApi.delete("task/completed");
+      return resp.data.message;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
       return rejectWithValue(error.response?.data);

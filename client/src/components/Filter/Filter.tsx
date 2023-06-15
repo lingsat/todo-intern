@@ -2,9 +2,10 @@ import { ChangeEvent, FC, useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
+import { useAuth } from "@/hooks/useAuth";
 import Input from "@CommonComponents/Input/Input";
-import { clearCompleted } from "@Store/reducers/todoReducer";
 import { AppDispatch } from "@Store/store";
+import { fetchDeleteCompleted } from "@Store/thunk/todos";
 import { FilterValue, IFilter } from "@Types/filter";
 
 import closeIcon from "@Images/close.svg";
@@ -20,13 +21,13 @@ interface FilterProps {
 }
 
 const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
+  const { user } = useAuth();
 
   const [localSearchValue, setLocalSearchValue] = useState<string>(
     filter.searchValue
   );
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const changeFilterValue = (newValue: FilterValue) => () => {
     setFilter((prevValue) => ({ ...prevValue, filterValue: newValue }));
@@ -42,7 +43,7 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
 
   const handleDeleteCompleted = () => {
     if (confirm("Do you want to delete completed tasks?")) {
-      dispatch(clearCompleted());
+      dispatch(fetchDeleteCompleted(user.token));
       setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
     }
   };

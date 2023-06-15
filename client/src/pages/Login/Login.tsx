@@ -4,12 +4,12 @@ import { useDispatch } from "react-redux";
 import { useNavigate, Navigate } from "react-router-dom";
 
 import { ThemeContext } from "@/App";
-import Loading from "@/common/components/Loading/Loading";
 import { LOGIN_REJECTED } from "@/constants";
 import { useAuth } from "@/hooks/useAuth";
 import { loginSchema } from "@/schemas/auth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
+import Loading from "@CommonComponents/Loading/Loading";
 import { AppDispatch } from "@Store/store";
 import { loginUser } from "@Store/thunk/user";
 import { ERoutes } from "@Types/routes";

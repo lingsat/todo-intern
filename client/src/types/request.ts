@@ -14,3 +14,8 @@ export interface IEditTaskRequest {
   token: string;
   changedTask: ITask;
 }
+
+export interface IDeleteTaskRequest {
+  token: string;
+  taskId: string;
+}

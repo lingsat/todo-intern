@@ -4,9 +4,8 @@ import { useDispatch } from "react-redux";
 import { ThemeContext } from "@/App";
 import { useAuth } from "@/hooks/useAuth";
 import Modal from "@Components/Modal/Modal";
-import { deleteTask } from "@Store/reducers/todoReducer";
 import { AppDispatch } from "@Store/store";
-import { fetchEditTask } from "@Store/thunk/todos";
+import { fetchDeleteTask, fetchEditTask } from "@Store/thunk/todos";
 import { ITask } from "@Types/task";
 import { getValidDateStr } from "@Utils/date";
 
@@ -36,7 +35,7 @@ const TodoItem: FC<TodoItemProps> = ({ task }) => {
   };
 
   const handleDeleteTask = () => {
-    dispatch(deleteTask(task._id));
+    dispatch(fetchDeleteTask({ token: user.token, taskId: task._id }));
   };
 
   return (
