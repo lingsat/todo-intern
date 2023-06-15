@@ -45,11 +45,15 @@ export const todoSlice = createSlice({
       state.todos = state.todos.map((task) =>
         task._id === changedTask._id ? changedTask : task
       );
+      toast.success("Task changed successfully!");
     });
     builder.addCase(fetchDeleteTask.fulfilled, (state, action) => {
-      state.todos = state.todos.filter((task) => task._id !== action.payload);
+      const { taskId, message } = action.payload;
+      state.todos = state.todos.filter((task) => task._id !== taskId);
+      toast.success(message);
     });
-    builder.addCase(fetchDeleteCompleted.fulfilled, (state) => {
+    builder.addCase(fetchDeleteCompleted.fulfilled, (state, action) => {
+      toast.success(action.payload);
       state.todos = state.todos.filter((task) => !task.completed);
     });
   },

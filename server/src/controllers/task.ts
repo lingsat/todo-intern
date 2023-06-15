@@ -47,7 +47,7 @@ export const deleteTask = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     await Task.findByIdAndDelete(id);
-    res.status(200).json({ message: 'Deleted Successfully!' });
+    res.status(200).json({ message: 'Task deleted successfully!' });
   } catch (error) {
     res.status(500).json({ message: 'Task deletion fails!' });
   }
@@ -56,7 +56,7 @@ export const deleteTask = async (req: Request, res: Response) => {
 export const deleteCompleted = async (_: Request, res: Response) => {
   try {
     await Task.deleteMany({ completed: true });
-    res.status(200).json({ message: 'Deleted Successfully!' });
+    res.status(200).json({ message: 'All Completed tasks deleted successfully!' });
   } catch (error) {
     res.status(500).json({ message: 'Deletion fails!' });
   }
