@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
 import { useAuth } from "@/hooks/useAuth";
-import { fetchDeleteCompleted } from "@/store/thunk/todos";
 import Input from "@CommonComponents/Input/Input";
 import { AppDispatch } from "@Store/store";
+import { fetchDeleteCompleted } from "@Store/thunk/todos";
 import { FilterValue, IFilter } from "@Types/filter";
 
 import closeIcon from "@Images/close.svg";
