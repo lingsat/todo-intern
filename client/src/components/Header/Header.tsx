@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Theme from "@Components/Theme/Theme";
 import { logOut } from "@Store/reducers/userReducer";
 import { AppDispatch } from "@Store/store";
+import { clearToken } from "@Utils/token";
 
 import styles from "./Header.module.scss";
 
@@ -14,6 +15,7 @@ const Header: FC = () => {
 
   const handleLogOut = () => {
     dispatch(logOut());
+    clearToken();
   };
 
   return (
