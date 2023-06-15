@@ -11,9 +11,9 @@ import { ITask } from "@Types/task";
 
 export const fetchTodos = createAsyncThunk(
   "todos/fetchTodos",
-  async (token: string, { rejectWithValue }) => {
+  async (token: string, { rejectWithValue, dispatch }) => {
     try {
-      const todosApi = createApiInstance(token);
+      const todosApi = createApiInstance(token, dispatch);
       const response = await todosApi.get<ITask[]>("task");
       return response.data;
     } catch (err) {
@@ -25,10 +25,10 @@ export const fetchTodos = createAsyncThunk(
 
 export const fetchAddTask = createAsyncThunk(
   "todos/fetchAddTask",
-  async (addTaskData: INewTaskRequest, { rejectWithValue }) => {
+  async (addTaskData: INewTaskRequest, { rejectWithValue, dispatch }) => {
     const { token, newTask } = addTaskData;
     try {
-      const todosApi = createApiInstance(token);
+      const todosApi = createApiInstance(token, dispatch);
       const response = await todosApi.post<ITask>("task", newTask);
       return response.data;
     } catch (err) {
@@ -40,10 +40,10 @@ export const fetchAddTask = createAsyncThunk(
 
 export const fetchEditTask = createAsyncThunk(
   "todos/fetchEditTask",
-  async (editTaskData: IEditTaskRequest, { rejectWithValue }) => {
+  async (editTaskData: IEditTaskRequest, { rejectWithValue, dispatch }) => {
     const { token, changedTask } = editTaskData;
     try {
-      const todosApi = createApiInstance(token);
+      const todosApi = createApiInstance(token, dispatch);
       const response = await todosApi.patch<ITask>(
         `task/${changedTask._id}`,
         changedTask
@@ -58,10 +58,10 @@ export const fetchEditTask = createAsyncThunk(
 
 export const fetchDeleteTask = createAsyncThunk(
   "todos/fetchDeleteTask",
-  async (editTaskData: IDeleteTaskRequest, { rejectWithValue }) => {
+  async (editTaskData: IDeleteTaskRequest, { rejectWithValue, dispatch }) => {
     const { token, taskId } = editTaskData;
     try {
-      const todosApi = createApiInstance(token);
+      const todosApi = createApiInstance(token, dispatch);
       const resp = await todosApi.delete(`task/${taskId}`);
       return { taskId, message: resp.data.message };
     } catch (err) {
