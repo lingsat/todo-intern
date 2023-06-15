@@ -1,13 +1,18 @@
-import { LOCAL_STORAGE_TOKEN } from "@/constants";
+import { LOCAL_STORAGE_REFRESH, LOCAL_STORAGE_TOKEN } from "@/constants";
 
-export const saveTokenToLocalStorage = (token: string) => {
+export const saveTokensToLocalStorage = (
+  token: string,
+  refreshToken: string
+) => {
   localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
+  localStorage.setItem(LOCAL_STORAGE_REFRESH, refreshToken);
 };
 
-export const getTokenFromLocalStorage = () => {
-  return localStorage.getItem(LOCAL_STORAGE_TOKEN);
+export const getTokenFromLocalStorage = (key: string) => {
+  return localStorage.getItem(key);
 };
 
-export const clearToken = () => {
+export const clearTokens = () => {
   localStorage.removeItem(LOCAL_STORAGE_TOKEN);
+  localStorage.removeItem(LOCAL_STORAGE_REFRESH);
 };
