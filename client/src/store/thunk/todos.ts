@@ -9,7 +9,7 @@ export const fetchTodos = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       const todosApi = createApiInstance(dispatch);
-      const response = await todosApi.get<ITask[]>("task");
+      const response = await todosApi.get<ITask[]>("tasks");
       return response.data;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
@@ -23,7 +23,7 @@ export const fetchAddTask = createAsyncThunk(
   async (newTask: INewTaskData, { rejectWithValue, dispatch }) => {
     try {
       const todosApi = createApiInstance(dispatch);
-      const response = await todosApi.post<ITask>("task", newTask);
+      const response = await todosApi.post<ITask>("tasks", newTask);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
@@ -38,7 +38,7 @@ export const fetchEditTask = createAsyncThunk(
     try {
       const todosApi = createApiInstance(dispatch);
       const response = await todosApi.patch<ITask>(
-        `task/${changedTask._id}`,
+        `tasks/${changedTask._id}`,
         changedTask
       );
       return response.data;
@@ -54,7 +54,7 @@ export const fetchDeleteTask = createAsyncThunk(
   async (taskId: string, { rejectWithValue, dispatch }) => {
     try {
       const todosApi = createApiInstance(dispatch);
-      const resp = await todosApi.delete(`task/${taskId}`);
+      const resp = await todosApi.delete(`tasks/${taskId}`);
       return { taskId, message: resp.data.message };
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
@@ -68,7 +68,7 @@ export const fetchDeleteCompleted = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       const todosApi = createApiInstance(dispatch);
-      const resp = await todosApi.delete("task/completed");
+      const resp = await todosApi.delete("tasks/completed");
       return resp.data.message;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;

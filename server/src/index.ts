@@ -24,7 +24,7 @@ app.get('/', (_, res) => {
   res.json({ message: 'Server works!' });
 });
 app.use('/api/user', userRouter);
-app.use('/api/task', taskRouter);
+app.use('/api/tasks', taskRouter);
 
 // Start Server
 const port = process.env.PORT || 4200;
