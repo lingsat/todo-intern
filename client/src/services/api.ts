@@ -34,10 +34,11 @@ export const createApiInstance = (
       (response) => response,
       (error) => {
         const { data, status } = error.response;
-        if (
+        const isTokenExpiredError =
           status === TOKEN_EXPIRED_STATUS &&
-          data.message === TOKEN_EXPIRED_MESSAGE
-        ) {
+          data.message === TOKEN_EXPIRED_MESSAGE;
+
+        if (isTokenExpiredError) {
           dispatch(logOut());
           clearToken();
           toast.warn("Your session has expired. Please Sign in again!");
