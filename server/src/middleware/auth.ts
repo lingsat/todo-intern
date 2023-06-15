@@ -11,6 +11,9 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
 
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Invalid request!' });
+    if (error instanceof jwt.TokenExpiredError) {
+      return res.status(401).json({ message: 'Token expired' });
+    }
+    res.status(400).json({ message: 'Invalid request!' });
   }
 };
