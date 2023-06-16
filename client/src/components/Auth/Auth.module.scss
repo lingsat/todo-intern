@@ -3,22 +3,12 @@
 
 .auth {
   padding: 1.5rem 1rem;
-  width: 100%;
-  max-width: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
   background-color: $color-white;
   color: $color-black;
-  border: 2px solid $color-black;
-  border-radius: 10px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  transform: translate(-50%, -50%);
-  overflow: hidden;
   animation: smoothShow 0.5s linear;
 
   &.dark {
@@ -66,18 +56,9 @@
   }
 }
 
-.loading {
-  width: 100%;
-  height: 100%;
-  @include flex-center;
-  @include position-absolute(0, 0, 2);
-  background-color: $color-black-half;
-}
-
 @media (max-width: 399.98px) {
   .auth {
     padding: 1rem;
-    max-width: 300px;
     gap: 20px;
   }
 }

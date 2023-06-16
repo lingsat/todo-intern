@@ -5,11 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "@/App";
 import { REGISTER_REJECTED } from "@/constants";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { useAuth } from "@/hooks/useAuth";
 import { registerSchema } from "@/schemas/auth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
-import Loading from "@CommonComponents/Loading/Loading";
 import { registerUser } from "@Store/thunk/user";
 import { ERoutes } from "@Types/routes";
 
@@ -20,10 +18,9 @@ interface RegisterProps {
 }
 
 const Register: FC<RegisterProps> = ({ toggleForms }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { lightMode } = useContext(ThemeContext);
-  const dispatch = useAppDispatch();
-  const { isLoading } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -102,11 +99,6 @@ const Register: FC<RegisterProps> = ({ toggleForms }) => {
       <p className={styles.message}>
         Already have an account? <span onClick={toggleForms}>Sign In</span>
       </p>
-      {isLoading && (
-        <div className={styles.loading}>
-          <Loading />
-        </div>
-      )}
     </form>
   );
 };
