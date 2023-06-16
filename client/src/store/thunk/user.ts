@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { createApiInstance } from "@/services/api";
 import { IUserRequest } from "@Types/request";
 import { ILoginRes } from "@Types/response";
-import { saveTokenToLocalStorage } from "@Utils/token";
+import { saveTokensToLocalStorage } from "@Utils/token";
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
@@ -12,8 +12,8 @@ export const loginUser = createAsyncThunk(
     try {
       const userApi = createApiInstance();
       const response = await userApi.post<ILoginRes>("user/login", userData);
-      const { token, ...user } = response.data;
-      saveTokenToLocalStorage(token);
+      const { token, refreshToken, ...user } = response.data;
+      saveTokensToLocalStorage(token, refreshToken);
       return user;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
