@@ -101,7 +101,7 @@ const Register: FC<RegisterProps> = ({ toggleForms }) => {
         disabled={!(formik.dirty && formik.isValid)}
       />
       <p className={styles.message}>
-        Already have an account? <span onClick={toggleForms}>Sing In</span>
+        Already have an account? <span onClick={toggleForms}>Sign In</span>
       </p>
       {isLoading && (
         <div className={styles.loading}>

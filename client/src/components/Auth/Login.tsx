@@ -83,7 +83,7 @@ const Login: FC<LoginProps> = ({ toggleForms }) => {
         disabled={!(formik.dirty && formik.isValid)}
       />
       <p className={styles.message}>
-        Don&apos;t have an account? <span onClick={toggleForms}>Sing Up</span>
+        Don&apos;t have an account? <span onClick={toggleForms}>Sign Up</span>
       </p>
       {isLoading && (
         <div className={styles.loading}>
