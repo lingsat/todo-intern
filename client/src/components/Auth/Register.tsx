@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { FC, useContext } from "react";
+import { FC, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "@/App";
@@ -11,6 +11,9 @@ import Input from "@CommonComponents/Input/Input";
 import { registerUser } from "@Store/thunk/user";
 import { ERoutes } from "@Types/routes";
 
+import eye from "@Images/eye.svg";
+import eyeSlash from "@Images/eye_slash.svg";
+
 import styles from "./Auth.module.scss";
 
 interface RegisterProps {
@@ -21,6 +24,23 @@ const Register: FC<RegisterProps> = ({ toggleForms }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { lightMode } = useContext(ThemeContext);
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword((prev) => !prev);
+  };
+
+  const passwordType = showPassword ? "text" : "password";
+  const passwordImage = showPassword ? eyeSlash : eye;
+  const confirmPasswordType = showConfirmPassword ? "text" : "password";
+  const confirmPasswordImage = showConfirmPassword ? eyeSlash : eye;
 
   const formik = useFormik({
     initialValues: {
@@ -63,12 +83,18 @@ const Register: FC<RegisterProps> = ({ toggleForms }) => {
       </label>
       <label className={styles.label}>
         <Input
-          type="password"
+          type={passwordType}
           name="password"
           placeholder="Enter Password"
           value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
+        />
+        <img
+          className={styles.image}
+          src={passwordImage}
+          alt="Eye"
+          onClick={toggleShowPassword}
         />
         <p className={`${styles.error} ${!lightMode && styles.dark}`}>
           {formik.touched.password && formik.errors.password
@@ -78,12 +104,18 @@ const Register: FC<RegisterProps> = ({ toggleForms }) => {
       </label>
       <label className={styles.label}>
         <Input
-          type="password"
+          type={confirmPasswordType}
           name="confirmPassword"
           placeholder="Confirm Password"
           value={formik.values.confirmPassword}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
+        />
+        <img
+          className={styles.image}
+          src={confirmPasswordImage}
+          alt="Eye"
+          onClick={toggleShowConfirmPassword}
         />
         <p className={`${styles.error} ${!lightMode && styles.dark}`}>
           {formik.touched.confirmPassword && formik.errors.confirmPassword

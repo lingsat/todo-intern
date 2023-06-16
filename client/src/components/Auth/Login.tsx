@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { FC, useContext } from "react";
+import { FC, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "@/App";
@@ -11,6 +11,9 @@ import Input from "@CommonComponents/Input/Input";
 import { loginUser } from "@Store/thunk/user";
 import { ERoutes } from "@Types/routes";
 
+import eye from "@Images/eye.svg";
+import eyeSlash from "@Images/eye_slash.svg";
+
 import styles from "./Auth.module.scss";
 
 interface LoginProps {
@@ -21,6 +24,15 @@ const Login: FC<LoginProps> = ({ toggleForms }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { lightMode } = useContext(ThemeContext);
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const passwordType = showPassword ? "text" : "password";
+  const passwordImage = showPassword ? eyeSlash : eye;
 
   const formik = useFormik({
     initialValues: {
@@ -60,12 +72,18 @@ const Login: FC<LoginProps> = ({ toggleForms }) => {
       </label>
       <label className={styles.label}>
         <Input
-          type="password"
+          type={passwordType}
           name="password"
           placeholder="Enter Password"
           value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
+        />
+        <img
+          className={styles.image}
+          src={passwordImage}
+          alt="Eye"
+          onClick={toggleShowPassword}
         />
         <p className={`${styles.error} ${!lightMode && styles.dark}`}>
           {formik.touched.password && formik.errors.password

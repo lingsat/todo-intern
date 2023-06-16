@@ -27,8 +27,17 @@
   position: relative;
 
   input {
+    padding-right: 30px;
     width: 100%;
   }
+}
+
+.image {
+  width: 16px;
+  height: 16px;
+  @include position-absolute(50%, calc(100% - 25px), 1);
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 .error {
