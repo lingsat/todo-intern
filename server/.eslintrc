@@ -4,6 +4,7 @@
   "parserOptions": { "ecmaVersion": 2018, "sourceType": "module" },
   "rules": {
     "no-console": "off",
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/ban-types": "off"
   }
 }
