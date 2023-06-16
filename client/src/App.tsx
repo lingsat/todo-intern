@@ -6,7 +6,7 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import { LOCAL_STORAGE_THEME, MESSAGE_TIMER } from "@/constants";
 import Header from "@Components/Header/Header";
-import Login from "@Pages/Login/Login";
+import Auth from "@Pages/Auth/Auth";
 import Main from "@Pages/Main/Main";
 import { store, persistor } from "@Store/store";
 import { ERoutes } from "@Types/routes";
@@ -52,7 +52,7 @@ const App = () => {
                 <Header />
                 <Routes>
                   <Route path={ERoutes.HOME} element={<Main />} />
-                  <Route path={ERoutes.AUTH} element={<Login />} />
+                  <Route path={ERoutes.AUTH} element={<Auth />} />
                 </Routes>
               </div>
               <ToastContainer
