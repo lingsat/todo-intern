@@ -1,16 +1,15 @@
 import { useFormik } from "formik";
 import { FC, useContext } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "@/App";
 import { REGISTER_REJECTED } from "@/constants";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAuth } from "@/hooks/useAuth";
 import { registerSchema } from "@/schemas/auth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
 import Loading from "@CommonComponents/Loading/Loading";
-import { AppDispatch } from "@Store/store";
 import { registerUser } from "@Store/thunk/user";
 import { ERoutes } from "@Types/routes";
 
@@ -21,9 +20,9 @@ interface RegisterProps {
 }
 
 const Register: FC<RegisterProps> = ({ toggleForms }) => {
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { lightMode } = useContext(ThemeContext);
+  const dispatch = useAppDispatch();
   const { isLoading } = useAuth();
 
   const formik = useFormik({

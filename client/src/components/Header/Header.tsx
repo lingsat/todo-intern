@@ -1,16 +1,15 @@
 import React, { FC } from "react";
-import { useDispatch } from "react-redux";
 
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAuth } from "@/hooks/useAuth";
 import Theme from "@Components/Theme/Theme";
 import { logOut } from "@Store/reducers/userReducer";
-import { AppDispatch } from "@Store/store";
 import { clearTokens } from "@Utils/token";
 
 import styles from "./Header.module.scss";
 
 const Header: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { isAuth } = useAuth();
 
   const handleLogOut = () => {

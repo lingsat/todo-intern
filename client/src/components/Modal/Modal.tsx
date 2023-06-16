@@ -6,14 +6,13 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 import { ThemeContext } from "@/App";
 import { EBtnStyle } from "@/common/types/button";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
-import { AppDispatch } from "@Store/store";
 import { fetchAddTask, fetchEditTask } from "@Store/thunk/todos";
 import { DatesDelay } from "@Types/dates";
 import { getCorrectDateStr } from "@Utils/date";
@@ -40,7 +39,7 @@ const Modal: FC<ModalProps> = ({
   completed = false,
   onToggleModal,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { lightMode } = useContext(ThemeContext);
 
   const [modalData, setModalData] = useState({

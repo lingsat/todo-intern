@@ -1,9 +1,8 @@
 import React, { FC, useContext, useState } from "react";
-import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import Modal from "@Components/Modal/Modal";
-import { AppDispatch } from "@Store/store";
 import { fetchDeleteTask, fetchEditTask } from "@Store/thunk/todos";
 import { ITask } from "@Types/task";
 import { getValidDateStr } from "@Utils/date";
@@ -18,7 +17,7 @@ interface TodoItemProps {
 }
 
 const TodoItem: FC<TodoItemProps> = ({ task }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { lightMode } = useContext(ThemeContext);
 
   const [showModal, setShowModal] = useState<boolean>(false);

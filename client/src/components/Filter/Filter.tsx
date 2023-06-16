@@ -1,11 +1,11 @@
 import { ChangeEvent, FC, useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { ThemeContext } from "@/App";
 import { DEBOUNCE_TIME } from "@/constants";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import Input from "@CommonComponents/Input/Input";
 import { selectTodos, setFilter, setSearch } from "@Store/reducers/todoReducer";
-import { AppDispatch } from "@Store/store";
 import { fetchDeleteCompleted } from "@Store/thunk/todos";
 import { FilterValue } from "@Types/filter";
 
@@ -16,7 +16,7 @@ import styles from "./Filter.module.scss";
 const filterBtnArr = Object.values(FilterValue);
 
 const Filter: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { lightMode } = useContext(ThemeContext);
   const { todos, query } = useSelector(selectTodos);
 

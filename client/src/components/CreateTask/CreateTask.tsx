@@ -6,12 +6,11 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useDispatch } from "react-redux";
 
 import { ThemeContext } from "@/App";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import Input from "@CommonComponents/Input/Input";
 import Modal from "@Components/Modal/Modal";
-import { AppDispatch } from "@Store/store";
 import { fetchAddTask } from "@Store/thunk/todos";
 import { createNewTask, getInvalidSymError } from "@Utils/task";
 
@@ -20,7 +19,7 @@ import plusIcon from "@Images/plus.svg";
 import styles from "./CreateTask.module.scss";
 
 const CreateTask: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { lightMode } = useContext(ThemeContext);
 
   const [showModal, setShowModal] = useState<boolean>(false);
