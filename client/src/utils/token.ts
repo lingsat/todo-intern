@@ -8,7 +8,7 @@ export const saveTokensToLocalStorage = (
   localStorage.setItem(LOCAL_STORAGE_REFRESH, refreshToken);
 };
 
-export const getTokenFromLocalStorage = (key: string) => {
+export const getTokenFromLocalStorage = (key: string): string | null => {
   return localStorage.getItem(key);
 };
 

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 import { RootState } from "@Store/store";
@@ -19,9 +19,6 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logIn(state, action: PayloadAction<IUser>) {
-      state.user = action.payload;
-    },
     logOut(state) {
       state.user = null;
     },
@@ -54,7 +51,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { logIn, logOut } = userSlice.actions;
+export const { logOut } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;
 

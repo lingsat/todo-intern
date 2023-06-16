@@ -58,11 +58,11 @@ export const createApiInstance = (
           originalRequest._retry = true;
 
           try {
-            const resp = await getNewTokens();
-            saveTokensToLocalStorage(resp.token, resp.refreshToken);
+            const { token, refreshToken } = await getNewTokens();
+            saveTokensToLocalStorage(token, refreshToken);
             apiInstance.defaults.headers.common[
               "Authorization"
-            ] = `Bearer ${resp.token}`;
+            ] = `Bearer ${token}`;
             return apiInstance(originalRequest);
           } catch (refreshError) {
             dispatch(logOut());

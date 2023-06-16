@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const registerSchema = yup.object({
+export const loginSchema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup
     .string()
@@ -8,20 +8,12 @@ export const registerSchema = yup.object({
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
       "Min 8 chars, 1 digit, 1 lowercase, 1 uppercase"
     )
-    .required(),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref("password"), ""], "Passwords must match")
     .required(),
 });
 
-export const loginSchema = yup.object({
-  email: yup.string().email().required(),
-  password: yup
+export const registerSchema = loginSchema.shape({
+  confirmPassword: yup
     .string()
-    .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-      "Min 8 chars, 1 digit, 1 lowercase, 1 uppercase"
-    )
+    .oneOf([yup.ref("password"), ""], "Passwords must match")
     .required(),
 });
