@@ -5,9 +5,16 @@ import { ReqAddTaskBody, ReqEditTaskBody } from '../types/request.js';
 
 export const getTaskList = async (req: Request, res: Response) => {
   const { id } = req.body.user;
+  const { search } = req.query;
+
   try {
-    const taskList = await Task.find({ userId: id });
-    res.status(200).json(taskList);
+    const userAllTasks = await Task.count({ userId: id });
+    const taskList = await Task.aggregate([
+      {
+        $match: { userId: id, title: { $regex: search, $options: 'i' } },
+      },
+    ]);
+    res.status(200).json({ userTasksExist: !!userAllTasks, taskList });
   } catch (error) {
     res.status(500).json({ message: 'Todos uploading fails!' });
   }
