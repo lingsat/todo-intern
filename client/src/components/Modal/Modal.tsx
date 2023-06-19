@@ -106,10 +106,11 @@ const Modal: FC<ModalProps> = ({
         });
       } else {
         const newTask = createNewTask(trimmedTitle, createdDate, expiredDate);
-        dispatch(fetchAddTask(newTask));
-        if (setFilter) {
-          setFilter(FilterValue.ALL);
-        }
+        dispatch(fetchAddTask(newTask)).then(() => {
+          if (setFilter) {
+            setFilter(FilterValue.ALL);
+          }
+        });
       }
       onToggleModal();
     } else {

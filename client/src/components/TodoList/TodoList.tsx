@@ -21,7 +21,7 @@ const TodoList: FC<TodoListProps> = ({ filter, setFilter }) => {
   const filteredList = getFilteredList(todos, filter);
   const isCompletedExist = getIsCompletedExist(todos);
 
-  if (!allTodosExist && !todos.length) {
+  if (!allTodosExist) {
     return <p className={styles.message}>No items found! Create new one.</p>;
   }
 

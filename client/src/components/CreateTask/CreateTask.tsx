@@ -50,9 +50,10 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
       const newTask = createNewTask(trimmedTitle);
-      dispatch(fetchAddTask(newTask));
+      dispatch(fetchAddTask(newTask)).then(() => {
+        setFilter(FilterValue.ALL);
+      });
       setErrorMessage("");
-      setFilter(FilterValue.ALL);
     } else {
       setErrorMessage("Title can`t be empty!");
     }

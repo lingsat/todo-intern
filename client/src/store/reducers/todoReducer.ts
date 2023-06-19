@@ -50,6 +50,7 @@ export const todoSlice = createSlice({
     });
     builder.addCase(fetchAddTask.fulfilled, (state, action) => {
       state.todos.unshift(action.payload);
+      state.allTodosExist = true;
       state.query.search = "";
     });
     builder.addCase(fetchEditTask.fulfilled, (state, action) => {
@@ -59,14 +60,17 @@ export const todoSlice = createSlice({
       );
     });
     builder.addCase(fetchDeleteTask.fulfilled, (state, action) => {
-      const { taskId, message } = action.payload;
+      const { taskId, data } = action.payload;
       state.todos = state.todos.filter((task) => task._id !== taskId);
-      toast.success(message);
+      state.allTodosExist = data.userTasksExist;
+      toast.success(data.message);
     });
     builder.addCase(fetchDeleteCompleted.fulfilled, (state, action) => {
-      toast.success(action.payload);
+      const { userTasksExist, message } = action.payload;
       state.todos = state.todos.filter((task) => !task.completed);
+      state.allTodosExist = userTasksExist;
       state.query.search = "";
+      toast.success(message);
     });
   },
 });

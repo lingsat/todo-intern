@@ -8,13 +8,13 @@ export const getTaskList = async (req: Request, res: Response) => {
   const { search } = req.query;
 
   try {
-    const userAllTasks = await Task.count({ userId: id });
+    const allUsersTasks = await Task.count({ userId: id });
     const taskList = await Task.aggregate([
       {
         $match: { userId: id, title: { $regex: search, $options: 'i' } },
       },
     ]);
-    res.status(200).json({ userTasksExist: !!userAllTasks, taskList });
+    res.status(200).json({ userTasksExist: !!allUsersTasks, taskList });
   } catch (error) {
     res.status(500).json({ message: 'Todos uploading fails!' });
   }
@@ -51,19 +51,23 @@ export const editTask = async (req: ReqEditTaskBody, res: Response) => {
 };
 
 export const deleteTask = async (req: Request, res: Response) => {
+  const { user } = req.body;
   const { id } = req.params;
   try {
     await Task.findByIdAndDelete(id);
-    res.status(200).json({ message: 'Task deleted successfully!' });
+    const allUsersTasks = await Task.count({ userId: user.id });
+    res.status(200).json({ userTasksExist: !!allUsersTasks, message: 'Task deleted successfully!' });
   } catch (error) {
     res.status(500).json({ message: 'Task deletion fails!' });
   }
 };
 
-export const deleteCompleted = async (_: Request, res: Response) => {
+export const deleteCompleted = async (req: Request, res: Response) => {
+  const { user } = req.body;
   try {
     await Task.deleteMany({ completed: true });
-    res.status(200).json({ message: 'All Completed tasks deleted successfully!' });
+    const allUsersTasks = await Task.count({ userId: user.id });
+    res.status(200).json({ userTasksExist: !!allUsersTasks, message: 'All Completed tasks deleted successfully!' });
   } catch (error) {
     res.status(500).json({ message: 'Deletion fails!' });
   }

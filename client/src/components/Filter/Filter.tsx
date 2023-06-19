@@ -44,8 +44,9 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
 
   const handleDeleteCompleted = () => {
     if (confirm("Do you want to delete completed tasks?")) {
-      dispatch(fetchDeleteCompleted());
-      setFilter(FilterValue.ALL);
+      dispatch(fetchDeleteCompleted()).then(() => {
+        setFilter(FilterValue.ALL);
+      });
     }
   };
 

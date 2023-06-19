@@ -11,3 +11,8 @@ export interface ITasksRes {
   userTasksExist: boolean;
   taskList: ITask[];
 }
+
+export interface IDeleteRes {
+  userTasksExist: boolean;
+  message: string;
+}
