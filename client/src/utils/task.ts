@@ -1,5 +1,5 @@
 import { DatesDelay } from "@Types/dates";
-import { FilterValue, IFilter } from "@Types/filter";
+import { FilterValue } from "@Types/filter";
 import { INewTaskData, ITask } from "@Types/task";
 import { getCorrectDateStr } from "@Utils/date";
 
@@ -20,34 +20,21 @@ export const getInvalidSymError = (sym: string): string => {
   return "";
 };
 
-const checkSearchInTitle = (task: ITask, searchValue: string): boolean => {
-  const formatedSearchValue = searchValue.toLowerCase().trim();
-  return task.title.toLowerCase().includes(formatedSearchValue);
-};
-
 export const getFilteredList = (
   todoList: ITask[],
-  filter: IFilter
+  filter: FilterValue
 ): ITask[] => {
   let filteredList = [];
 
-  switch (filter.filterValue) {
+  switch (filter) {
     case FilterValue.ACTIVE:
-      filteredList = todoList.filter((task) => {
-        const isSearchInTitle = checkSearchInTitle(task, filter.searchValue);
-        if (!task.completed && isSearchInTitle) return task;
-      });
+      filteredList = todoList.filter((task) => !task.completed);
       break;
     case FilterValue.COMPLETED:
-      filteredList = todoList.filter((task) => {
-        const isSearchInTitle = checkSearchInTitle(task, filter.searchValue);
-        if (task.completed && isSearchInTitle) return task;
-      });
+      filteredList = todoList.filter((task) => task.completed);
       break;
     default:
-      filteredList = todoList.filter((task) =>
-        checkSearchInTitle(task, filter.searchValue)
-      );
+      filteredList = todoList;
       break;
   }
   return filteredList;

@@ -1,11 +1,13 @@
 import { ChangeEvent, FC, useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ThemeContext } from "@/App";
+import { DEBOUNCE_TIME } from "@/constants";
 import Input from "@CommonComponents/Input/Input";
+import { selectTodos, setSearch } from "@Store/reducers/todoReducer";
 import { AppDispatch } from "@Store/store";
 import { fetchDeleteCompleted } from "@Store/thunk/todos";
-import { FilterValue, IFilter } from "@Types/filter";
+import { FilterValue } from "@Types/filter";
 
 import closeIcon from "@Images/close.svg";
 
@@ -14,21 +16,22 @@ import styles from "./Filter.module.scss";
 const filterBtnArr = Object.values(FilterValue);
 
 interface FilterProps {
-  filter: IFilter;
-  setFilter: React.Dispatch<React.SetStateAction<IFilter>>;
+  filter: FilterValue;
+  setFilter: React.Dispatch<React.SetStateAction<FilterValue>>;
   isCompletedExist: boolean;
 }
 
 const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
+  const { query } = useSelector(selectTodos);
 
   const [localSearchValue, setLocalSearchValue] = useState<string>(
-    filter.searchValue
+    query.search
   );
 
   const changeFilterValue = (newValue: FilterValue) => () => {
-    setFilter((prevValue) => ({ ...prevValue, filterValue: newValue }));
+    setFilter(newValue);
   };
 
   const changeLocalSearchValue = (event: ChangeEvent<HTMLInputElement>) => {
@@ -36,28 +39,28 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
   };
 
   const startSearching = () => {
-    setFilter((prevValue) => ({ ...prevValue, searchValue: localSearchValue }));
+    dispatch(setSearch(localSearchValue.trim()));
   };
 
   const handleDeleteCompleted = () => {
     if (confirm("Do you want to delete completed tasks?")) {
       dispatch(fetchDeleteCompleted());
-      setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
+      setFilter(FilterValue.ALL);
     }
   };
 
   const clearSearchValue = () => {
-    setFilter((prevValue) => ({ ...prevValue, searchValue: "" }));
+    dispatch(setSearch(""));
   };
 
   useEffect(() => {
-    const debounceTimer = setTimeout(startSearching, 250);
+    const debounceTimer = setTimeout(startSearching, DEBOUNCE_TIME);
     return () => clearTimeout(debounceTimer);
   }, [localSearchValue]);
 
   useEffect(() => {
-    setLocalSearchValue(filter.searchValue);
-  }, [filter.searchValue]);
+    setLocalSearchValue(query.search);
+  }, [query.search]);
 
   return (
     <div className={styles.filter}>
@@ -81,7 +84,7 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
           <button
             key={`btn-${btnText}`}
             className={`${styles.filterButton} ${
-              filter.filterValue === btnText && styles.active
+              filter === btnText && styles.active
             }`}
             onClick={changeFilterValue(btnText)}>
             {btnText}

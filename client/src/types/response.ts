@@ -1,6 +1,13 @@
+import { ITask } from "./task";
+
 export interface IAuthRes {
   id: string;
   email: string;
   token: string;
   refreshToken: string;
+}
+
+export interface ITasksRes {
+  userTasksExist: boolean;
+  taskList: ITask[];
 }

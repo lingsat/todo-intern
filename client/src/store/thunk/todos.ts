@@ -2,14 +2,18 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 import { createApiInstance } from "@/services/api";
+import { ITaskQuery } from "@Types/request";
+import { ITasksRes } from "@Types/response";
 import { INewTaskData, ITask } from "@Types/task";
 
 export const fetchTodos = createAsyncThunk(
   "todos/fetchTodos",
-  async (_, { rejectWithValue, dispatch }) => {
+  async (query: ITaskQuery, { rejectWithValue, dispatch }) => {
     try {
       const todosApi = createApiInstance(dispatch);
-      const response = await todosApi.get<ITask[]>("tasks");
+      const response = await todosApi.get<ITasksRes>("tasks", {
+        params: { ...query },
+      });
       return response.data;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
