@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ThemeContext } from "@/App";
 import { DEBOUNCE_TIME } from "@/constants";
 import Input from "@CommonComponents/Input/Input";
-import { selectTodos, setSearch } from "@Store/reducers/todoReducer";
+import { selectTodos, setFilter, setSearch } from "@Store/reducers/todoReducer";
 import { AppDispatch } from "@Store/store";
 import { fetchDeleteCompleted } from "@Store/thunk/todos";
 import { FilterValue } from "@Types/filter";
@@ -16,12 +16,10 @@ import styles from "./Filter.module.scss";
 const filterBtnArr = Object.values(FilterValue);
 
 interface FilterProps {
-  filter: FilterValue;
-  setFilter: React.Dispatch<React.SetStateAction<FilterValue>>;
   isCompletedExist: boolean;
 }
 
-const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
+const Filter: FC<FilterProps> = ({ isCompletedExist }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
   const { query } = useSelector(selectTodos);
@@ -31,7 +29,7 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
   );
 
   const changeFilterValue = (newValue: FilterValue) => () => {
-    setFilter(newValue);
+    dispatch(setFilter(newValue));
   };
 
   const changeLocalSearchValue = (event: ChangeEvent<HTMLInputElement>) => {
@@ -44,9 +42,7 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
 
   const handleDeleteCompleted = () => {
     if (confirm("Do you want to delete completed tasks?")) {
-      dispatch(fetchDeleteCompleted()).then(() => {
-        setFilter(FilterValue.ALL);
-      });
+      dispatch(fetchDeleteCompleted());
     }
   };
 
@@ -85,7 +81,7 @@ const Filter: FC<FilterProps> = ({ filter, setFilter, isCompletedExist }) => {
           <button
             key={`btn-${btnText}`}
             className={`${styles.filterButton} ${
-              filter === btnText && styles.active
+              query.filter === btnText && styles.active
             }`}
             onClick={changeFilterValue(btnText)}>
             {btnText}
