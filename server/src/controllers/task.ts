@@ -1,19 +1,30 @@
 import { Request, Response } from 'express';
+import { PipelineStage } from 'mongoose';
 
 import { Task } from '../models/task.js';
+import { EFilter } from '../types/filter.js';
 import { ReqAddTaskBody, ReqEditTaskBody } from '../types/request.js';
 
 export const getTaskList = async (req: Request, res: Response) => {
   const { id } = req.body.user;
-  const { search } = req.query;
+  const { search, filter } = req.query;
 
   try {
     const allUsersTasks = await Task.count({ userId: id });
-    const taskList = await Task.aggregate([
+
+    const pipeline: PipelineStage[] = [
       {
         $match: { userId: id, title: { $regex: search, $options: 'i' } },
       },
-    ]);
+    ];
+
+    if (filter === EFilter.COMPLETED) {
+      pipeline.push({ $match: { completed: true } });
+    } else if (filter === EFilter.ACTIVE) {
+      pipeline.push({ $match: { completed: false } });
+    }
+
+    const taskList = await Task.aggregate(pipeline);
     res.status(200).json({ userTasksExist: !!allUsersTasks, taskList });
   } catch (error) {
     res.status(500).json({ message: 'Todos uploading fails!' });
