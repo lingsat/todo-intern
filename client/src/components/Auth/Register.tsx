@@ -1,36 +1,43 @@
 import { useFormik } from "formik";
 import { FC, useContext } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "@/App";
-import { LOGIN_REJECTED } from "@/constants";
+import { REGISTER_REJECTED } from "@/constants";
 import { useAuth } from "@/hooks/useAuth";
-import { loginSchema } from "@/schemas/auth";
+import { registerSchema } from "@/schemas/auth";
 import Button from "@CommonComponents/Button/Button";
 import Input from "@CommonComponents/Input/Input";
 import Loading from "@CommonComponents/Loading/Loading";
 import { AppDispatch } from "@Store/store";
-import { loginUser } from "@Store/thunk/user";
+import { registerUser } from "@Store/thunk/user";
 import { ERoutes } from "@Types/routes";
 
-import styles from "./Login.module.scss";
+import styles from "./Auth.module.scss";
 
-const Login: FC = () => {
+interface RegisterProps {
+  toggleForms: () => void;
+}
+
+const Register: FC<RegisterProps> = ({ toggleForms }) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { lightMode } = useContext(ThemeContext);
-  const { isAuth, isLoading } = useAuth();
+  const { isLoading } = useAuth();
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
-    validationSchema: loginSchema,
+    validationSchema: registerSchema,
     onSubmit: ({ email, password }, actions) => {
-      dispatch(loginUser({ email, password })).then((action) => {
-        if (action.type !== LOGIN_REJECTED) {
+      dispatch(registerUser({ email, password })).then((action) => {
+        if (action.type === REGISTER_REJECTED) {
+          toggleForms();
+        } else {
           navigate(ERoutes.HOME);
           actions.resetForm();
         }
@@ -38,15 +45,11 @@ const Login: FC = () => {
     },
   });
 
-  if (isAuth) {
-    return <Navigate to={ERoutes.HOME} replace />;
-  }
-
   return (
     <form
-      className={`${styles.login} ${!lightMode && styles.dark}`}
+      className={`${styles.auth} ${!lightMode && styles.dark}`}
       onSubmit={formik.handleSubmit}>
-      <h2 className={styles.title}>Login</h2>
+      <h2 className={styles.title}>Create Account</h2>
       <label className={styles.label}>
         <Input
           type="email"
@@ -77,11 +80,29 @@ const Login: FC = () => {
             : ""}
         </p>
       </label>
+      <label className={styles.label}>
+        <Input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formik.values.confirmPassword}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        <p className={`${styles.error} ${!lightMode && styles.dark}`}>
+          {formik.touched.confirmPassword && formik.errors.confirmPassword
+            ? formik.errors.confirmPassword
+            : ""}
+        </p>
+      </label>
       <Button
-        text="Sign In"
+        text="Sign Up"
         type="submit"
         disabled={!(formik.dirty && formik.isValid)}
       />
+      <p className={styles.message}>
+        Already have an account? <span onClick={toggleForms}>Sign In</span>
+      </p>
       {isLoading && (
         <div className={styles.loading}>
           <Loading />
@@ -91,4 +112,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default Register;

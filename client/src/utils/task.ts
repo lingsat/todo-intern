@@ -11,7 +11,7 @@ export const createNewTask = (
   return { title, createdDate, expiredDate };
 };
 
-export const getInvalidSymError = (sym: string) => {
+export const getInvalidSymError = (sym: string): string => {
   const specSymRegex = /[#$%^&*{}`|<>]/g;
 
   if (specSymRegex.test(sym)) {
