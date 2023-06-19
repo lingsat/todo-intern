@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 
 import { createApiInstance } from "@/services/api";
 import { ITaskQuery } from "@Types/request";
-import { IDeleteRes, ITasksRes } from "@Types/response";
+import { IDeleteRes, IEditRes, ITasksRes } from "@Types/response";
 import { INewTaskData, ITask } from "@Types/task";
 
 export const fetchTodos = createAsyncThunk(
@@ -41,7 +41,7 @@ export const fetchEditTask = createAsyncThunk(
   async (changedTask: ITask, { rejectWithValue, dispatch }) => {
     try {
       const todosApi = createApiInstance(dispatch);
-      const response = await todosApi.patch<ITask>(
+      const response = await todosApi.patch<IEditRes>(
         `tasks/${changedTask._id}`,
         changedTask
       );

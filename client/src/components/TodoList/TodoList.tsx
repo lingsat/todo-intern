@@ -5,14 +5,11 @@ import Loading from "@CommonComponents/Loading/Loading";
 import Filter from "@Components/Filter/Filter";
 import TodoItem from "@Components/TodoItem/TodoItem";
 import { selectTodos } from "@Store/reducers/todoReducer";
-import { getIsCompletedExist } from "@Utils/task";
 
 import styles from "./TodoList.module.scss";
 
 const TodoList: FC = () => {
   const { todos, isLoading, allTodosExist, query } = useSelector(selectTodos);
-
-  const isCompletedExist = getIsCompletedExist(todos);
 
   if (!allTodosExist) {
     return <p className={styles.message}>No items found! Create new one.</p>;
@@ -20,7 +17,7 @@ const TodoList: FC = () => {
 
   return (
     <>
-      <Filter isCompletedExist={isCompletedExist} />
+      <Filter />
       {!todos.length && (
         <p className={styles.message}>
           No tasks found - among &quot;{query.filter}&quot;

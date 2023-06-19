@@ -10,7 +10,8 @@ export const getTaskList = async (req: Request, res: Response) => {
   const { search, filter } = req.query;
 
   try {
-    const allUsersTasks = await Task.count({ userId: id });
+    const userTasksExist = (await Task.count({ userId: id })) > 0;
+    const isCompletedExist = await Task.exists({ userId: id, completed: true });
 
     const pipeline: PipelineStage[] = [
       {
@@ -25,7 +26,7 @@ export const getTaskList = async (req: Request, res: Response) => {
     }
 
     const taskList = await Task.aggregate(pipeline);
-    res.status(200).json({ userTasksExist: !!allUsersTasks, taskList });
+    res.status(200).json({ userTasksExist, isCompletedExist, taskList });
   } catch (error) {
     res.status(500).json({ message: 'Todos uploading fails!' });
   }
@@ -52,7 +53,8 @@ export const editTask = async (req: ReqEditTaskBody, res: Response) => {
       { new: true },
     );
     if (updatedTask) {
-      res.status(200).json(updatedTask);
+      const isCompletedExist = await Task.exists({ userId: user.id, completed: true });
+      res.status(200).json({ isCompletedExist, updatedTask });
     } else {
       res.status(404).json({ message: 'Task not Found!' });
     }
@@ -66,8 +68,13 @@ export const deleteTask = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     await Task.findByIdAndDelete(id);
-    const allUsersTasks = await Task.count({ userId: user.id });
-    res.status(200).json({ userTasksExist: !!allUsersTasks, message: 'Task deleted successfully!' });
+    const userTasksExist = (await Task.count({ userId: user.id })) > 0;
+    const isCompletedExist = await Task.exists({ userId: user.id, completed: true });
+    res.status(200).json({
+      userTasksExist,
+      isCompletedExist,
+      message: 'Task deleted successfully!',
+    });
   } catch (error) {
     res.status(500).json({ message: 'Task deletion fails!' });
   }
@@ -77,8 +84,13 @@ export const deleteCompleted = async (req: Request, res: Response) => {
   const { user } = req.body;
   try {
     await Task.deleteMany({ completed: true });
-    const allUsersTasks = await Task.count({ userId: user.id });
-    res.status(200).json({ userTasksExist: !!allUsersTasks, message: 'All Completed tasks deleted successfully!' });
+    const userTasksExist = (await Task.count({ userId: user.id })) > 0;
+    const isCompletedExist = await Task.exists({ userId: user.id, completed: true });
+    res.status(200).json({
+      userTasksExist,
+      isCompletedExist,
+      message: 'All Completed tasks deleted successfully!',
+    });
   } catch (error) {
     res.status(500).json({ message: 'Deletion fails!' });
   }

@@ -15,14 +15,10 @@ import styles from "./Filter.module.scss";
 
 const filterBtnArr = Object.values(FilterValue);
 
-interface FilterProps {
-  isCompletedExist: boolean;
-}
-
-const Filter: FC<FilterProps> = ({ isCompletedExist }) => {
+const Filter: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
-  const { query } = useSelector(selectTodos);
+  const { query, isCompletedExist } = useSelector(selectTodos);
 
   const [localSearchValue, setLocalSearchValue] = useState<string>(
     query.search
