@@ -1,3 +1,6 @@
+@import "@Styles/variables";
+@import "@Styles/mixins";
+
 .list {
   margin: 0;
   padding-left: 0;
@@ -13,6 +16,48 @@
   text-align: center;
 }
 
+.pagination {
+  padding: 0;
+  @include flex-center;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.link {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  @include flex-center;
+  font-size: 1.2rem;
+  line-height: 1;
+  border: 1px solid $color-grey-light;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.1s linear;
+
+  &:hover {
+    border-color: $color-blue-light;
+    background-color: $color-blue-light;
+  }
+}
+
+.active {
+  border-color: $color-blue-light;
+  background-color: $color-blue-light;
+  color: $color-white;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: auto;
+
+  &:hover {
+    background-color: transparent;
+    border-color: $color-grey-light;
+    color: inherit;
+  }
+}
+
 @media (max-width: 1199.98px) {
   .list {
     grid-template-columns: repeat(2, 1fr);
@@ -22,5 +67,17 @@
 @media (max-width: 767.98px) {
   .list {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .pagination {
+    gap: 0.2rem;
+  }
+
+  .link {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
   }
 }
