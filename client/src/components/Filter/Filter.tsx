@@ -8,7 +8,6 @@ import { selectTodos, setFilter, setSearch } from "@Store/reducers/todoReducer";
 import { AppDispatch } from "@Store/store";
 import { fetchDeleteCompleted } from "@Store/thunk/todos";
 import { FilterValue } from "@Types/filter";
-import { getIsCompletedExist } from "@Utils/task";
 
 import closeIcon from "@Images/close.svg";
 
@@ -25,7 +24,7 @@ const Filter: FC = () => {
     query.search
   );
 
-  const isCompletedExist = getIsCompletedExist(todos);
+  const isCompletedExist = todos.some((item) => item.completed);
 
   const changeFilterValue = (newValue: FilterValue) => () => {
     dispatch(setFilter(newValue));
