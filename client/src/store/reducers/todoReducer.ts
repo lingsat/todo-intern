@@ -17,7 +17,6 @@ export interface ITodosState {
   todos: ITask[];
   isLoading: boolean;
   allTodosExist: boolean;
-  isCompletedExist: boolean;
   query: ITaskQuery;
 }
 
@@ -25,7 +24,6 @@ const initialState: ITodosState = {
   todos: [],
   isLoading: false,
   allTodosExist: false,
-  isCompletedExist: false,
   query: { search: "", filter: FilterValue.ALL },
 };
 
@@ -45,10 +43,9 @@ export const todoSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
-      const { userTasksExist, isCompletedExist, taskList } = action.payload;
+      const { userTasksExist, taskList } = action.payload;
       state.todos = taskList.reverse();
       state.allTodosExist = userTasksExist;
-      state.isCompletedExist = isCompletedExist;
       state.isLoading = false;
     });
     builder.addCase(fetchTodos.rejected, (state, action) => {
@@ -61,7 +58,7 @@ export const todoSlice = createSlice({
       state.query = { search: "", filter: FilterValue.ALL };
     });
     builder.addCase(fetchEditTask.fulfilled, (state, action) => {
-      const { updatedTask, isCompletedExist } = action.payload;
+      const updatedTask = action.payload;
       state.todos = state.todos
         .map((task) => (task._id === updatedTask._id ? updatedTask : task))
         .filter(
@@ -70,20 +67,17 @@ export const todoSlice = createSlice({
             (!task.completed && state.query.filter === FilterValue.ACTIVE) ||
             state.query.filter === FilterValue.ALL
         );
-      state.isCompletedExist = isCompletedExist;
     });
     builder.addCase(fetchDeleteTask.fulfilled, (state, action) => {
       const { taskId, data } = action.payload;
       state.todos = state.todos.filter((task) => task._id !== taskId);
       state.allTodosExist = data.userTasksExist;
-      state.isCompletedExist = data.isCompletedExist;
       toast.success(data.message);
     });
     builder.addCase(fetchDeleteCompleted.fulfilled, (state, action) => {
-      const { userTasksExist, isCompletedExist, message } = action.payload;
+      const { userTasksExist, message } = action.payload;
       state.todos = state.todos.filter((task) => !task.completed);
       state.allTodosExist = userTasksExist;
-      state.isCompletedExist = isCompletedExist;
       state.query = { search: "", filter: FilterValue.ALL };
       toast.success(message);
     });

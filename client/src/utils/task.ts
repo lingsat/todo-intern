@@ -1,5 +1,5 @@
 import { DatesDelay } from "@Types/dates";
-import { INewTaskData } from "@Types/task";
+import { INewTaskData, ITask } from "@Types/task";
 import { getCorrectDateStr } from "@Utils/date";
 
 export const createNewTask = (
@@ -17,4 +17,9 @@ export const getInvalidSymError = (sym: string): string => {
     return '"#$%^&*{}`|<>" - symbols not available';
   }
   return "";
+};
+
+export const getIsCompletedExist = (todoList: ITask[]): boolean => {
+  const completedList = todoList.filter((item) => item.completed);
+  return !!completedList.length;
 };

@@ -8,6 +8,7 @@ import { selectTodos, setFilter, setSearch } from "@Store/reducers/todoReducer";
 import { AppDispatch } from "@Store/store";
 import { fetchDeleteCompleted } from "@Store/thunk/todos";
 import { FilterValue } from "@Types/filter";
+import { getIsCompletedExist } from "@Utils/task";
 
 import closeIcon from "@Images/close.svg";
 
@@ -18,11 +19,13 @@ const filterBtnArr = Object.values(FilterValue);
 const Filter: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
-  const { query, isCompletedExist } = useSelector(selectTodos);
+  const { todos, query } = useSelector(selectTodos);
 
   const [localSearchValue, setLocalSearchValue] = useState<string>(
     query.search
   );
+
+  const isCompletedExist = getIsCompletedExist(todos);
 
   const changeFilterValue = (newValue: FilterValue) => () => {
     dispatch(setFilter(newValue));

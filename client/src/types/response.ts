@@ -9,16 +9,10 @@ export interface IAuthRes {
 
 export interface ITasksRes {
   userTasksExist: boolean;
-  isCompletedExist: boolean;
   taskList: ITask[];
-}
-export interface IEditRes {
-  isCompletedExist: boolean;
-  updatedTask: ITask;
 }
 
 export interface IDeleteRes {
   userTasksExist: boolean;
-  isCompletedExist: boolean;
   message: string;
 }
