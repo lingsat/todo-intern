@@ -5,7 +5,7 @@ export const loginSchema = yup.object().shape({
   password: yup
     .string()
     .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+      /^(?=.*\d)(?=.*[a-zа-я])(?=.*[A-ZА-Я]).{8,}$/,
       "Min 8 chars, 1 digit, 1 lowercase, 1 uppercase"
     )
     .required(),
