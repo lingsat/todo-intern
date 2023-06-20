@@ -7,3 +7,4 @@ export const LOGIN_REJECTED = "user/loginUser/rejected";
 export const REGISTER_REJECTED = "user/registerUser/rejected";
 export const TOKEN_EXPIRED_STATUS = 401;
 export const TOKEN_EXPIRED_MESSAGE = "Token expired";
+export const TASKS_PER_PAGE = 9;
