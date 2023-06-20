@@ -13,7 +13,7 @@ import Input from "@CommonComponents/Input/Input";
 import Modal from "@Components/Modal/Modal";
 import { AppDispatch } from "@Store/store";
 import { fetchAddTask } from "@Store/thunk/todos";
-import { FilterValue, IFilter } from "@Types/filter";
+import { FilterValue } from "@Types/filter";
 import { createNewTask, getInvalidSymError } from "@Utils/task";
 
 import plusIcon from "@Images/plus.svg";
@@ -21,7 +21,7 @@ import plusIcon from "@Images/plus.svg";
 import styles from "./CreateTask.module.scss";
 
 interface CreateTaskProps {
-  setFilter: React.Dispatch<React.SetStateAction<IFilter>>;
+  setFilter: React.Dispatch<React.SetStateAction<FilterValue>>;
 }
 
 const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
@@ -50,9 +50,10 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
       const newTask = createNewTask(trimmedTitle);
-      dispatch(fetchAddTask(newTask));
+      dispatch(fetchAddTask(newTask)).then(() => {
+        setFilter(FilterValue.ALL);
+      });
       setErrorMessage("");
-      setFilter({ filterValue: FilterValue.ALL, searchValue: "" });
     } else {
       setErrorMessage("Title can`t be empty!");
     }

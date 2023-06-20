@@ -2,14 +2,18 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 import { createApiInstance } from "@/services/api";
+import { ITaskQuery } from "@Types/request";
+import { IDeleteRes, ITasksRes } from "@Types/response";
 import { INewTaskData, ITask } from "@Types/task";
 
 export const fetchTodos = createAsyncThunk(
   "todos/fetchTodos",
-  async (_, { rejectWithValue, dispatch }) => {
+  async (query: ITaskQuery, { rejectWithValue, dispatch }) => {
     try {
       const todosApi = createApiInstance(dispatch);
-      const response = await todosApi.get<ITask[]>("tasks");
+      const response = await todosApi.get<ITasksRes>("tasks", {
+        params: { ...query },
+      });
       return response.data;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
@@ -54,8 +58,8 @@ export const fetchDeleteTask = createAsyncThunk(
   async (taskId: string, { rejectWithValue, dispatch }) => {
     try {
       const todosApi = createApiInstance(dispatch);
-      const resp = await todosApi.delete(`tasks/${taskId}`);
-      return { taskId, message: resp.data.message };
+      const resp = await todosApi.delete<IDeleteRes>(`tasks/${taskId}`);
+      return { taskId, data: resp.data };
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
       return rejectWithValue(error.response?.data);
@@ -68,8 +72,8 @@ export const fetchDeleteCompleted = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       const todosApi = createApiInstance(dispatch);
-      const resp = await todosApi.delete("tasks/completed");
-      return resp.data.message;
+      const resp = await todosApi.delete<IDeleteRes>("tasks/completed");
+      return resp.data;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
       return rejectWithValue(error.response?.data);
