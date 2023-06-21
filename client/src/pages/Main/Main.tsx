@@ -5,14 +5,17 @@ import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAuth } from "@/hooks/useAuth";
 import CreateTask from "@Components/CreateTask/CreateTask";
+import Filter from "@Components/Filter/Filter";
 import TodoList from "@Components/TodoList/TodoList";
 import { selectTodos } from "@Store/reducers/todoReducer";
 import { fetchTodos } from "@Store/thunk/todos";
 import { ERoutes } from "@Types/routes";
 
+import styles from "./Main.module.scss";
+
 const Main: FC = () => {
   const dispatch = useAppDispatch();
-  const { query } = useSelector(selectTodos);
+  const { todos, allTodosExist, query } = useSelector(selectTodos);
   const { isAuth } = useAuth();
 
   useEffect(() => {
@@ -28,7 +31,19 @@ const Main: FC = () => {
   return (
     <>
       <CreateTask />
-      <TodoList />
+      {allTodosExist ? (
+        <>
+          <Filter />
+          {!todos.length && (
+            <p className={styles.message}>
+              No tasks found - among &quot;{query.filter}&quot;
+            </p>
+          )}
+          <TodoList />
+        </>
+      ) : (
+        <p className={styles.message}>No items found! Create new one.</p>
+      )}
     </>
   );
 };

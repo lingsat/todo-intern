@@ -5,8 +5,8 @@ import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
 
 import { LOCAL_STORAGE_THEME, MESSAGE_TIMER } from "@/constants";
-import Authentication from "@/pages/Authentication/Authentication";
 import Header from "@Components/Header/Header";
+import Authentication from "@Pages/Authentication/Authentication";
 import Main from "@Pages/Main/Main";
 import { store, persistor } from "@Store/store";
 import { ERoutes } from "@Types/routes";

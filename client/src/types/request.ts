@@ -1,4 +1,4 @@
-import { FilterValue } from "./filter";
+import { FilterValue } from "@Types/filter";
 
 export interface IUserRequest {
   email: string;
