@@ -12,6 +12,7 @@ import {
 import { FilterValue } from "@Types/filter";
 import { ITaskQuery } from "@Types/request";
 import { ITask } from "@Types/task";
+import { getUpdatedTodos } from "@Utils/task";
 
 export interface ITodosState {
   todos: ITask[];
@@ -59,15 +60,11 @@ export const todoSlice = createSlice({
     });
     builder.addCase(fetchEditTask.fulfilled, (state, action) => {
       const updatedTask = action.payload;
-      const { filter } = state.query;
-      state.todos = state.todos
-        .map((task) => (task._id === updatedTask._id ? updatedTask : task))
-        .filter(
-          (task) =>
-            (task.completed && filter === FilterValue.COMPLETED) ||
-            (!task.completed && filter === FilterValue.ACTIVE) ||
-            filter === FilterValue.ALL
-        );
+      state.todos = getUpdatedTodos(
+        state.todos,
+        updatedTask,
+        state.query.filter
+      );
     });
     builder.addCase(fetchDeleteTask.fulfilled, (state, action) => {
       const { taskId, data } = action.payload;

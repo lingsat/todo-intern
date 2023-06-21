@@ -1,5 +1,6 @@
 import { DatesDelay } from "@Types/dates";
-import { INewTaskData } from "@Types/task";
+import { FilterValue } from "@Types/filter";
+import { INewTaskData, ITask } from "@Types/task";
 import { getCorrectDateStr } from "@Utils/date";
 
 export const createNewTask = (
@@ -17,4 +18,19 @@ export const getInvalidSymError = (sym: string): string => {
     return '"#$%^&*{}`|<>" - symbols not available';
   }
   return "";
+};
+
+export const getUpdatedTodos = (
+  todos: ITask[],
+  updatedTask: ITask,
+  currentFilter: FilterValue
+): ITask[] => {
+  return todos
+    .map((task) => (task._id === updatedTask._id ? updatedTask : task))
+    .filter(
+      (task) =>
+        (task.completed && currentFilter === FilterValue.COMPLETED) ||
+        (!task.completed && currentFilter === FilterValue.ACTIVE) ||
+        currentFilter === FilterValue.ALL
+    );
 };

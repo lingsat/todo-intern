@@ -11,8 +11,8 @@ export const registerUser = createAsyncThunk(
   async (userData: IUserRequest, { rejectWithValue }) => {
     try {
       const userApi = createApiInstance();
-      const response = await userApi.post<IAuthRes>("user/register", userData);
-      const { token, refreshToken, ...user } = response.data;
+      const { data } = await userApi.post<IAuthRes>("user/register", userData);
+      const { token, refreshToken, ...user } = data;
       saveTokensToLocalStorage(token, refreshToken);
       return user;
     } catch (err) {
@@ -27,8 +27,8 @@ export const loginUser = createAsyncThunk(
   async (userData: IUserRequest, { rejectWithValue }) => {
     try {
       const userApi = createApiInstance();
-      const response = await userApi.post<IAuthRes>("user/login", userData);
-      const { token, refreshToken, ...user } = response.data;
+      const { data } = await userApi.post<IAuthRes>("user/login", userData);
+      const { token, refreshToken, ...user } = data;
       saveTokensToLocalStorage(token, refreshToken);
       return user;
     } catch (err) {
