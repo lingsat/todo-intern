@@ -13,18 +13,13 @@ import Input from "@CommonComponents/Input/Input";
 import Modal from "@Components/Modal/Modal";
 import { AppDispatch } from "@Store/store";
 import { fetchAddTask } from "@Store/thunk/todos";
-import { FilterValue } from "@Types/filter";
 import { createNewTask, getInvalidSymError } from "@Utils/task";
 
 import plusIcon from "@Images/plus.svg";
 
 import styles from "./CreateTask.module.scss";
 
-interface CreateTaskProps {
-  setFilter: React.Dispatch<React.SetStateAction<FilterValue>>;
-}
-
-const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
+const CreateTask: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
 
@@ -50,9 +45,7 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
       const newTask = createNewTask(trimmedTitle);
-      dispatch(fetchAddTask(newTask)).then(() => {
-        setFilter(FilterValue.ALL);
-      });
+      dispatch(fetchAddTask(newTask));
       setErrorMessage("");
     } else {
       setErrorMessage("Title can`t be empty!");
@@ -79,13 +72,7 @@ const CreateTask: FC<CreateTaskProps> = ({ setFilter }) => {
           <img className={styles.icon} src={plusIcon} alt="+" />
         </button>
       </form>
-      {showModal && (
-        <Modal
-          title={title}
-          onToggleModal={toggleModal}
-          setFilter={setFilter}
-        />
-      )}
+      {showModal && <Modal title={title} onToggleModal={toggleModal} />}
     </>
   );
 };

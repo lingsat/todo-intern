@@ -16,7 +16,6 @@ import Input from "@CommonComponents/Input/Input";
 import { AppDispatch } from "@Store/store";
 import { fetchAddTask, fetchEditTask } from "@Store/thunk/todos";
 import { DatesDelay } from "@Types/dates";
-import { FilterValue } from "@Types/filter";
 import { getCorrectDateStr } from "@Utils/date";
 import { createNewTask, getInvalidSymError } from "@Utils/task";
 
@@ -30,7 +29,6 @@ interface ModalProps {
   expiredDate?: string;
   completed?: boolean;
   onToggleModal: () => void;
-  setFilter?: React.Dispatch<React.SetStateAction<FilterValue>>;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -41,7 +39,6 @@ const Modal: FC<ModalProps> = ({
   expiredDate = getCorrectDateStr(DatesDelay.ONE_DAY_AFTER),
   completed = false,
   onToggleModal,
-  setFilter,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { lightMode } = useContext(ThemeContext);
@@ -106,11 +103,7 @@ const Modal: FC<ModalProps> = ({
         });
       } else {
         const newTask = createNewTask(trimmedTitle, createdDate, expiredDate);
-        dispatch(fetchAddTask(newTask)).then(() => {
-          if (setFilter) {
-            setFilter(FilterValue.ALL);
-          }
-        });
+        dispatch(fetchAddTask(newTask));
       }
       onToggleModal();
     } else {

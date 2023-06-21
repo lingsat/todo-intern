@@ -9,6 +9,7 @@ import {
   fetchEditTask,
   fetchTodos,
 } from "@Store/thunk/todos";
+import { FilterValue } from "@Types/filter";
 import { ITaskQuery } from "@Types/request";
 import { ITask } from "@Types/task";
 
@@ -23,7 +24,7 @@ const initialState: ITodosState = {
   todos: [],
   isLoading: false,
   allTodosExist: false,
-  query: { search: "" },
+  query: { search: "", filter: FilterValue.ALL },
 };
 
 export const todoSlice = createSlice({
@@ -32,6 +33,9 @@ export const todoSlice = createSlice({
   reducers: {
     setSearch(state, action: PayloadAction<string>) {
       state.query.search = action.payload;
+    },
+    setFilter(state, action: PayloadAction<FilterValue>) {
+      state.query.filter = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -51,13 +55,19 @@ export const todoSlice = createSlice({
     builder.addCase(fetchAddTask.fulfilled, (state, action) => {
       state.todos.unshift(action.payload);
       state.allTodosExist = true;
-      state.query.search = "";
+      state.query = { search: "", filter: FilterValue.ALL };
     });
     builder.addCase(fetchEditTask.fulfilled, (state, action) => {
-      const changedTask = action.payload;
-      state.todos = state.todos.map((task) =>
-        task._id === changedTask._id ? changedTask : task
-      );
+      const updatedTask = action.payload;
+      const { filter } = state.query;
+      state.todos = state.todos
+        .map((task) => (task._id === updatedTask._id ? updatedTask : task))
+        .filter(
+          (task) =>
+            (task.completed && filter === FilterValue.COMPLETED) ||
+            (!task.completed && filter === FilterValue.ACTIVE) ||
+            filter === FilterValue.ALL
+        );
     });
     builder.addCase(fetchDeleteTask.fulfilled, (state, action) => {
       const { taskId, data } = action.payload;
@@ -69,13 +79,13 @@ export const todoSlice = createSlice({
       const { userTasksExist, message } = action.payload;
       state.todos = state.todos.filter((task) => !task.completed);
       state.allTodosExist = userTasksExist;
-      state.query.search = "";
+      state.query = { search: "", filter: FilterValue.ALL };
       toast.success(message);
     });
   },
 });
 
-export const { setSearch } = todoSlice.actions;
+export const { setSearch, setFilter } = todoSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos;
 
