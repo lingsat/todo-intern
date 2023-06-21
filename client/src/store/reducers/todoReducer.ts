@@ -59,13 +59,14 @@ export const todoSlice = createSlice({
     });
     builder.addCase(fetchEditTask.fulfilled, (state, action) => {
       const updatedTask = action.payload;
+      const { filter } = state.query;
       state.todos = state.todos
         .map((task) => (task._id === updatedTask._id ? updatedTask : task))
         .filter(
           (task) =>
-            (task.completed && state.query.filter === FilterValue.COMPLETED) ||
-            (!task.completed && state.query.filter === FilterValue.ACTIVE) ||
-            state.query.filter === FilterValue.ALL
+            (task.completed && filter === FilterValue.COMPLETED) ||
+            (!task.completed && filter === FilterValue.ACTIVE) ||
+            filter === FilterValue.ALL
         );
     });
     builder.addCase(fetchDeleteTask.fulfilled, (state, action) => {
