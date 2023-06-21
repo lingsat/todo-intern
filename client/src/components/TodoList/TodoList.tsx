@@ -58,29 +58,31 @@ const TodoList: FC = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <ul className={styles.list}>
-          {currentTodos.map((task) => (
-            <TodoItem key={task._id} task={task} />
-          ))}
-        </ul>
+        <>
+          <ul className={styles.list}>
+            {currentTodos.map((task) => (
+              <TodoItem key={task._id} task={task} />
+            ))}
+          </ul>
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="&#65310;"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={PAGE_RANGE}
+            marginPagesDisplayed={MARGIN_PAGES}
+            forcePage={currentPage}
+            pageCount={pageCount}
+            previousLabel="&#65308;"
+            renderOnZeroPageCount={null}
+            containerClassName={styles.pagination}
+            pageLinkClassName={styles.link}
+            previousLinkClassName={styles.link}
+            nextLinkClassName={styles.link}
+            activeLinkClassName={styles.active}
+            disabledLinkClassName={styles.disabled}
+          />
+        </>
       )}
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="&#65310;"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={PAGE_RANGE}
-        marginPagesDisplayed={MARGIN_PAGES}
-        forcePage={currentPage}
-        pageCount={pageCount}
-        previousLabel="&#65308;"
-        renderOnZeroPageCount={null}
-        containerClassName={styles.pagination}
-        pageLinkClassName={styles.link}
-        previousLinkClassName={styles.link}
-        nextLinkClassName={styles.link}
-        activeLinkClassName={styles.active}
-        disabledLinkClassName={styles.disabled}
-      />
     </>
   );
 };
