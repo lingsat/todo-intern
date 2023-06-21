@@ -14,8 +14,7 @@ export const getPaginatedData = (
     windowWidth > PAGINATION_BREAKPOINT
       ? TASKS_PER_PAGE_DESKTOP
       : TASKS_PER_PAGE_TABLET;
-
-  const startIndex = (currentPage * tasksPerPage) % todos.length;
+  const startIndex = currentPage * tasksPerPage;
   const endIndex = startIndex + tasksPerPage;
   const currentTodos = todos.slice(startIndex, endIndex);
   const pageCount = Math.ceil(todos.length / tasksPerPage);

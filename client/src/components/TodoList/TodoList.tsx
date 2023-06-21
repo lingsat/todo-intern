@@ -1,28 +1,32 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
 
 import { MARGIN_PAGES, PAGE_RANGE } from "@/constants";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useWindowWidth } from "@/hooks/useWindowWidth";
 import Loading from "@CommonComponents/Loading/Loading";
 import Filter from "@Components/Filter/Filter";
 import TodoItem from "@Components/TodoItem/TodoItem";
-import { selectTodos } from "@Store/reducers/todoReducer";
+import { selectTodos, setCurrentPage } from "@Store/reducers/todoReducer";
 import { getPaginatedData } from "@Utils/pagination";
 
 import styles from "./TodoList.module.scss";
 
 const TodoList: FC = () => {
-  const { todos, isLoading, allTodosExist, query } = useSelector(selectTodos);
+  const dispatch = useAppDispatch();
+  const { todos, isLoading, allTodosExist, query, currentPage } =
+    useSelector(selectTodos);
   const width = useWindowWidth();
 
-  const [page, setPage] = useState<number>(0);
-
-  const { currentTodos, pageCount } = getPaginatedData(todos, width, page);
-  const showPagination = pageCount > 1;
+  const { currentTodos, pageCount } = getPaginatedData(
+    todos,
+    width,
+    currentPage
+  );
 
   const handlePageClick = (event: { selected: number }) => {
-    setPage(event.selected);
+    dispatch(setCurrentPage(event.selected));
   };
 
   useEffect(() => {
@@ -31,11 +35,13 @@ const TodoList: FC = () => {
       left: 0,
       behavior: "smooth",
     });
-  }, [page]);
+  }, [currentPage]);
 
   useEffect(() => {
-    setPage(0);
-  }, [query.search, query.filter]);
+    if (!currentTodos.length) {
+      dispatch(setCurrentPage(0));
+    }
+  });
 
   if (!allTodosExist) {
     return <p className={styles.message}>No items found! Create new one.</p>;
@@ -58,25 +64,23 @@ const TodoList: FC = () => {
           ))}
         </ul>
       )}
-      {showPagination && (
-        <ReactPaginate
-          breakLabel="..."
-          nextLabel="&#65310;"
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={PAGE_RANGE}
-          marginPagesDisplayed={MARGIN_PAGES}
-          forcePage={page}
-          pageCount={pageCount}
-          previousLabel="&#65308;"
-          renderOnZeroPageCount={null}
-          containerClassName={styles.pagination}
-          pageLinkClassName={styles.link}
-          previousLinkClassName={styles.link}
-          nextLinkClassName={styles.link}
-          activeLinkClassName={styles.active}
-          disabledLinkClassName={styles.disabled}
-        />
-      )}
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel="&#65310;"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={PAGE_RANGE}
+        marginPagesDisplayed={MARGIN_PAGES}
+        forcePage={currentPage}
+        pageCount={pageCount}
+        previousLabel="&#65308;"
+        renderOnZeroPageCount={null}
+        containerClassName={styles.pagination}
+        pageLinkClassName={styles.link}
+        previousLinkClassName={styles.link}
+        nextLinkClassName={styles.link}
+        activeLinkClassName={styles.active}
+        disabledLinkClassName={styles.disabled}
+      />
     </>
   );
 };

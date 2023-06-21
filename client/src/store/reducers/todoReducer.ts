@@ -19,6 +19,7 @@ export interface ITodosState {
   isLoading: boolean;
   allTodosExist: boolean;
   query: ITaskQuery;
+  currentPage: number;
 }
 
 const initialState: ITodosState = {
@@ -26,6 +27,7 @@ const initialState: ITodosState = {
   isLoading: false,
   allTodosExist: false,
   query: { search: "", filter: FilterValue.ALL },
+  currentPage: 0,
 };
 
 export const todoSlice = createSlice({
@@ -34,9 +36,14 @@ export const todoSlice = createSlice({
   reducers: {
     setSearch(state, action: PayloadAction<string>) {
       state.query.search = action.payload;
+      state.currentPage = 0;
     },
     setFilter(state, action: PayloadAction<FilterValue>) {
       state.query.filter = action.payload;
+      state.currentPage = 0;
+    },
+    setCurrentPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -57,6 +64,7 @@ export const todoSlice = createSlice({
       state.todos.unshift(action.payload);
       state.allTodosExist = true;
       state.query = { search: "", filter: FilterValue.ALL };
+      state.currentPage = 0;
     });
     builder.addCase(fetchEditTask.fulfilled, (state, action) => {
       const updatedTask = action.payload;
@@ -82,7 +90,7 @@ export const todoSlice = createSlice({
   },
 });
 
-export const { setSearch, setFilter } = todoSlice.actions;
+export const { setSearch, setFilter, setCurrentPage } = todoSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos;
 
