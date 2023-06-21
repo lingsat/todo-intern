@@ -8,15 +8,17 @@ import { ITask } from "@Types/task";
 export const getPaginatedData = (
   todos: ITask[],
   windowWidth: number,
-  startIndex: number
+  currentPage: number
 ) => {
   const tasksPerPage =
     windowWidth > PAGINATION_BREAKPOINT
       ? TASKS_PER_PAGE_DESKTOP
       : TASKS_PER_PAGE_TABLET;
+
+  const startIndex = (currentPage * tasksPerPage) % todos.length;
   const endIndex = startIndex + tasksPerPage;
   const currentTodos = todos.slice(startIndex, endIndex);
   const pageCount = Math.ceil(todos.length / tasksPerPage);
 
-  return { currentTodos, tasksPerPage, pageCount };
+  return { currentTodos, pageCount };
 };

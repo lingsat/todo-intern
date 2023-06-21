@@ -16,20 +16,13 @@ const TodoList: FC = () => {
   const { todos, isLoading, allTodosExist, query } = useSelector(selectTodos);
   const width = useWindowWidth();
 
-  const [itemOffset, setItemOffset] = useState(0);
   const [page, setPage] = useState<number>(0);
 
-  const { currentTodos, tasksPerPage, pageCount } = getPaginatedData(
-    todos,
-    width,
-    itemOffset
-  );
+  const { currentTodos, pageCount } = getPaginatedData(todos, width, page);
   const showPagination = pageCount > 1;
 
   const handlePageClick = (event: { selected: number }) => {
-    const newOffset = (event.selected * tasksPerPage) % todos.length;
     setPage(event.selected);
-    setItemOffset(newOffset);
   };
 
   useEffect(() => {
@@ -38,11 +31,10 @@ const TodoList: FC = () => {
       left: 0,
       behavior: "smooth",
     });
-  }, [itemOffset]);
+  }, [page]);
 
   useEffect(() => {
     setPage(0);
-    setItemOffset(0);
   }, [query.search, query.filter]);
 
   if (!allTodosExist) {

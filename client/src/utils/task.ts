@@ -28,9 +28,9 @@ export const getUpdatedTodos = (
   return todos
     .map((task) => (task._id === updatedTask._id ? updatedTask : task))
     .filter(
-      (task) =>
-        (task.completed && currentFilter === FilterValue.COMPLETED) ||
-        (!task.completed && currentFilter === FilterValue.ACTIVE) ||
+      ({ completed }) =>
+        (completed && currentFilter === FilterValue.COMPLETED) ||
+        (!completed && currentFilter === FilterValue.ACTIVE) ||
         currentFilter === FilterValue.ALL
     );
 };
